@@ -13,3 +13,4 @@ data/evaluator/
 *.pkl
 *.joblib
 artifacts/*.bin
+data/processed/

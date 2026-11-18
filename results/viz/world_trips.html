@@ -3,12 +3,13 @@
 <head>
     
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
@@ -16,11 +17,10 @@
             <meta name="viewport" content="width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
             <style>
-                #map_59f6ee3df41f1aa3815ca2d91fad4ad5 {
+                #map_83ec19ab121605b29f3555fa1fada6d2 {
                     position: relative;
-                    width: 100.0vw;
-                    height: 100.0vh;
-
+                    width: 100.0%;
+                    height: 100.0%;
                     left: 0.0%;
                     top: 0.0%;
                 }
@@ -35,218 +35,14 @@
             }
             </style>
 
-            <style>/*
- * Glyphicons Halflings -- the icon font used by folium's default Awesome Markers
- * (Icon(prefix="glyphicon")). Extracted from Bootstrap 3's glyphicon rules only.
- *
- * folium previously loaded netdna's bootstrap-glyphicons.css, which despite its
- * name ships a full Bootstrap-3 base stylesheet (normalize reset + global `body`
- * rules) that leaked onto the host page (GH-1820). This file provides just the
- * @font-face and .glyphicon/.glyphicon-* rules needed for the markers, with no
- * page-wide side effects. Font files are served from jsDelivr.
- */
-@font-face{font-family:'Glyphicons Halflings';src:url('https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/fonts/glyphicons-halflings-regular.eot');src:url('https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),url('https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/fonts/glyphicons-halflings-regular.woff') format('woff'),url('https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/fonts/glyphicons-halflings-regular.ttf') format('truetype'),url('https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');}.glyphicon{position:relative;top:1px;display:inline-block;font-family:'Glyphicons Halflings';font-style:normal;font-weight:normal;line-height:1;-webkit-font-smoothing:antialiased;}
-.glyphicon-asterisk:before{content:"\2a";}
-.glyphicon-plus:before{content:"\2b";}
-.glyphicon-euro:before{content:"\20ac";}
-.glyphicon-minus:before{content:"\2212";}
-.glyphicon-cloud:before{content:"\2601";}
-.glyphicon-envelope:before{content:"\2709";}
-.glyphicon-pencil:before{content:"\270f";}
-.glyphicon-glass:before{content:"\e001";}
-.glyphicon-music:before{content:"\e002";}
-.glyphicon-search:before{content:"\e003";}
-.glyphicon-heart:before{content:"\e005";}
-.glyphicon-star:before{content:"\e006";}
-.glyphicon-star-empty:before{content:"\e007";}
-.glyphicon-user:before{content:"\e008";}
-.glyphicon-film:before{content:"\e009";}
-.glyphicon-th-large:before{content:"\e010";}
-.glyphicon-th:before{content:"\e011";}
-.glyphicon-th-list:before{content:"\e012";}
-.glyphicon-ok:before{content:"\e013";}
-.glyphicon-remove:before{content:"\e014";}
-.glyphicon-zoom-in:before{content:"\e015";}
-.glyphicon-zoom-out:before{content:"\e016";}
-.glyphicon-off:before{content:"\e017";}
-.glyphicon-signal:before{content:"\e018";}
-.glyphicon-cog:before{content:"\e019";}
-.glyphicon-trash:before{content:"\e020";}
-.glyphicon-home:before{content:"\e021";}
-.glyphicon-file:before{content:"\e022";}
-.glyphicon-time:before{content:"\e023";}
-.glyphicon-road:before{content:"\e024";}
-.glyphicon-download-alt:before{content:"\e025";}
-.glyphicon-download:before{content:"\e026";}
-.glyphicon-upload:before{content:"\e027";}
-.glyphicon-inbox:before{content:"\e028";}
-.glyphicon-play-circle:before{content:"\e029";}
-.glyphicon-repeat:before{content:"\e030";}
-.glyphicon-refresh:before{content:"\e031";}
-.glyphicon-list-alt:before{content:"\e032";}
-.glyphicon-flag:before{content:"\e034";}
-.glyphicon-headphones:before{content:"\e035";}
-.glyphicon-volume-off:before{content:"\e036";}
-.glyphicon-volume-down:before{content:"\e037";}
-.glyphicon-volume-up:before{content:"\e038";}
-.glyphicon-qrcode:before{content:"\e039";}
-.glyphicon-barcode:before{content:"\e040";}
-.glyphicon-tag:before{content:"\e041";}
-.glyphicon-tags:before{content:"\e042";}
-.glyphicon-book:before{content:"\e043";}
-.glyphicon-print:before{content:"\e045";}
-.glyphicon-font:before{content:"\e047";}
-.glyphicon-bold:before{content:"\e048";}
-.glyphicon-italic:before{content:"\e049";}
-.glyphicon-text-height:before{content:"\e050";}
-.glyphicon-text-width:before{content:"\e051";}
-.glyphicon-align-left:before{content:"\e052";}
-.glyphicon-align-center:before{content:"\e053";}
-.glyphicon-align-right:before{content:"\e054";}
-.glyphicon-align-justify:before{content:"\e055";}
-.glyphicon-list:before{content:"\e056";}
-.glyphicon-indent-left:before{content:"\e057";}
-.glyphicon-indent-right:before{content:"\e058";}
-.glyphicon-facetime-video:before{content:"\e059";}
-.glyphicon-picture:before{content:"\e060";}
-.glyphicon-map-marker:before{content:"\e062";}
-.glyphicon-adjust:before{content:"\e063";}
-.glyphicon-tint:before{content:"\e064";}
-.glyphicon-edit:before{content:"\e065";}
-.glyphicon-share:before{content:"\e066";}
-.glyphicon-check:before{content:"\e067";}
-.glyphicon-move:before{content:"\e068";}
-.glyphicon-step-backward:before{content:"\e069";}
-.glyphicon-fast-backward:before{content:"\e070";}
-.glyphicon-backward:before{content:"\e071";}
-.glyphicon-play:before{content:"\e072";}
-.glyphicon-pause:before{content:"\e073";}
-.glyphicon-stop:before{content:"\e074";}
-.glyphicon-forward:before{content:"\e075";}
-.glyphicon-fast-forward:before{content:"\e076";}
-.glyphicon-step-forward:before{content:"\e077";}
-.glyphicon-eject:before{content:"\e078";}
-.glyphicon-chevron-left:before{content:"\e079";}
-.glyphicon-chevron-right:before{content:"\e080";}
-.glyphicon-plus-sign:before{content:"\e081";}
-.glyphicon-minus-sign:before{content:"\e082";}
-.glyphicon-remove-sign:before{content:"\e083";}
-.glyphicon-ok-sign:before{content:"\e084";}
-.glyphicon-question-sign:before{content:"\e085";}
-.glyphicon-info-sign:before{content:"\e086";}
-.glyphicon-screenshot:before{content:"\e087";}
-.glyphicon-remove-circle:before{content:"\e088";}
-.glyphicon-ok-circle:before{content:"\e089";}
-.glyphicon-ban-circle:before{content:"\e090";}
-.glyphicon-arrow-left:before{content:"\e091";}
-.glyphicon-arrow-right:before{content:"\e092";}
-.glyphicon-arrow-up:before{content:"\e093";}
-.glyphicon-arrow-down:before{content:"\e094";}
-.glyphicon-share-alt:before{content:"\e095";}
-.glyphicon-resize-full:before{content:"\e096";}
-.glyphicon-resize-small:before{content:"\e097";}
-.glyphicon-exclamation-sign:before{content:"\e101";}
-.glyphicon-gift:before{content:"\e102";}
-.glyphicon-leaf:before{content:"\e103";}
-.glyphicon-eye-open:before{content:"\e105";}
-.glyphicon-eye-close:before{content:"\e106";}
-.glyphicon-warning-sign:before{content:"\e107";}
-.glyphicon-plane:before{content:"\e108";}
-.glyphicon-random:before{content:"\e110";}
-.glyphicon-comment:before{content:"\e111";}
-.glyphicon-magnet:before{content:"\e112";}
-.glyphicon-chevron-up:before{content:"\e113";}
-.glyphicon-chevron-down:before{content:"\e114";}
-.glyphicon-retweet:before{content:"\e115";}
-.glyphicon-shopping-cart:before{content:"\e116";}
-.glyphicon-folder-close:before{content:"\e117";}
-.glyphicon-folder-open:before{content:"\e118";}
-.glyphicon-resize-vertical:before{content:"\e119";}
-.glyphicon-resize-horizontal:before{content:"\e120";}
-.glyphicon-hdd:before{content:"\e121";}
-.glyphicon-bullhorn:before{content:"\e122";}
-.glyphicon-certificate:before{content:"\e124";}
-.glyphicon-thumbs-up:before{content:"\e125";}
-.glyphicon-thumbs-down:before{content:"\e126";}
-.glyphicon-hand-right:before{content:"\e127";}
-.glyphicon-hand-left:before{content:"\e128";}
-.glyphicon-hand-up:before{content:"\e129";}
-.glyphicon-hand-down:before{content:"\e130";}
-.glyphicon-circle-arrow-right:before{content:"\e131";}
-.glyphicon-circle-arrow-left:before{content:"\e132";}
-.glyphicon-circle-arrow-up:before{content:"\e133";}
-.glyphicon-circle-arrow-down:before{content:"\e134";}
-.glyphicon-globe:before{content:"\e135";}
-.glyphicon-tasks:before{content:"\e137";}
-.glyphicon-filter:before{content:"\e138";}
-.glyphicon-fullscreen:before{content:"\e140";}
-.glyphicon-dashboard:before{content:"\e141";}
-.glyphicon-heart-empty:before{content:"\e143";}
-.glyphicon-link:before{content:"\e144";}
-.glyphicon-phone:before{content:"\e145";}
-.glyphicon-usd:before{content:"\e148";}
-.glyphicon-gbp:before{content:"\e149";}
-.glyphicon-sort:before{content:"\e150";}
-.glyphicon-sort-by-alphabet:before{content:"\e151";}
-.glyphicon-sort-by-alphabet-alt:before{content:"\e152";}
-.glyphicon-sort-by-order:before{content:"\e153";}
-.glyphicon-sort-by-order-alt:before{content:"\e154";}
-.glyphicon-sort-by-attributes:before{content:"\e155";}
-.glyphicon-sort-by-attributes-alt:before{content:"\e156";}
-.glyphicon-unchecked:before{content:"\e157";}
-.glyphicon-expand:before{content:"\e158";}
-.glyphicon-collapse-down:before{content:"\e159";}
-.glyphicon-collapse-up:before{content:"\e160";}
-.glyphicon-log-in:before{content:"\e161";}
-.glyphicon-flash:before{content:"\e162";}
-.glyphicon-log-out:before{content:"\e163";}
-.glyphicon-new-window:before{content:"\e164";}
-.glyphicon-record:before{content:"\e165";}
-.glyphicon-save:before{content:"\e166";}
-.glyphicon-open:before{content:"\e167";}
-.glyphicon-saved:before{content:"\e168";}
-.glyphicon-import:before{content:"\e169";}
-.glyphicon-export:before{content:"\e170";}
-.glyphicon-send:before{content:"\e171";}
-.glyphicon-floppy-disk:before{content:"\e172";}
-.glyphicon-floppy-saved:before{content:"\e173";}
-.glyphicon-floppy-remove:before{content:"\e174";}
-.glyphicon-floppy-save:before{content:"\e175";}
-.glyphicon-floppy-open:before{content:"\e176";}
-.glyphicon-credit-card:before{content:"\e177";}
-.glyphicon-transfer:before{content:"\e178";}
-.glyphicon-cutlery:before{content:"\e179";}
-.glyphicon-header:before{content:"\e180";}
-.glyphicon-compressed:before{content:"\e181";}
-.glyphicon-earphone:before{content:"\e182";}
-.glyphicon-phone-alt:before{content:"\e183";}
-.glyphicon-tower:before{content:"\e184";}
-.glyphicon-stats:before{content:"\e185";}
-.glyphicon-sd-video:before{content:"\e186";}
-.glyphicon-hd-video:before{content:"\e187";}
-.glyphicon-subtitles:before{content:"\e188";}
-.glyphicon-sound-stereo:before{content:"\e189";}
-.glyphicon-sound-dolby:before{content:"\e190";}
-.glyphicon-sound-5-1:before{content:"\e191";}
-.glyphicon-sound-6-1:before{content:"\e192";}
-.glyphicon-sound-7-1:before{content:"\e193";}
-.glyphicon-copyright-mark:before{content:"\e194";}
-.glyphicon-registration-mark:before{content:"\e195";}
-.glyphicon-cloud-download:before{content:"\e197";}
-.glyphicon-cloud-upload:before{content:"\e198";}
-.glyphicon-tree-conifer:before{content:"\e199";}
-.glyphicon-tree-deciduous:before{content:"\e200";}
-.glyphicon-briefcase:before{content:"\1f4bc";}
-.glyphicon-calendar:before{content:"\1f4c5";}
-.glyphicon-pushpin:before{content:"\1f4cc";}
-.glyphicon-paperclip:before{content:"\1f4ce";}
-.glyphicon-camera:before{content:"\1f4f7";}
-.glyphicon-lock:before{content:"\1f512";}
-.glyphicon-bell:before{content:"\1f514";}
-.glyphicon-bookmark:before{content:"\1f516";}
-.glyphicon-fire:before{content:"\1f525";}
-.glyphicon-wrench:before{content:"\1f527";}
-</style>
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
 
             <script>
                 L_NO_TOUCH = false;
@@ -258,14 +54,14 @@
 <body>
     
     
-            <div class="folium-map" id="map_59f6ee3df41f1aa3815ca2d91fad4ad5" ></div>
+            <div class="folium-map" id="map_83ec19ab121605b29f3555fa1fada6d2" ></div>
         
 </body>
 <script>
     
     
-            var map_59f6ee3df41f1aa3815ca2d91fad4ad5 = L.map(
-                "map_59f6ee3df41f1aa3815ca2d91fad4ad5",
+            var map_83ec19ab121605b29f3555fa1fada6d2 = L.map(
+                "map_83ec19ab121605b29f3555fa1fada6d2",
                 {
                     center: [30.0, 10.0],
                     crs: L.CRS.EPSG3857,
@@ -282,14 +78,14 @@
 
         
     
-            var tile_layer_182977e8b04bede62f1ad63eb6f6d879 = L.tileLayer(
-                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+            var tile_layer_66d623b720ddf86cfddbd75c7c20b399 = L.tileLayer(
+                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
                 {
   "minZoom": 0,
   "maxZoom": 19,
   "maxNativeZoom": 19,
   "noWrap": false,
-  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "attribution": "Esri",
   "subdomains": "abc",
   "detectRetina": false,
   "tms": false,
@@ -299,22 +95,39 @@
             );
         
     
-            tile_layer_182977e8b04bede62f1ad63eb6f6d879.addTo(map_59f6ee3df41f1aa3815ca2d91fad4ad5);
+            tile_layer_66d623b720ddf86cfddbd75c7c20b399.addTo(map_83ec19ab121605b29f3555fa1fada6d2);
         
     
-            var feature_group_294386705f7e1aac82c8b8fad462a4ff = L.featureGroup(
+            var tile_layer_864010d3a4afa99b303cc654f0b021ff = L.tileLayer(
+                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "Esri",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            var feature_group_cc8574278a8480d882536d76a24e1d6a = L.featureGroup(
                 {
 }
             );
         
     
-            var circle_marker_b70e9614da02528b929c97ae898b3166 = L.circleMarker(
+            var circle_marker_7b9b6ca2b80b0f69e0a13cfbd18f1669 = L.circleMarker(
                 [50.0279675, 8.609192],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_b70e9614da02528b929c97ae898b3166.bindTooltip(
+            circle_marker_7b9b6ca2b80b0f69e0a13cfbd18f1669.bindTooltip(
                 `<div>
                      <b>00000001</b> (train)<br>GPS 1315, route arcs 525<br>network arcs 165790<br>duration 23 min, 50.2 km<br>max dt 16 s<br>GPS within 30 m of route 100.0%<br>flags: huge_network
                  </div>`,
@@ -324,13 +137,13 @@
             );
         
     
-            var circle_marker_46288da4341eaa96910c474c42021a0a = L.circleMarker(
+            var circle_marker_39b733c47c9751ee9b939e51f51283d4 = L.circleMarker(
                 [47.6769015, 11.0254315],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_46288da4341eaa96910c474c42021a0a.bindTooltip(
+            circle_marker_39b733c47c9751ee9b939e51f51283d4.bindTooltip(
                 `<div>
                      <b>00000002</b> (train)<br>GPS 7243, route arcs 262<br>network arcs 16139<br>duration 149 min, 55.9 km<br>max dt 160 s<br>GPS within 30 m of route 86.0%<br>flags: route_gps_mismatch, route_break
                  </div>`,
@@ -340,13 +153,13 @@
             );
         
     
-            var circle_marker_2cc95176a5e4e8b8ee86fe56f6cda21f = L.circleMarker(
+            var circle_marker_214e7e71cc48828a0a3b7a05a920fff9 = L.circleMarker(
                 [55.99236, 37.1778985],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_2cc95176a5e4e8b8ee86fe56f6cda21f.bindTooltip(
+            circle_marker_214e7e71cc48828a0a3b7a05a920fff9.bindTooltip(
                 `<div>
                      <b>00000003</b> (train)<br>GPS 821, route arcs 79<br>network arcs 18028<br>duration 14 min, 8.4 km<br>max dt 2 s<br>GPS within 30 m of route 100.0%<br>flags: none
                  </div>`,
@@ -356,13 +169,13 @@
             );
         
     
-            var circle_marker_f23869f96a3034b9b8f3c12cae7e1287 = L.circleMarker(
+            var circle_marker_67c5acd7bb552027cf92611f39eb140e = L.circleMarker(
                 [52.654634, 12.400947500000001],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_f23869f96a3034b9b8f3c12cae7e1287.bindTooltip(
+            circle_marker_67c5acd7bb552027cf92611f39eb140e.bindTooltip(
                 `<div>
                      <b>00000004</b> (train)<br>GPS 1064, route arcs 320<br>network arcs 15499<br>duration 87 min, 27.9 km<br>max dt 51 s<br>GPS within 30 m of route 95.5%<br>flags: none
                  </div>`,
@@ -372,13 +185,13 @@
             );
         
     
-            var circle_marker_e96357e8d912c8621ea21fce7bbdb9d0 = L.circleMarker(
+            var circle_marker_7b7fcbe2cd4552bddeee340370ff343c = L.circleMarker(
                 [49.485333, 35.514945999999995],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_e96357e8d912c8621ea21fce7bbdb9d0.bindTooltip(
+            circle_marker_7b7fcbe2cd4552bddeee340370ff343c.bindTooltip(
                 `<div>
                      <b>00000005</b> (train)<br>GPS 1045, route arcs 105<br>network arcs 1579<br>duration 17 min, 31.3 km<br>max dt 1 s<br>GPS within 30 m of route 100.0%<br>flags: none
                  </div>`,
@@ -388,13 +201,13 @@
             );
         
     
-            var circle_marker_0aefebee512de54e874dce0ec96eeca5 = L.circleMarker(
+            var circle_marker_377143b3fa36cf15d2cc94436973aa6c = L.circleMarker(
                 [55.4581965, 37.2968385],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_0aefebee512de54e874dce0ec96eeca5.bindTooltip(
+            circle_marker_377143b3fa36cf15d2cc94436973aa6c.bindTooltip(
                 `<div>
                      <b>00000006</b> (train)<br>GPS 1450, route arcs 261<br>network arcs 6757<br>duration 35 min, 19.4 km<br>max dt 301 s<br>GPS within 30 m of route 100.0%<br>flags: none
                  </div>`,
@@ -404,13 +217,13 @@
             );
         
     
-            var circle_marker_c541308b82d664c4b177fa20b0f2814c = L.circleMarker(
+            var circle_marker_45a2cb71f2bacb1ce248d95a81d899de = L.circleMarker(
                 [34.743489499999995, -86.57617350000001],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_c541308b82d664c4b177fa20b0f2814c.bindTooltip(
+            circle_marker_45a2cb71f2bacb1ce248d95a81d899de.bindTooltip(
                 `<div>
                      <b>00000008</b> (train)<br>GPS 3093, route arcs 173<br>network arcs 10421<br>duration 52 min, 25.0 km<br>max dt 2 s<br>GPS within 30 m of route 96.3%<br>flags: route_repeats
                  </div>`,
@@ -420,13 +233,13 @@
             );
         
     
-            var circle_marker_9877f0760036a05477cfd62b70336392 = L.circleMarker(
+            var circle_marker_ea3f76abb50f6e2eb545d7e2cd0029ea = L.circleMarker(
                 [55.809559, 37.376341499999995],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_9877f0760036a05477cfd62b70336392.bindTooltip(
+            circle_marker_ea3f76abb50f6e2eb545d7e2cd0029ea.bindTooltip(
                 `<div>
                      <b>00000010</b> (train)<br>GPS 2711, route arcs 210<br>network arcs 15715<br>duration 45 min, 25.8 km<br>max dt 1 s<br>GPS within 30 m of route 99.5%<br>flags: none
                  </div>`,
@@ -436,13 +249,13 @@
             );
         
     
-            var circle_marker_5481d6d0387bd8ef28d5a8291433b398 = L.circleMarker(
+            var circle_marker_fe926cea002573ef4e71f92ecfa06f5e = L.circleMarker(
                 [56.054661499999995, 59.8319615],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_5481d6d0387bd8ef28d5a8291433b398.bindTooltip(
+            circle_marker_fe926cea002573ef4e71f92ecfa06f5e.bindTooltip(
                 `<div>
                      <b>00000011</b> (train)<br>GPS 2828, route arcs 565<br>network arcs 5393<br>duration 62 min, 55.0 km<br>max dt 909 s<br>GPS within 30 m of route 100.0%<br>flags: long_gap
                  </div>`,
@@ -452,13 +265,13 @@
             );
         
     
-            var circle_marker_ecd06e14a06bec0eb59d155abc279d92 = L.circleMarker(
+            var circle_marker_cb98585b43b647e03fcc77c1c2edc21f = L.circleMarker(
                 [36.2197505, 44.2172105],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_ecd06e14a06bec0eb59d155abc279d92.bindTooltip(
+            circle_marker_cb98585b43b647e03fcc77c1c2edc21f.bindTooltip(
                 `<div>
                      <b>00000012</b> (train)<br>GPS 1608, route arcs 205<br>network arcs 38599<br>duration 27 min, 41.6 km<br>max dt 2 s<br>GPS within 30 m of route 99.9%<br>flags: none
                  </div>`,
@@ -468,13 +281,13 @@
             );
         
     
-            var circle_marker_21ce1c30abdb46cf6ed5f2d435d31bcc = L.circleMarker(
+            var circle_marker_9f37e111b2ab085335c47a637b021902 = L.circleMarker(
                 [43.781661, 1.800759],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_21ce1c30abdb46cf6ed5f2d435d31bcc.bindTooltip(
+            circle_marker_9f37e111b2ab085335c47a637b021902.bindTooltip(
                 `<div>
                      <b>00000013</b> (train)<br>GPS 2580, route arcs 788<br>network arcs 307392<br>duration 47 min, 74.0 km<br>max dt 8 s<br>GPS within 30 m of route 100.0%<br>flags: implausible_speed, huge_network
                  </div>`,
@@ -484,13 +297,13 @@
             );
         
     
-            var circle_marker_487b4534452e57fc8d0f00ebd2053d0b = L.circleMarker(
+            var circle_marker_dd64c5a21666991109880bfb6dd1ed61 = L.circleMarker(
                 [51.7241765, 39.186208],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_487b4534452e57fc8d0f00ebd2053d0b.bindTooltip(
+            circle_marker_dd64c5a21666991109880bfb6dd1ed61.bindTooltip(
                 `<div>
                      <b>00000014</b> (train)<br>GPS 448, route arcs 164<br>network arcs 8288<br>duration 12 min, 6.6 km<br>max dt 72 s<br>GPS within 30 m of route 98.7%<br>flags: none
                  </div>`,
@@ -500,13 +313,13 @@
             );
         
     
-            var circle_marker_a51b357eb43c994c9b55b4445595b299 = L.circleMarker(
+            var circle_marker_61f16c4d23b29e27aa63aed5d20f1b8f = L.circleMarker(
                 [55.8089695, 37.3775775],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_a51b357eb43c994c9b55b4445595b299.bindTooltip(
+            circle_marker_61f16c4d23b29e27aa63aed5d20f1b8f.bindTooltip(
                 `<div>
                      <b>00000016</b> (train)<br>GPS 1305, route arcs 204<br>network arcs 15098<br>duration 22 min, 16.2 km<br>max dt 1 s<br>GPS within 30 m of route 96.2%<br>flags: none
                  </div>`,
@@ -516,13 +329,13 @@
             );
         
     
-            var circle_marker_52526e415c79fd69c28ff1af678182ab = L.circleMarker(
+            var circle_marker_22b425fce81f5eb2ce5405ea3121daf9 = L.circleMarker(
                 [40.589985, -8.4735895],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_52526e415c79fd69c28ff1af678182ab.bindTooltip(
+            circle_marker_22b425fce81f5eb2ce5405ea3121daf9.bindTooltip(
                 `<div>
                      <b>00000018</b> (train)<br>GPS 379, route arcs 166<br>network arcs 11545<br>duration 8 min, 6.3 km<br>max dt 3 s<br>GPS within 30 m of route 99.7%<br>flags: route_repeats
                  </div>`,
@@ -532,13 +345,13 @@
             );
         
     
-            var circle_marker_ad58704b71b48001be2a0096ca16b5ef = L.circleMarker(
+            var circle_marker_730df65091218909fb69d8388b84874d = L.circleMarker(
                 [52.164903499999994, 7.1379494999999995],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_ad58704b71b48001be2a0096ca16b5ef.bindTooltip(
+            circle_marker_730df65091218909fb69d8388b84874d.bindTooltip(
                 `<div>
                      <b>00000019</b> (train)<br>GPS 2354, route arcs 545<br>network arcs 108517<br>duration 39 min, 48.7 km<br>max dt 1 s<br>GPS within 30 m of route 98.0%<br>flags: route_break, huge_network
                  </div>`,
@@ -548,13 +361,13 @@
             );
         
     
-            var circle_marker_216d0f856d5f8acd036ea8a3d84df8d6 = L.circleMarker(
+            var circle_marker_54bc0c7a35152b17ec03e7fe1519908e = L.circleMarker(
                 [52.662484000000006, 24.4752785],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_216d0f856d5f8acd036ea8a3d84df8d6.bindTooltip(
+            circle_marker_54bc0c7a35152b17ec03e7fe1519908e.bindTooltip(
                 `<div>
                      <b>00000020</b> (train)<br>GPS 2353, route arcs 142<br>network arcs 5958<br>duration 39 min, 43.8 km<br>max dt 1 s<br>GPS within 30 m of route 96.5%<br>flags: none
                  </div>`,
@@ -564,13 +377,13 @@
             );
         
     
-            var circle_marker_f8969778b6b5e0061fcd92cc3941d52c = L.circleMarker(
+            var circle_marker_2d8e5c2079f7f2d26656e784c9017e08 = L.circleMarker(
                 [15.3955485, 106.5552305],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_f8969778b6b5e0061fcd92cc3941d52c.bindTooltip(
+            circle_marker_2d8e5c2079f7f2d26656e784c9017e08.bindTooltip(
                 `<div>
                      <b>00000021</b> (train)<br>GPS 15783, route arcs 277<br>network arcs 1510<br>duration 310 min, 128.8 km<br>max dt 2161 s<br>GPS within 30 m of route 98.1%<br>flags: long_gap
                  </div>`,
@@ -580,13 +393,13 @@
             );
         
     
-            var circle_marker_af38a2b17fa7ef25cb0646b8d41327bd = L.circleMarker(
+            var circle_marker_239c17790928e8588df2f62e17b310f2 = L.circleMarker(
                 [47.8497705, -3.5840924999999997],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_af38a2b17fa7ef25cb0646b8d41327bd.bindTooltip(
+            circle_marker_239c17790928e8588df2f62e17b310f2.bindTooltip(
                 `<div>
                      <b>00000022</b> (train)<br>GPS 474, route arcs 376<br>network arcs 18982<br>duration 24 min, 15.7 km<br>max dt 22 s<br>GPS within 30 m of route 100.0%<br>flags: none
                  </div>`,
@@ -596,13 +409,13 @@
             );
         
     
-            var circle_marker_bcc93da08c342d04e85a687e08accc9d = L.circleMarker(
+            var circle_marker_13a583ecb7e9c651836a546b82f423ec = L.circleMarker(
                 [49.2537875, 8.583086000000002],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_bcc93da08c342d04e85a687e08accc9d.bindTooltip(
+            circle_marker_13a583ecb7e9c651836a546b82f423ec.bindTooltip(
                 `<div>
                      <b>00000024</b> (train)<br>GPS 801, route arcs 249<br>network arcs 51609<br>duration 26 min, 26.7 km<br>max dt 458 s<br>GPS within 30 m of route 100.0%<br>flags: none
                  </div>`,
@@ -612,13 +425,13 @@
             );
         
     
-            var circle_marker_881b2605020dd4682d5372a6271faba2 = L.circleMarker(
+            var circle_marker_8cd83292b721a9128bb98bb03ffd14e9 = L.circleMarker(
                 [25.726519, -100.3432935],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_881b2605020dd4682d5372a6271faba2.bindTooltip(
+            circle_marker_8cd83292b721a9128bb98bb03ffd14e9.bindTooltip(
                 `<div>
                      <b>00000025</b> (train)<br>GPS 1179, route arcs 283<br>network arcs 85639<br>duration 26 min, 24.3 km<br>max dt 2 s<br>GPS within 30 m of route 99.8%<br>flags: none
                  </div>`,
@@ -628,13 +441,13 @@
             );
         
     
-            var circle_marker_829f5f181d34881e8811f65efed6f3d7 = L.circleMarker(
+            var circle_marker_046a0cebb3daebbea722877cb51216d3 = L.circleMarker(
                 [37.149859, -80.42837449999999],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_829f5f181d34881e8811f65efed6f3d7.bindTooltip(
+            circle_marker_046a0cebb3daebbea722877cb51216d3.bindTooltip(
                 `<div>
                      <b>00000026</b> (train)<br>GPS 361, route arcs 197<br>network arcs 5043<br>duration 15 min, 8.7 km<br>max dt 17 s<br>GPS within 30 m of route 100.0%<br>flags: none
                  </div>`,
@@ -644,13 +457,13 @@
             );
         
     
-            var circle_marker_9d2184aaa00962f67010f63d831344df = L.circleMarker(
+            var circle_marker_4eb7479db6be4f093ba010af6313ef69 = L.circleMarker(
                 [49.541202999999996, 18.919092],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_9d2184aaa00962f67010f63d831344df.bindTooltip(
+            circle_marker_4eb7479db6be4f093ba010af6313ef69.bindTooltip(
                 `<div>
                      <b>00000027</b> (train)<br>GPS 694, route arcs 138<br>network arcs 5588<br>duration 12 min, 9.7 km<br>max dt 2 s<br>GPS within 30 m of route 100.0%<br>flags: none
                  </div>`,
@@ -660,13 +473,13 @@
             );
         
     
-            var circle_marker_0ba45e9fa89b64cd4f85b87e8d91f99e = L.circleMarker(
+            var circle_marker_623837336ad335ebe7e659cc2582ee30 = L.circleMarker(
                 [55.032197, 60.861636000000004],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_0ba45e9fa89b64cd4f85b87e8d91f99e.bindTooltip(
+            circle_marker_623837336ad335ebe7e659cc2582ee30.bindTooltip(
                 `<div>
                      <b>00000028</b> (train)<br>GPS 3565, route arcs 618<br>network arcs 127216<br>duration 69 min, 90.9 km<br>max dt 196 s<br>GPS within 30 m of route 98.5%<br>flags: huge_network
                  </div>`,
@@ -676,13 +489,13 @@
             );
         
     
-            var circle_marker_745a30de161f867a11a283e4a7815763 = L.circleMarker(
+            var circle_marker_80ea606031e648b4ae1976bff59f0b4f = L.circleMarker(
                 [55.805891, 37.357085],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_745a30de161f867a11a283e4a7815763.bindTooltip(
+            circle_marker_80ea606031e648b4ae1976bff59f0b4f.bindTooltip(
                 `<div>
                      <b>00000029</b> (train)<br>GPS 733, route arcs 204<br>network arcs 20868<br>duration 12 min, 12.6 km<br>max dt 1 s<br>GPS within 30 m of route 100.0%<br>flags: none
                  </div>`,
@@ -692,13 +505,13 @@
             );
         
     
-            var circle_marker_e541c88fef441a8f63f37b332a225548 = L.circleMarker(
+            var circle_marker_2519356a537805b89c61f56ec33d68d6 = L.circleMarker(
                 [53.3403835, 50.474188],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_e541c88fef441a8f63f37b332a225548.bindTooltip(
+            circle_marker_2519356a537805b89c61f56ec33d68d6.bindTooltip(
                 `<div>
                      <b>00000031</b> (train)<br>GPS 4245, route arcs 432<br>network arcs 125831<br>duration 71 min, 72.9 km<br>max dt 1 s<br>GPS within 30 m of route 99.9%<br>flags: huge_network
                  </div>`,
@@ -708,13 +521,13 @@
             );
         
     
-            var circle_marker_c28256fa70e7d0b2e894119fea314d23 = L.circleMarker(
+            var circle_marker_47355d655651d5e9985204bb7ff4b240 = L.circleMarker(
                 [52.096197000000004, 12.856693],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_c28256fa70e7d0b2e894119fea314d23.bindTooltip(
+            circle_marker_47355d655651d5e9985204bb7ff4b240.bindTooltip(
                 `<div>
                      <b>00000032</b> (train)<br>GPS 2464, route arcs 819<br>network arcs 259437<br>duration 47 min, 96.8 km<br>max dt 41 s<br>GPS within 30 m of route 99.9%<br>flags: implausible_speed, huge_network
                  </div>`,
@@ -724,13 +537,13 @@
             );
         
     
-            var circle_marker_a29d9e9c122bc7b50ba525c5946dcc5f = L.circleMarker(
+            var circle_marker_54e357e4c25e266feea303e1ace0bccf = L.circleMarker(
                 [50.031848499999995, 18.7060795],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_a29d9e9c122bc7b50ba525c5946dcc5f.bindTooltip(
+            circle_marker_54e357e4c25e266feea303e1ace0bccf.bindTooltip(
                 `<div>
                      <b>00000033</b> (train)<br>GPS 5844, route arcs 169<br>network arcs 6360<br>duration 104 min, 47.8 km<br>max dt 3 s<br>GPS within 30 m of route 29.1%<br>flags: route_gps_mismatch, implausible_speed, route_break
                  </div>`,
@@ -740,13 +553,13 @@
             );
         
     
-            var circle_marker_322419756efe68513acb1dd8cbfa30f4 = L.circleMarker(
+            var circle_marker_3eccc06f36024ac4539ebbbba96bceda = L.circleMarker(
                 [40.276512499999995, 44.385736],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_322419756efe68513acb1dd8cbfa30f4.bindTooltip(
+            circle_marker_3eccc06f36024ac4539ebbbba96bceda.bindTooltip(
                 `<div>
                      <b>00000034</b> (train)<br>GPS 3614, route arcs 454<br>network arcs 40971<br>duration 64 min, 48.8 km<br>max dt 15 s<br>GPS within 30 m of route 99.7%<br>flags: none
                  </div>`,
@@ -756,13 +569,13 @@
             );
         
     
-            var circle_marker_59b5d10b13c1c5e8f0e0528d485e4132 = L.circleMarker(
+            var circle_marker_50e8c7535f1362df4fa5914bffcf075d = L.circleMarker(
                 [41.860869, 12.5672675],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_59b5d10b13c1c5e8f0e0528d485e4132.bindTooltip(
+            circle_marker_50e8c7535f1362df4fa5914bffcf075d.bindTooltip(
                 `<div>
                      <b>00000035</b> (train)<br>GPS 1643, route arcs 403<br>network arcs 35212<br>duration 27 min, 18.5 km<br>max dt 1 s<br>GPS within 30 m of route 100.0%<br>flags: none
                  </div>`,
@@ -772,13 +585,13 @@
             );
         
     
-            var circle_marker_00804e0722f9e39c3f18689c329f5bd8 = L.circleMarker(
+            var circle_marker_13bebc1745dc22fc1c7826312d10f3ff = L.circleMarker(
                 [59.579153500000004, 30.1172195],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_00804e0722f9e39c3f18689c329f5bd8.bindTooltip(
+            circle_marker_13bebc1745dc22fc1c7826312d10f3ff.bindTooltip(
                 `<div>
                      <b>00000036</b> (train)<br>GPS 1368, route arcs 156<br>network arcs 9619<br>duration 23 min, 14.8 km<br>max dt 1 s<br>GPS within 30 m of route 99.9%<br>flags: none
                  </div>`,
@@ -788,13 +601,13 @@
             );
         
     
-            var circle_marker_6c7fd50b790bd3ac49f99ffad3277030 = L.circleMarker(
+            var circle_marker_02992fdc69d8015b29cac629b263f939 = L.circleMarker(
                 [36.6815005, 137.217343],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_6c7fd50b790bd3ac49f99ffad3277030.bindTooltip(
+            circle_marker_02992fdc69d8015b29cac629b263f939.bindTooltip(
                 `<div>
                      <b>00000037</b> (train)<br>GPS 677, route arcs 163<br>network arcs 21744<br>duration 16 min, 8.4 km<br>max dt 52 s<br>GPS within 30 m of route 100.0%<br>flags: none
                  </div>`,
@@ -804,13 +617,13 @@
             );
         
     
-            var circle_marker_88bd9c795a8374d3019eee9d9b0fcb21 = L.circleMarker(
+            var circle_marker_71f70c99ed75a4b9dfee9ff10426c128 = L.circleMarker(
                 [53.8783635, 27.488594499999998],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_88bd9c795a8374d3019eee9d9b0fcb21.bindTooltip(
+            circle_marker_71f70c99ed75a4b9dfee9ff10426c128.bindTooltip(
                 `<div>
                      <b>00000038</b> (train)<br>GPS 1287, route arcs 221<br>network arcs 42026<br>duration 24 min, 17.2 km<br>max dt 20 s<br>GPS within 30 m of route 99.9%<br>flags: none
                  </div>`,
@@ -820,13 +633,13 @@
             );
         
     
-            var circle_marker_363d54cad885e15812dc706fe9b0eb62 = L.circleMarker(
+            var circle_marker_43ed765eda4fb67c5eb2de0cd2153367 = L.circleMarker(
                 [60.436279, 24.441686],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_363d54cad885e15812dc706fe9b0eb62.bindTooltip(
+            circle_marker_43ed765eda4fb67c5eb2de0cd2153367.bindTooltip(
                 `<div>
                      <b>00000039</b> (train)<br>GPS 363, route arcs 161<br>network arcs 2388<br>duration 15 min, 9.9 km<br>max dt 10 s<br>GPS within 30 m of route 100.0%<br>flags: none
                  </div>`,
@@ -836,13 +649,13 @@
             );
         
     
-            var circle_marker_f4cc368b2afa0d459235032a8144086d = L.circleMarker(
+            var circle_marker_cc04ae8943109dbc44d2ce8134fbf923 = L.circleMarker(
                 [40.614106, -8.704752500000001],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_f4cc368b2afa0d459235032a8144086d.bindTooltip(
+            circle_marker_cc04ae8943109dbc44d2ce8134fbf923.bindTooltip(
                 `<div>
                      <b>00000041</b> (train)<br>GPS 1019, route arcs 340<br>network arcs 14317<br>duration 19 min, 14.5 km<br>max dt 89 s<br>GPS within 30 m of route 99.9%<br>flags: route_break
                  </div>`,
@@ -852,13 +665,13 @@
             );
         
     
-            var circle_marker_41d167988c8c18b7a52b455c3128eb97 = L.circleMarker(
+            var circle_marker_8ae61496a5acc1fbd2757645066ebeea = L.circleMarker(
                 [10.608511499999999, 123.98102],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_41d167988c8c18b7a52b455c3128eb97.bindTooltip(
+            circle_marker_8ae61496a5acc1fbd2757645066ebeea.bindTooltip(
                 `<div>
                      <b>00000042</b> (train)<br>GPS 7739, route arcs 1440<br>network arcs 101128<br>duration 206 min, 98.2 km<br>max dt 670 s<br>GPS within 30 m of route 100.0%<br>flags: long_gap, route_break, huge_network
                  </div>`,
@@ -868,13 +681,13 @@
             );
         
     
-            var circle_marker_e6c9a2d4f68b4b121243aafad7e2b083 = L.circleMarker(
+            var circle_marker_89892e875f0e7b1a8de068e94c5f120b = L.circleMarker(
                 [52.096806, 4.983846],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_e6c9a2d4f68b4b121243aafad7e2b083.bindTooltip(
+            circle_marker_89892e875f0e7b1a8de068e94c5f120b.bindTooltip(
                 `<div>
                      <b>00000043</b> (train)<br>GPS 2322, route arcs 427<br>network arcs 215620<br>duration 44 min, 63.8 km<br>max dt 230 s<br>GPS within 30 m of route 87.5%<br>flags: route_gps_mismatch, implausible_speed, huge_network
                  </div>`,
@@ -884,13 +697,13 @@
             );
         
     
-            var circle_marker_2f9cfc36dd88b205df090aa72ebc8f6e = L.circleMarker(
+            var circle_marker_62d4e0b3a05adbf90af28a534b61722e = L.circleMarker(
                 [51.6337005, 39.256208],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_2f9cfc36dd88b205df090aa72ebc8f6e.bindTooltip(
+            circle_marker_62d4e0b3a05adbf90af28a534b61722e.bindTooltip(
                 `<div>
                      <b>00000044</b> (train)<br>GPS 546, route arcs 130<br>network arcs 9209<br>duration 16 min, 7.9 km<br>max dt 341 s<br>GPS within 30 m of route 100.0%<br>flags: none
                  </div>`,
@@ -900,13 +713,13 @@
             );
         
     
-            var circle_marker_1cbc780bea7caf048e65216849080d6a = L.circleMarker(
+            var circle_marker_16190d2059500d46ff6d4699911698d2 = L.circleMarker(
                 [52.0433975, 12.811971],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_1cbc780bea7caf048e65216849080d6a.bindTooltip(
+            circle_marker_16190d2059500d46ff6d4699911698d2.bindTooltip(
                 `<div>
                      <b>00000045</b> (train)<br>GPS 640, route arcs 59<br>network arcs 4335<br>duration 11 min, 11.7 km<br>max dt 1 s<br>GPS within 30 m of route 99.8%<br>flags: none
                  </div>`,
@@ -916,13 +729,13 @@
             );
         
     
-            var circle_marker_77810fe0e40f11737c4ae8d855604379 = L.circleMarker(
+            var circle_marker_c53283ca23ee2923d1f0e773de72451d = L.circleMarker(
                 [48.510844000000006, 2.9547179999999997],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_77810fe0e40f11737c4ae8d855604379.bindTooltip(
+            circle_marker_c53283ca23ee2923d1f0e773de72451d.bindTooltip(
                 `<div>
                      <b>00000046</b> (train)<br>GPS 1401, route arcs 66<br>network arcs 649<br>duration 38 min, 12.0 km<br>max dt 22 s<br>GPS within 30 m of route 98.3%<br>flags: none
                  </div>`,
@@ -932,13 +745,13 @@
             );
         
     
-            var circle_marker_cd5fc897de10f67bb8a4148df8e7cf77 = L.circleMarker(
+            var circle_marker_72cab2de887a8ae3d6e5125136cc4390 = L.circleMarker(
                 [35.050461, 136.634024],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_cd5fc897de10f67bb8a4148df8e7cf77.bindTooltip(
+            circle_marker_72cab2de887a8ae3d6e5125136cc4390.bindTooltip(
                 `<div>
                      <b>00000047</b> (train)<br>GPS 1272, route arcs 188<br>network arcs 39747<br>duration 21 min, 15.2 km<br>max dt 1 s<br>GPS within 30 m of route 100.0%<br>flags: none
                  </div>`,
@@ -948,13 +761,13 @@
             );
         
     
-            var circle_marker_257fee43bb2c45566493b67635369002 = L.circleMarker(
+            var circle_marker_d1cba2e89a6a7ad4fbf54a93e3b018a1 = L.circleMarker(
                 [52.9660195, -1.846563],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_257fee43bb2c45566493b67635369002.bindTooltip(
+            circle_marker_d1cba2e89a6a7ad4fbf54a93e3b018a1.bindTooltip(
                 `<div>
                      <b>00000048</b> (train)<br>GPS 1240, route arcs 149<br>network arcs 2592<br>duration 21 min, 11.9 km<br>max dt 4 s<br>GPS within 30 m of route 99.7%<br>flags: none
                  </div>`,
@@ -964,13 +777,13 @@
             );
         
     
-            var circle_marker_231ed9c29e7d197a3d5b5ab8bda6e5b2 = L.circleMarker(
+            var circle_marker_ec7f1e8336243232c855c3542e4cbefb = L.circleMarker(
                 [48.024229500000004, 8.7537185],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_231ed9c29e7d197a3d5b5ab8bda6e5b2.bindTooltip(
+            circle_marker_ec7f1e8336243232c855c3542e4cbefb.bindTooltip(
                 `<div>
                      <b>00000050</b> (train)<br>GPS 518, route arcs 94<br>network arcs 4576<br>duration 9 min, 6.7 km<br>max dt 1 s<br>GPS within 30 m of route 100.0%<br>flags: none
                  </div>`,
@@ -980,13 +793,13 @@
             );
         
     
-            var circle_marker_b76855bf73be8f7c2372ebf0cdb77053 = L.circleMarker(
+            var circle_marker_c5521ba734a72d3bc13b1d4272a872c4 = L.circleMarker(
                 [41.7099815, 12.575822],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_b76855bf73be8f7c2372ebf0cdb77053.bindTooltip(
+            circle_marker_c5521ba734a72d3bc13b1d4272a872c4.bindTooltip(
                 `<div>
                      <b>00000051</b> (train)<br>GPS 984, route arcs 299<br>network arcs 8494<br>duration 16 min, 12.8 km<br>max dt 2 s<br>GPS within 30 m of route 100.0%<br>flags: none
                  </div>`,
@@ -996,13 +809,13 @@
             );
         
     
-            var circle_marker_40bcb9d3b324a7fbd7d9b166ddb20540 = L.circleMarker(
+            var circle_marker_87f23638165a87a096b9e4b8b5845850 = L.circleMarker(
                 [43.390302000000005, -3.7929515],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_40bcb9d3b324a7fbd7d9b166ddb20540.bindTooltip(
+            circle_marker_87f23638165a87a096b9e4b8b5845850.bindTooltip(
                 `<div>
                      <b>00000053</b> (train)<br>GPS 1304, route arcs 754<br>network arcs 148707<br>duration 22 min, 30.0 km<br>max dt 10 s<br>GPS within 30 m of route 99.8%<br>flags: huge_network
                  </div>`,
@@ -1012,13 +825,13 @@
             );
         
     
-            var circle_marker_a79955686f1a4d12faa537e5cc2668c1 = L.circleMarker(
+            var circle_marker_04deb4b9bcabd511c959049659ab58d3 = L.circleMarker(
                 [52.355568, 4.9107525],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_a79955686f1a4d12faa537e5cc2668c1.bindTooltip(
+            circle_marker_04deb4b9bcabd511c959049659ab58d3.bindTooltip(
                 `<div>
                      <b>00000054</b> (train)<br>GPS 19313, route arcs 422<br>network arcs 116916<br>duration 325 min, 169.3 km<br>max dt 79 s<br>GPS within 30 m of route 11.5%<br>flags: route_gps_mismatch, huge_network
                  </div>`,
@@ -1028,13 +841,13 @@
             );
         
     
-            var circle_marker_581e84a205317c6153ef2931a8c873bc = L.circleMarker(
+            var circle_marker_f7b6b0b550179728935fac057eba4aa4 = L.circleMarker(
                 [45.23881, -0.523809],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_581e84a205317c6153ef2931a8c873bc.bindTooltip(
+            circle_marker_f7b6b0b550179728935fac057eba4aa4.bindTooltip(
                 `<div>
                      <b>00000055</b> (train)<br>GPS 2472, route arcs 475<br>network arcs 198961<br>duration 44 min, 83.6 km<br>max dt 184 s<br>GPS within 30 m of route 99.9%<br>flags: huge_network
                  </div>`,
@@ -1044,13 +857,13 @@
             );
         
     
-            var circle_marker_51590a58aa3760ce4882b74794f9a7c3 = L.circleMarker(
+            var circle_marker_251505596da267d68da99f6e8f8906f1 = L.circleMarker(
                 [0.3261935, -78.167482],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_51590a58aa3760ce4882b74794f9a7c3.bindTooltip(
+            circle_marker_251505596da267d68da99f6e8f8906f1.bindTooltip(
                 `<div>
                      <b>00000057</b> (train)<br>GPS 1645, route arcs 300<br>network arcs 18777<br>duration 28 min, 23.9 km<br>max dt 13 s<br>GPS within 30 m of route 99.0%<br>flags: implausible_speed
                  </div>`,
@@ -1060,13 +873,13 @@
             );
         
     
-            var circle_marker_2b4b456fbbbd1bbeb4efe48d6b2fe591 = L.circleMarker(
+            var circle_marker_3c90903e45d8206e0c87d9dba53b37ea = L.circleMarker(
                 [51.018829, 2.3612374999999997],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_2b4b456fbbbd1bbeb4efe48d6b2fe591.bindTooltip(
+            circle_marker_3c90903e45d8206e0c87d9dba53b37ea.bindTooltip(
                 `<div>
                      <b>00000058</b> (train)<br>GPS 599, route arcs 345<br>network arcs 39383<br>duration 12 min, 8.6 km<br>max dt 16 s<br>GPS within 30 m of route 100.0%<br>flags: none
                  </div>`,
@@ -1076,13 +889,13 @@
             );
         
     
-            var circle_marker_99450486045c7a093391b85b7c28fecd = L.circleMarker(
+            var circle_marker_4710d9ee2d6c9b15feb21758d8b09c69 = L.circleMarker(
                 [50.242788000000004, 18.9025165],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_99450486045c7a093391b85b7c28fecd.bindTooltip(
+            circle_marker_4710d9ee2d6c9b15feb21758d8b09c69.bindTooltip(
                 `<div>
                      <b>00000060</b> (train)<br>GPS 854, route arcs 520<br>network arcs 30077<br>duration 17 min, 13.7 km<br>max dt 27 s<br>GPS within 30 m of route 100.0%<br>flags: none
                  </div>`,
@@ -1092,13 +905,13 @@
             );
         
     
-            var circle_marker_47268045bfe25ca09abf1ace608da307 = L.circleMarker(
+            var circle_marker_ed1e02b5fe9746122ad241dd2925a360 = L.circleMarker(
                 [55.8629555, 9.852075],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_47268045bfe25ca09abf1ace608da307.bindTooltip(
+            circle_marker_ed1e02b5fe9746122ad241dd2925a360.bindTooltip(
                 `<div>
                      <b>00000061</b> (train)<br>GPS 1430, route arcs 296<br>network arcs 10339<br>duration 24 min, 13.7 km<br>max dt 3 s<br>GPS within 30 m of route 96.4%<br>flags: none
                  </div>`,
@@ -1108,13 +921,13 @@
             );
         
     
-            var circle_marker_55d53f8000bdbf4242cf0b36a89c682a = L.circleMarker(
+            var circle_marker_54a4ec08ba3dbadfc4a0bc192943d8a7 = L.circleMarker(
                 [56.8126305, 60.71822950000001],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_55d53f8000bdbf4242cf0b36a89c682a.bindTooltip(
+            circle_marker_54a4ec08ba3dbadfc4a0bc192943d8a7.bindTooltip(
                 `<div>
                      <b>00000062</b> (train)<br>GPS 3378, route arcs 497<br>network arcs 62836<br>duration 66 min, 45.5 km<br>max dt 56 s<br>GPS within 30 m of route 100.0%<br>flags: none
                  </div>`,
@@ -1124,13 +937,13 @@
             );
         
     
-            var circle_marker_b54d7e016b1cf476b8b2a6278b6d7b19 = L.circleMarker(
+            var circle_marker_83dc1ae6a8299940db1e602224bd9d9b = L.circleMarker(
                 [44.212916500000006, 22.4905015],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_b54d7e016b1cf476b8b2a6278b6d7b19.bindTooltip(
+            circle_marker_83dc1ae6a8299940db1e602224bd9d9b.bindTooltip(
                 `<div>
                      <b>00000063</b> (train)<br>GPS 2781, route arcs 565<br>network arcs 5553<br>duration 49 min, 34.3 km<br>max dt 2 s<br>GPS within 30 m of route 99.9%<br>flags: none
                  </div>`,
@@ -1140,13 +953,13 @@
             );
         
     
-            var circle_marker_df62e9148a4f8302a1672ee9c491cf66 = L.circleMarker(
+            var circle_marker_696d3bef7119b92023681f4fe0ad639a = L.circleMarker(
                 [49.607380500000005, 19.8416305],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_df62e9148a4f8302a1672ee9c491cf66.bindTooltip(
+            circle_marker_696d3bef7119b92023681f4fe0ad639a.bindTooltip(
                 `<div>
                      <b>00000064</b> (train)<br>GPS 2093, route arcs 692<br>network arcs 56986<br>duration 36 min, 40.9 km<br>max dt 4 s<br>GPS within 30 m of route 99.8%<br>flags: none
                  </div>`,
@@ -1156,13 +969,13 @@
             );
         
     
-            var circle_marker_4e4bb9a3ae7ac251c6626bc4919dcfab = L.circleMarker(
+            var circle_marker_66926aa96e9aca49f8bdc8bbb0d73e38 = L.circleMarker(
                 [53.283910500000005, 49.05627],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_4e4bb9a3ae7ac251c6626bc4919dcfab.bindTooltip(
+            circle_marker_66926aa96e9aca49f8bdc8bbb0d73e38.bindTooltip(
                 `<div>
                      <b>00000066</b> (train)<br>GPS 4325, route arcs 365<br>network arcs 20071<br>duration 72 min, 83.1 km<br>max dt 1 s<br>GPS within 30 m of route 95.2%<br>flags: none
                  </div>`,
@@ -1172,13 +985,13 @@
             );
         
     
-            var circle_marker_4ad58f5f61dfb414f564167e188e60ce = L.circleMarker(
+            var circle_marker_41418307b5364c3e7bbb2aa421107911 = L.circleMarker(
                 [53.190585, -1.6682155],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_4ad58f5f61dfb414f564167e188e60ce.bindTooltip(
+            circle_marker_41418307b5364c3e7bbb2aa421107911.bindTooltip(
                 `<div>
                      <b>00000068</b> (train)<br>GPS 747, route arcs 240<br>network arcs 7058<br>duration 13 min, 10.5 km<br>max dt 12 s<br>GPS within 30 m of route 99.5%<br>flags: none
                  </div>`,
@@ -1188,13 +1001,13 @@
             );
         
     
-            var circle_marker_0df719b51e19e9fc41d71bb062bed09a = L.circleMarker(
+            var circle_marker_e69ff41f817abcb40f7d558e11e59a58 = L.circleMarker(
                 [47.5444635, -52.7746465],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_0df719b51e19e9fc41d71bb062bed09a.bindTooltip(
+            circle_marker_e69ff41f817abcb40f7d558e11e59a58.bindTooltip(
                 `<div>
                      <b>00000069</b> (train)<br>GPS 2067, route arcs 467<br>network arcs 17193<br>duration 93 min, 25.7 km<br>max dt 2658 s<br>GPS within 30 m of route 99.9%<br>flags: long_gap, route_break, route_repeats
                  </div>`,
@@ -1204,13 +1017,13 @@
             );
         
     
-            var circle_marker_4c9294bf01743dfa8cf6143b3ffdd192 = L.circleMarker(
+            var circle_marker_9b5edc3bd8123176bd3c60b0373b64e4 = L.circleMarker(
                 [48.708545, -1.5031780000000001],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_4c9294bf01743dfa8cf6143b3ffdd192.bindTooltip(
+            circle_marker_9b5edc3bd8123176bd3c60b0373b64e4.bindTooltip(
                 `<div>
                      <b>00000070</b> (train)<br>GPS 2076, route arcs 149<br>network arcs 3776<br>duration 38 min, 18.8 km<br>max dt 152 s<br>GPS within 30 m of route 99.9%<br>flags: none
                  </div>`,
@@ -1220,13 +1033,13 @@
             );
         
     
-            var circle_marker_0cd4c6c1222b3cf03684e1701c3d83ea = L.circleMarker(
+            var circle_marker_c3c2ec98217f348ad3f79256779d57d2 = L.circleMarker(
                 [-26.2218235, 27.908648],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_0cd4c6c1222b3cf03684e1701c3d83ea.bindTooltip(
+            circle_marker_c3c2ec98217f348ad3f79256779d57d2.bindTooltip(
                 `<div>
                      <b>00000071</b> (train)<br>GPS 850, route arcs 186<br>network arcs 14868<br>duration 20 min, 13.6 km<br>max dt 6 s<br>GPS within 30 m of route 99.9%<br>flags: none
                  </div>`,
@@ -1236,13 +1049,13 @@
             );
         
     
-            var circle_marker_3372401021b516dd56d0bb916677d74e = L.circleMarker(
+            var circle_marker_3eb39055e5951ca30849722bb0f99b62 = L.circleMarker(
                 [50.192465, 39.584094],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_3372401021b516dd56d0bb916677d74e.bindTooltip(
+            circle_marker_3eb39055e5951ca30849722bb0f99b62.bindTooltip(
                 `<div>
                      <b>00000072</b> (train)<br>GPS 969, route arcs 131<br>network arcs 7063<br>duration 16 min, 11.3 km<br>max dt 1 s<br>GPS within 30 m of route 99.9%<br>flags: none
                  </div>`,
@@ -1252,13 +1065,13 @@
             );
         
     
-            var circle_marker_fb1f0a578256d728f6835551fc6a5fe0 = L.circleMarker(
+            var circle_marker_6e0897727dc444c44eb6c94a7feed3f7 = L.circleMarker(
                 [38.7414065, -9.034510000000001],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_fb1f0a578256d728f6835551fc6a5fe0.bindTooltip(
+            circle_marker_6e0897727dc444c44eb6c94a7feed3f7.bindTooltip(
                 `<div>
                      <b>00000074</b> (train)<br>GPS 1929, route arcs 305<br>network arcs 61055<br>duration 35 min, 33.1 km<br>max dt 24 s<br>GPS within 30 m of route 99.8%<br>flags: none
                  </div>`,
@@ -1268,13 +1081,13 @@
             );
         
     
-            var circle_marker_06b74c6d4de6e12e9849915f3740e7ef = L.circleMarker(
+            var circle_marker_ad53823662caa03ac8cadc4d1b03c63c = L.circleMarker(
                 [56.007277, 11.97074],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_06b74c6d4de6e12e9849915f3740e7ef.bindTooltip(
+            circle_marker_ad53823662caa03ac8cadc4d1b03c63c.bindTooltip(
                 `<div>
                      <b>00000075</b> (train)<br>GPS 1628, route arcs 108<br>network arcs 2124<br>duration 27 min, 13.4 km<br>max dt 2 s<br>GPS within 30 m of route 99.5%<br>flags: route_break, route_repeats
                  </div>`,
@@ -1284,13 +1097,13 @@
             );
         
     
-            var circle_marker_e2ae90dc71cd4bf6443b24bc439edcc5 = L.circleMarker(
+            var circle_marker_53ce8133c5d564b459678b21d1d7ebc5 = L.circleMarker(
                 [44.297141499999995, 3.891361],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_e2ae90dc71cd4bf6443b24bc439edcc5.bindTooltip(
+            circle_marker_53ce8133c5d564b459678b21d1d7ebc5.bindTooltip(
                 `<div>
                      <b>00000078</b> (train)<br>GPS 2909, route arcs 1765<br>network arcs 151458<br>duration 964 min, 79.5 km<br>max dt 52810 s<br>GPS within 30 m of route 98.2%<br>flags: long_gap, huge_network
                  </div>`,
@@ -1300,13 +1113,13 @@
             );
         
     
-            var circle_marker_7981a53d13b14dd353be47164cd385bf = L.circleMarker(
+            var circle_marker_0b666d9c7709c1c73f9b029421629433 = L.circleMarker(
                 [55.7800065, 37.58108],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_7981a53d13b14dd353be47164cd385bf.bindTooltip(
+            circle_marker_0b666d9c7709c1c73f9b029421629433.bindTooltip(
                 `<div>
                      <b>00000079</b> (train)<br>GPS 689, route arcs 182<br>network arcs 72116<br>duration 11 min, 11.5 km<br>max dt 1 s<br>GPS within 30 m of route 100.0%<br>flags: implausible_speed
                  </div>`,
@@ -1316,13 +1129,13 @@
             );
         
     
-            var circle_marker_2462479f6a9b8cd61a38b24e285a10eb = L.circleMarker(
+            var circle_marker_5a4de823d800060f109ba666e67ec768 = L.circleMarker(
                 [-34.624686999999994, -58.451377],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_2462479f6a9b8cd61a38b24e285a10eb.bindTooltip(
+            circle_marker_5a4de823d800060f109ba666e67ec768.bindTooltip(
                 `<div>
                      <b>00000080</b> (train)<br>GPS 2510, route arcs 139<br>network arcs 18746<br>duration 46 min, 23.6 km<br>max dt 59 s<br>GPS within 30 m of route 95.9%<br>flags: route_break
                  </div>`,
@@ -1332,13 +1145,13 @@
             );
         
     
-            var circle_marker_8d72117d4619d9345d7bbba4a2409645 = L.circleMarker(
+            var circle_marker_1a1f19a96241d00e94df12e5e2a56075 = L.circleMarker(
                 [26.4775225, -82.151174],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_8d72117d4619d9345d7bbba4a2409645.bindTooltip(
+            circle_marker_1a1f19a96241d00e94df12e5e2a56075.bindTooltip(
                 `<div>
                      <b>00000081</b> (train)<br>GPS 3224, route arcs 778<br>network arcs 5048<br>duration 141 min, 38.8 km<br>max dt 536 s<br>GPS within 30 m of route 93.3%<br>flags: route_gps_mismatch
                  </div>`,
@@ -1348,13 +1161,13 @@
             );
         
     
-            var circle_marker_c78dc89eb68355a9c8d66564fa1a6ad6 = L.circleMarker(
+            var circle_marker_03456d8a6888ab2eaf9be54e916e533e = L.circleMarker(
                 [59.9001515, 30.58809],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_c78dc89eb68355a9c8d66564fa1a6ad6.bindTooltip(
+            circle_marker_03456d8a6888ab2eaf9be54e916e533e.bindTooltip(
                 `<div>
                      <b>00000082</b> (train)<br>GPS 4268, route arcs 204<br>network arcs 31754<br>duration 71 min, 44.0 km<br>max dt 1 s<br>GPS within 30 m of route 99.8%<br>flags: none
                  </div>`,
@@ -1364,13 +1177,13 @@
             );
         
     
-            var circle_marker_ba3424fac4a604960a172a8c9bd61564 = L.circleMarker(
+            var circle_marker_c8b6dc879ac1585186ede3d1557eea43 = L.circleMarker(
                 [55.691136, 37.861830499999996],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_ba3424fac4a604960a172a8c9bd61564.bindTooltip(
+            circle_marker_c8b6dc879ac1585186ede3d1557eea43.bindTooltip(
                 `<div>
                      <b>00000083</b> (train)<br>GPS 1507, route arcs 143<br>network arcs 25393<br>duration 25 min, 14.7 km<br>max dt 1 s<br>GPS within 30 m of route 100.0%<br>flags: none
                  </div>`,
@@ -1380,13 +1193,13 @@
             );
         
     
-            var circle_marker_b312045ffa8d9bb6c66653502a07d102 = L.circleMarker(
+            var circle_marker_f7a06834f12632e42118b8993745216e = L.circleMarker(
                 [34.7594685, -86.919386],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_b312045ffa8d9bb6c66653502a07d102.bindTooltip(
+            circle_marker_f7a06834f12632e42118b8993745216e.bindTooltip(
                 `<div>
                      <b>00000084</b> (train)<br>GPS 16031, route arcs 627<br>network arcs 50888<br>duration 275 min, 136.8 km<br>max dt 312 s<br>GPS within 30 m of route 93.4%<br>flags: route_gps_mismatch, route_repeats
                  </div>`,
@@ -1396,13 +1209,13 @@
             );
         
     
-            var circle_marker_57ca0eb09dbd9eecff33cd970bac4338 = L.circleMarker(
+            var circle_marker_c2400eda52f17cb4c4a8427c6a60f4b3 = L.circleMarker(
                 [53.850548, 46.3328805],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_57ca0eb09dbd9eecff33cd970bac4338.bindTooltip(
+            circle_marker_c2400eda52f17cb4c4a8427c6a60f4b3.bindTooltip(
                 `<div>
                      <b>00000085</b> (train)<br>GPS 1092, route arcs 170<br>network arcs 1554<br>duration 22 min, 12.8 km<br>max dt 70 s<br>GPS within 30 m of route 97.8%<br>flags: none
                  </div>`,
@@ -1412,13 +1225,13 @@
             );
         
     
-            var circle_marker_70ee359bdd1b8cd1b99e113ca6de08eb = L.circleMarker(
+            var circle_marker_f24ddd9210e03e27f1dbffaa0da3e42d = L.circleMarker(
                 [57.026503, 60.528401],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_70ee359bdd1b8cd1b99e113ca6de08eb.bindTooltip(
+            circle_marker_f24ddd9210e03e27f1dbffaa0da3e42d.bindTooltip(
                 `<div>
                      <b>00000086</b> (train)<br>GPS 4143, route arcs 671<br>network arcs 237656<br>duration 69 min, 83.8 km<br>max dt 1 s<br>GPS within 30 m of route 100.0%<br>flags: route_break, route_repeats, huge_network
                  </div>`,
@@ -1428,13 +1241,13 @@
             );
         
     
-            var circle_marker_f944b86375f0613b0092928157971c19 = L.circleMarker(
+            var circle_marker_522ddd9ff2ca25db20353ce4ae7e8733 = L.circleMarker(
                 [61.250291000000004, 73.4272135],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_f944b86375f0613b0092928157971c19.bindTooltip(
+            circle_marker_522ddd9ff2ca25db20353ce4ae7e8733.bindTooltip(
                 `<div>
                      <b>00000088</b> (train)<br>GPS 876, route arcs 163<br>network arcs 24376<br>duration 25 min, 9.4 km<br>max dt 232 s<br>GPS within 30 m of route 100.0%<br>flags: none
                  </div>`,
@@ -1444,13 +1257,13 @@
             );
         
     
-            var circle_marker_b12c8df26ce19b6353043c97e8648bc8 = L.circleMarker(
+            var circle_marker_50a795eb7b09aa434e1dd1ccf95be15f = L.circleMarker(
                 [60.007771000000005, 30.330137],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_b12c8df26ce19b6353043c97e8648bc8.bindTooltip(
+            circle_marker_50a795eb7b09aa434e1dd1ccf95be15f.bindTooltip(
                 `<div>
                      <b>00000089</b> (train)<br>GPS 1228, route arcs 265<br>network arcs 32823<br>duration 35 min, 14.6 km<br>max dt 193 s<br>GPS within 30 m of route 99.9%<br>flags: route_break
                  </div>`,
@@ -1460,13 +1273,13 @@
             );
         
     
-            var circle_marker_722a7f4a72d5e2f2116cf8942bfe36f9 = L.circleMarker(
+            var circle_marker_4807c56815bd2bf27d915bf25b88a6f8 = L.circleMarker(
                 [51.622732, 10.441600000000001],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_722a7f4a72d5e2f2116cf8942bfe36f9.bindTooltip(
+            circle_marker_4807c56815bd2bf27d915bf25b88a6f8.bindTooltip(
                 `<div>
                      <b>00000090</b> (train)<br>GPS 536, route arcs 235<br>network arcs 7942<br>duration 2567 min, 8.6 km<br>max dt 153064 s<br>GPS within 30 m of route 100.0%<br>flags: long_gap, route_repeats
                  </div>`,
@@ -1476,13 +1289,13 @@
             );
         
     
-            var circle_marker_c6b2bd2079df75f12a3b7c70cb0d27d1 = L.circleMarker(
+            var circle_marker_6621c122327a14c3b38af70a9930dd03 = L.circleMarker(
                 [52.920339999999996, -2.9081535],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_c6b2bd2079df75f12a3b7c70cb0d27d1.bindTooltip(
+            circle_marker_6621c122327a14c3b38af70a9930dd03.bindTooltip(
                 `<div>
                      <b>00000092</b> (train)<br>GPS 7892, route arcs 2266<br>network arcs 53348<br>duration 132 min, 109.5 km<br>max dt 1 s<br>GPS within 30 m of route 100.0%<br>flags: implausible_speed, route_repeats
                  </div>`,
@@ -1492,13 +1305,13 @@
             );
         
     
-            var circle_marker_743272675096ba926eccafab64ad1b95 = L.circleMarker(
+            var circle_marker_693f71877140f2fb73140a7acf328729 = L.circleMarker(
                 [43.396952, -3.771906],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_743272675096ba926eccafab64ad1b95.bindTooltip(
+            circle_marker_693f71877140f2fb73140a7acf328729.bindTooltip(
                 `<div>
                      <b>00000093</b> (train)<br>GPS 1211, route arcs 590<br>network arcs 85122<br>duration 21 min, 22.4 km<br>max dt 6 s<br>GPS within 30 m of route 97.5%<br>flags: none
                  </div>`,
@@ -1508,13 +1321,13 @@
             );
         
     
-            var circle_marker_139469ed740c0148cf32af9517048033 = L.circleMarker(
+            var circle_marker_468b01a6f0623b58263b9b7416d501a4 = L.circleMarker(
                 [50.7477555, -1.2794165],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_139469ed740c0148cf32af9517048033.bindTooltip(
+            circle_marker_468b01a6f0623b58263b9b7416d501a4.bindTooltip(
                 `<div>
                      <b>00000095</b> (train)<br>GPS 1551, route arcs 306<br>network arcs 3723<br>duration 26 min, 16.1 km<br>max dt 2 s<br>GPS within 30 m of route 100.0%<br>flags: route_repeats
                  </div>`,
@@ -1524,13 +1337,13 @@
             );
         
     
-            var circle_marker_9aedb3bdf00a43c33fb4f83be25400fc = L.circleMarker(
+            var circle_marker_a32a75f7d0726a143e6535d0c682283c = L.circleMarker(
                 [36.200141, -95.60067749999999],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_9aedb3bdf00a43c33fb4f83be25400fc.bindTooltip(
+            circle_marker_a32a75f7d0726a143e6535d0c682283c.bindTooltip(
                 `<div>
                      <b>00000096</b> (train)<br>GPS 3271, route arcs 456<br>network arcs 32276<br>duration 54 min, 71.6 km<br>max dt 1 s<br>GPS within 30 m of route 95.5%<br>flags: none
                  </div>`,
@@ -1540,13 +1353,13 @@
             );
         
     
-            var circle_marker_8db335a13229aaf60d5aa3543e02e9e8 = L.circleMarker(
+            var circle_marker_7244f42c2adbe6d7681a4fe4f82ae1f1 = L.circleMarker(
                 [56.003845, 12.042785],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_8db335a13229aaf60d5aa3543e02e9e8.bindTooltip(
+            circle_marker_7244f42c2adbe6d7681a4fe4f82ae1f1.bindTooltip(
                 `<div>
                      <b>00000097</b> (train)<br>GPS 1740, route arcs 444<br>network arcs 48503<br>duration 29 min, 32.5 km<br>max dt 2 s<br>GPS within 30 m of route 100.0%<br>flags: none
                  </div>`,
@@ -1556,13 +1369,13 @@
             );
         
     
-            var circle_marker_7459c6bf2e6ba0ce33c775348287b0f2 = L.circleMarker(
+            var circle_marker_53dd2596304c571c49bcb5fbd3c905b0 = L.circleMarker(
                 [-29.5465875, -51.4281345],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_7459c6bf2e6ba0ce33c775348287b0f2.bindTooltip(
+            circle_marker_53dd2596304c571c49bcb5fbd3c905b0.bindTooltip(
                 `<div>
                      <b>00000098</b> (train)<br>GPS 5584, route arcs 1003<br>network arcs 88137<br>duration 120 min, 99.8 km<br>max dt 50 s<br>GPS within 30 m of route 99.4%<br>flags: none
                  </div>`,
@@ -1572,13 +1385,13 @@
             );
         
     
-            var circle_marker_e1c1bdd03e5f5c541eee71249c5f4554 = L.circleMarker(
+            var circle_marker_cd94fe361b150d9f3a30aa233411afc5 = L.circleMarker(
                 [34.8973655, 135.8844665],
                 {"bubblingMouseEvents": true, "color": "#2a78d6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a78d6", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_294386705f7e1aac82c8b8fad462a4ff);
+            ).addTo(feature_group_cc8574278a8480d882536d76a24e1d6a);
         
     
-            circle_marker_e1c1bdd03e5f5c541eee71249c5f4554.bindTooltip(
+            circle_marker_cd94fe361b150d9f3a30aa233411afc5.bindTooltip(
                 `<div>
                      <b>00000099</b> (train)<br>GPS 2322, route arcs 886<br>network arcs 72870<br>duration 39 min, 32.1 km<br>max dt 25 s<br>GPS within 30 m of route 96.9%<br>flags: none
                  </div>`,
@@ -1588,22 +1401,22 @@
             );
         
     
-            feature_group_294386705f7e1aac82c8b8fad462a4ff.addTo(map_59f6ee3df41f1aa3815ca2d91fad4ad5);
+            feature_group_cc8574278a8480d882536d76a24e1d6a.addTo(map_83ec19ab121605b29f3555fa1fada6d2);
         
     
-            var feature_group_f50ed0f32ef57132f5a29917031d6158 = L.featureGroup(
+            var feature_group_667e5aaf49944339960c155afb2c0f1e = L.featureGroup(
                 {
 }
             );
         
     
-            var circle_marker_684f8b91f1cb7991844355a5cf152376 = L.circleMarker(
+            var circle_marker_929b726ac79634460f051563bb51a8be = L.circleMarker(
                 [56.167563, 54.606004999999996],
                 {"bubblingMouseEvents": true, "color": "#eb6834", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#eb6834", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_f50ed0f32ef57132f5a29917031d6158);
+            ).addTo(feature_group_667e5aaf49944339960c155afb2c0f1e);
         
     
-            circle_marker_684f8b91f1cb7991844355a5cf152376.bindTooltip(
+            circle_marker_929b726ac79634460f051563bb51a8be.bindTooltip(
                 `<div>
                      <b>00000000</b> (student_test)<br>GPS 2503, route arcs 179<br>network arcs 18196<br>duration 42 min, 54.4 km<br>max dt 2 s<br>GPS within 30 m of route 99.9%<br>flags: none
                  </div>`,
@@ -1613,13 +1426,13 @@
             );
         
     
-            var circle_marker_70260d7dc7994d488854280a49442dc9 = L.circleMarker(
+            var circle_marker_d0deff3d74fa0fe638f3498d09a9c175 = L.circleMarker(
                 [43.4425875, 77.1965835],
                 {"bubblingMouseEvents": true, "color": "#eb6834", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#eb6834", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_f50ed0f32ef57132f5a29917031d6158);
+            ).addTo(feature_group_667e5aaf49944339960c155afb2c0f1e);
         
     
-            circle_marker_70260d7dc7994d488854280a49442dc9.bindTooltip(
+            circle_marker_d0deff3d74fa0fe638f3498d09a9c175.bindTooltip(
                 `<div>
                      <b>00000007</b> (student_test)<br>GPS 1354, route arcs 123<br>network arcs 4369<br>duration 23 min, 24.7 km<br>max dt 1 s<br>GPS within 30 m of route 98.0%<br>flags: none
                  </div>`,
@@ -1629,13 +1442,13 @@
             );
         
     
-            var circle_marker_1894f4513699648bed6fa51072104918 = L.circleMarker(
+            var circle_marker_a9251c832b921e51101bcefdd75b4670 = L.circleMarker(
                 [42.653986, 13.6693055],
                 {"bubblingMouseEvents": true, "color": "#eb6834", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#eb6834", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_f50ed0f32ef57132f5a29917031d6158);
+            ).addTo(feature_group_667e5aaf49944339960c155afb2c0f1e);
         
     
-            circle_marker_1894f4513699648bed6fa51072104918.bindTooltip(
+            circle_marker_a9251c832b921e51101bcefdd75b4670.bindTooltip(
                 `<div>
                      <b>00000009</b> (student_test)<br>GPS 1049, route arcs 429<br>network arcs 13106<br>duration 17 min, 13.3 km<br>max dt 2 s<br>GPS within 30 m of route 98.8%<br>flags: none
                  </div>`,
@@ -1645,13 +1458,13 @@
             );
         
     
-            var circle_marker_910ff756036a807610b2aa3976cf2f65 = L.circleMarker(
+            var circle_marker_c643fc6a0506baa3261b38a132503f72 = L.circleMarker(
                 [55.2958895, 61.1810555],
                 {"bubblingMouseEvents": true, "color": "#eb6834", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#eb6834", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_f50ed0f32ef57132f5a29917031d6158);
+            ).addTo(feature_group_667e5aaf49944339960c155afb2c0f1e);
         
     
-            circle_marker_910ff756036a807610b2aa3976cf2f65.bindTooltip(
+            circle_marker_c643fc6a0506baa3261b38a132503f72.bindTooltip(
                 `<div>
                      <b>00000040</b> (student_test)<br>GPS 2995, route arcs 309<br>network arcs 27026<br>duration 50 min, 52.4 km<br>max dt 1 s<br>GPS within 30 m of route 98.4%<br>flags: none
                  </div>`,
@@ -1661,13 +1474,13 @@
             );
         
     
-            var circle_marker_5a6db1e625af645d922b124f5dda5916 = L.circleMarker(
+            var circle_marker_266aeedbc78a89d72fc66a82a00081ba = L.circleMarker(
                 [56.8112985, 35.877407000000005],
                 {"bubblingMouseEvents": true, "color": "#eb6834", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#eb6834", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_f50ed0f32ef57132f5a29917031d6158);
+            ).addTo(feature_group_667e5aaf49944339960c155afb2c0f1e);
         
     
-            circle_marker_5a6db1e625af645d922b124f5dda5916.bindTooltip(
+            circle_marker_266aeedbc78a89d72fc66a82a00081ba.bindTooltip(
                 `<div>
                      <b>00000052</b> (student_test)<br>GPS 262, route arcs 95<br>network arcs 3577<br>duration 4 min, 5.5 km<br>max dt 2 s<br>GPS within 30 m of route 100.0%<br>flags: none
                  </div>`,
@@ -1677,13 +1490,13 @@
             );
         
     
-            var circle_marker_af569edc39502fb0aadd4b87d45c6517 = L.circleMarker(
+            var circle_marker_a5e8b424cf44e5bbe98e1e84a50ed46a = L.circleMarker(
                 [44.854710499999996, -93.38643099999999],
                 {"bubblingMouseEvents": true, "color": "#eb6834", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#eb6834", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_f50ed0f32ef57132f5a29917031d6158);
+            ).addTo(feature_group_667e5aaf49944339960c155afb2c0f1e);
         
     
-            circle_marker_af569edc39502fb0aadd4b87d45c6517.bindTooltip(
+            circle_marker_a5e8b424cf44e5bbe98e1e84a50ed46a.bindTooltip(
                 `<div>
                      <b>00000056</b> (student_test)<br>GPS 3958, route arcs 1323<br>network arcs 27631<br>duration 67 min, 71.7 km<br>max dt 3 s<br>GPS within 30 m of route 99.0%<br>flags: route_repeats
                  </div>`,
@@ -1693,13 +1506,13 @@
             );
         
     
-            var circle_marker_ba152e9c63f55c1ceaab303d59ddf995 = L.circleMarker(
+            var circle_marker_fb50b6a73f3ad71bcc30a3ab2087b4e7 = L.circleMarker(
                 [53.525784, 49.296523500000006],
                 {"bubblingMouseEvents": true, "color": "#eb6834", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#eb6834", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_f50ed0f32ef57132f5a29917031d6158);
+            ).addTo(feature_group_667e5aaf49944339960c155afb2c0f1e);
         
     
-            circle_marker_ba152e9c63f55c1ceaab303d59ddf995.bindTooltip(
+            circle_marker_fb50b6a73f3ad71bcc30a3ab2087b4e7.bindTooltip(
                 `<div>
                      <b>00000065</b> (student_test)<br>GPS 768, route arcs 145<br>network arcs 13184<br>duration 17 min, 9.6 km<br>max dt 210 s<br>GPS within 30 m of route 100.0%<br>flags: none
                  </div>`,
@@ -1709,13 +1522,13 @@
             );
         
     
-            var circle_marker_27989f04d75ad646d706e6e18b21f5aa = L.circleMarker(
+            var circle_marker_cef1ff81b4a34cacb22a201667d9274e = L.circleMarker(
                 [56.2846275, 43.997612000000004],
                 {"bubblingMouseEvents": true, "color": "#eb6834", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#eb6834", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_f50ed0f32ef57132f5a29917031d6158);
+            ).addTo(feature_group_667e5aaf49944339960c155afb2c0f1e);
         
     
-            circle_marker_27989f04d75ad646d706e6e18b21f5aa.bindTooltip(
+            circle_marker_cef1ff81b4a34cacb22a201667d9274e.bindTooltip(
                 `<div>
                      <b>00000076</b> (student_test)<br>GPS 1486, route arcs 374<br>network arcs 56027<br>duration 38 min, 17.2 km<br>max dt 32 s<br>GPS within 30 m of route 99.9%<br>flags: route_break
                  </div>`,
@@ -1725,13 +1538,13 @@
             );
         
     
-            var circle_marker_24cc2985312886b985e890d3d85dd7bb = L.circleMarker(
+            var circle_marker_a051f1670dce1a0b36012dbbd708ca9b = L.circleMarker(
                 [61.669672000000006, 50.815195],
                 {"bubblingMouseEvents": true, "color": "#eb6834", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#eb6834", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_f50ed0f32ef57132f5a29917031d6158);
+            ).addTo(feature_group_667e5aaf49944339960c155afb2c0f1e);
         
     
-            circle_marker_24cc2985312886b985e890d3d85dd7bb.bindTooltip(
+            circle_marker_a051f1670dce1a0b36012dbbd708ca9b.bindTooltip(
                 `<div>
                      <b>00000077</b> (student_test)<br>GPS 3911, route arcs 268<br>network arcs 9622<br>duration 65 min, 36.3 km<br>max dt 1 s<br>GPS within 30 m of route 99.7%<br>flags: none
                  </div>`,
@@ -1741,13 +1554,13 @@
             );
         
     
-            var circle_marker_2744bee1c9642bbc613d64b90eb7e446 = L.circleMarker(
+            var circle_marker_4f7202ae5e04bec6f661fe80cb199425 = L.circleMarker(
                 [47.0763845, 2.4274545],
                 {"bubblingMouseEvents": true, "color": "#eb6834", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#eb6834", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
-            ).addTo(feature_group_f50ed0f32ef57132f5a29917031d6158);
+            ).addTo(feature_group_667e5aaf49944339960c155afb2c0f1e);
         
     
-            circle_marker_2744bee1c9642bbc613d64b90eb7e446.bindTooltip(
+            circle_marker_4f7202ae5e04bec6f661fe80cb199425.bindTooltip(
                 `<div>
                      <b>00000091</b> (student_test)<br>GPS 874, route arcs 232<br>network arcs 12303<br>duration 15 min, 11.8 km<br>max dt 1 s<br>GPS within 30 m of route 100.0%<br>flags: none
                  </div>`,
@@ -1757,27 +1570,28 @@
             );
         
     
-            feature_group_f50ed0f32ef57132f5a29917031d6158.addTo(map_59f6ee3df41f1aa3815ca2d91fad4ad5);
+            feature_group_667e5aaf49944339960c155afb2c0f1e.addTo(map_83ec19ab121605b29f3555fa1fada6d2);
         
     
-            var layer_control_305ff74b1c83da29cc3aa8f3c5c287ff_layers = {
+            var layer_control_a0d2e54948156de673a4a6634d78b0f2_layers = {
                 base_layers : {
-                    "openstreetmap" : tile_layer_182977e8b04bede62f1ad63eb6f6d879,
+                    "Street map" : tile_layer_66d623b720ddf86cfddbd75c7c20b399,
+                    "Satellite" : tile_layer_864010d3a4afa99b303cc654f0b021ff,
                 },
                 overlays :  {
-                    "train trips" : feature_group_294386705f7e1aac82c8b8fad462a4ff,
-                    "student_test trips" : feature_group_f50ed0f32ef57132f5a29917031d6158,
+                    "train trips" : feature_group_cc8574278a8480d882536d76a24e1d6a,
+                    "student_test trips" : feature_group_667e5aaf49944339960c155afb2c0f1e,
                 },
             };
-            let layer_control_305ff74b1c83da29cc3aa8f3c5c287ff = L.control.layers(
-                layer_control_305ff74b1c83da29cc3aa8f3c5c287ff_layers.base_layers,
-                layer_control_305ff74b1c83da29cc3aa8f3c5c287ff_layers.overlays,
+            let layer_control_a0d2e54948156de673a4a6634d78b0f2 = L.control.layers(
+                layer_control_a0d2e54948156de673a4a6634d78b0f2_layers.base_layers,
+                layer_control_a0d2e54948156de673a4a6634d78b0f2_layers.overlays,
                 {
   "position": "topright",
   "collapsed": false,
   "autoZIndex": true,
 }
-            ).addTo(map_59f6ee3df41f1aa3815ca2d91fad4ad5);
+            ).addTo(map_83ec19ab121605b29f3555fa1fada6d2);
 
         
 </script>

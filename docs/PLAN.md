@@ -10,11 +10,11 @@ Pipeline: candidate generation -> candidate scoring (binary classification / ran
 |---|---|---|---|
 | 1 | Problem understanding, ideation | this file | done |
 | 2 | Dataset exploration, Folium map | `pathsnap/eda.py`, `pathsnap/viz.py` | implemented, run pending |
-| 3 | Preprocessing, label alignment | `pathsnap/labels.py` | stub |
-| 4 | Candidates + feature engineering | `pathsnap/candidates.py`, `features.py` | stub |
+| 3 | Preprocessing, label alignment | `pathsnap/labels.py` | implemented |
+| 4 | Candidates + feature engineering | `pathsnap/candidates.py`, `features.py`, `dataset.py` | implemented |
 | 5 | Augmentation (only if justified) | - | not started |
-| 6 | Five models | `pathsnap/models/` | stub |
-| 7 | Grouped CV + Optuna | `pathsnap/cv.py`, `tuning.py` | stub |
+| 6 | Five models | `pathsnap/models/` | 1 of 5 (logreg) |
+| 7 | Grouped CV + Optuna | `pathsnap/cv.py`, `train.py`, `tuning.py` | CV done, Optuna stub |
 | 8 | Evaluation + comparison table | `pathsnap/metrics.py` | partial |
 | 9 | Ensembling, HMM/Viterbi | `pathsnap/hmm.py` | stub |
 | - | API + UI | `pathsnap/api.py`, `ui/` | stub |
