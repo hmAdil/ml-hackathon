@@ -38,26 +38,31 @@ Everything below is implemented on `main`. What is left is running it on two rea
 - CI: `.github/workflows/ci.yml` adds a job named `test` (ruff + pytest, CPU torch);
   `tests/test_api.py` skips when `data/student_test` is absent.
 
-## Not verified (this is the work)
-1. **Two real laptops**: API on Laptop 1 reachable from Laptop 2 over the LAN (Windows firewall
-   inbound rule for TCP 8000, both on the same network, use Laptop 1's LAN IP).
-2. **UI visual check** in a normal browser on Laptop 2 (layout, map tiles, legend). It was
-   exercised headlessly only; no screenshot was captured.
-3. **PowerShell scripts** (`run_api.ps1`, `run_ui.ps1`) were never executed (no Windows here;
-   the bash versions were).
-4. **Required screenshots** for the report: the working UI, and the API console on the receiving
-   laptop showing successful requests.
-5. Run the API with the real evaluator trips (`data/evaluator`) once everything is frozen, and
-   confirm all ten trips work. Do not change models or parameters based on those results.
-6. **CI**: done on `deploy/handoff-checks` (job `test`); confirm the check goes green on the PR.
+## Remaining checklist
+1. ~~Two real laptops~~ **Done** (2026-11-18): API on a Windows laptop (Laptop 1, set up with
+   `docs/LAPTOP1_WINDOWS_SETUP.pdf`, firewall rule for TCP 8000), UI on a Linux laptop
+   (Laptop 2, `scripts/laptop2_connect.sh`), same Wi-Fi, Laptop 1 reached by its LAN IP.
+   `/health` and `/trips` answered from Laptop 2, and "Run all trips" returned all ten evaluator
+   trips: mean Top-1 95.2%, route continuity 82.8%, 1.35 s per trip
+   (`docs/screenshots/two_laptop_run.csv`). The numbers match `results/evaluator_run.csv` to the
+   UI's 0.1% rounding, so the deployed system reproduces the frozen evaluator run on another
+   machine.
+2. ~~UI visual check~~ **Done**: map tiles, legend, metric cards and session table render on
+   Laptop 2 (`docs/screenshots/two_laptop_ui.png`); only console error is a missing favicon.
+3. **PowerShell scripts**: `run_api.ps1` started the API on Laptop 1 following the setup guide.
+   The `run_ui.ps1` start check (guide step 5) is still to be confirmed by Laptop 1's operator.
+4. **Required screenshots**: UI on Laptop 2 **done** (`docs/screenshots/two_laptop_ui.png`).
+   Still needed: the API console on Laptop 1 showing the ten `POST /predict/... 200 OK` lines
+   from Laptop 2 (save as `docs/screenshots/two_laptop_api_console.png`).
+5. ~~Evaluator run~~ **Done** (`f083b9c`, `results/evaluator_run.csv`): all ten evaluator trips
+   returned successfully through the API with the frozen model and decoder. Do not re-run it to
+   change anything; for the live demo, copy `data/evaluator` onto Laptop 1.
+6. ~~CI~~ **Done**: job `test` is green on `main`; PR #12 is closed (its content is merged).
 
 ## Frozen
-Model (`artifacts/final_model.joblib`) and decoder (`artifacts/hmm_config.json`) are final. The
-evaluator trips were run once through the API (`results/evaluator_run.csv`: 10/10 OK, mean
-Top-1 0.952). Do not retrain or retune. `lightgbm==4.7.0` and `xgboost==3.2.0` are pinned in
-`requirements.txt` next to `scikit-learn==1.7.2`.
-
-Screenshots from the single-machine run: `docs/screenshots/` (UI on evaluator trips, API console).
+Model (`artifacts/final_model.joblib`) and decoder (`artifacts/hmm_config.json`, re-tuned on the
+final model's scores in `48f3322`) were frozen before the evaluator run. Do not change them.
+`lightgbm==4.7.0`, `xgboost==3.2.0` and `scikit-learn==1.7.2` are pinned in `requirements.txt`.
 
 ## Quick start
 ```
