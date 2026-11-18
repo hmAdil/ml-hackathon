@@ -125,8 +125,27 @@ The nearest-arc distance is the key input for choosing the candidate search radi
 6. **Deduplicate arcs and drop self-loops** for the graph, keeping a map back to the original arc IDs.
 7. **Evaluate per trip as well as pooled,** because of the heavy-tailed trip sizes. Check that results hold when the 6–7 flagged trips are left out.
 
-## Open items that need the raw data
-- Run `python -m pathsnap.eda --deep` to fill in every [P] item above and regenerate `trip_stats.csv` with the extended columns.
-- Look at the 033 and 054 maps to explain the constant offset.
-- Measure the nearest-network-arc distance for every trip; this sets the candidate radius.
-- Check route arcs that fall outside the largest strongly connected component, since they affect HMM reachability.
+## Deep-run results (all 90 trips, `python -m pathsnap.eda --deep`)
+
+These replace the [P] items above. Source: `trip_stats.csv`, `pooled_quantiles.csv`, `gaps.csv`.
+
+**Candidate search radius (distance from each GPS point to the nearest network arc)**
+- Per-trip medians: p50 4.1 m, p95 12.9 m, p99 18.2 m (train); p99 21.5 m (student_test).
+- Pooled over all points the train tail is heavy: p99 97 m, p100 240 m. It comes from a few trips: 002 (p99 210 m), 054 (p50 84 m, so GPS is far from every road), 081, 096, 043, 084.
+- 73 of 90 trips have every GPS point within 50 m of some arc; 9 trips have p99 above 50 m.
+- **Decision:** start with a 50 m radius with a fallback to the k nearest arcs when fewer than a minimum number of candidates are found, and report candidate miss rate at 30, 50 and 100 m on train.
+
+**Connectivity**
+- Largest strongly connected component holds 96% of nodes (median trip); largest weakly connected component 98%. 95% of arcs are two-way.
+- **All reference-route arcs lie in the main strongly connected component, and none are dead ends** (median trip, both partitions). The decoder can restrict paths to that component.
+
+**Gaps**
+- 23 of 90 trips have at least one gap over 60 s, but the median trip spends 0% of its time in such gaps, so segmenting at 60 s costs little data.
+
+**Trips 033 and 054 (reference route disagrees with GPS)**
+- 054: GPS is far from every network arc (median 84 m), so the GPS looks shifted relative to the network itself.
+- 033: GPS lies near network arcs, but not near its reference route, so the route may cover only part of the recording. This is a hypothesis; confirm on the maps (`python -m pathsnap.viz 00000033`).
+
+## Open items
+- Look at the 033 and 054 maps to explain the offset, then decide whether to exclude them from training.
+- Candidate miss rate at several radii needs the Phase 3 label alignment.

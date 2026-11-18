@@ -7796,7 +7796,7 @@ a.anchor-link {
 <!-- End of mermaid configuration --></head>
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
 <main>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d780a6a5">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=cc6a5fa6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7807,7 +7807,7 @@ All numbers come from <code>results/eda/trip_stats.csv</code>, produced by <code
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=b49b017f">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=604a8b50">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7844,14 +7844,14 @@ All numbers come from <code>results/eda/trip_stats.csv</code>, produced by <code
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>(90, 34)
+<pre>(90, 100)
 </pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=691547ae">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8c3d7351">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7861,7 +7861,7 @@ All numbers come from <code>results/eda/trip_stats.csv</code>, produced by <code
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=30a06bdb">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=4fee2872">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7951,7 +7951,7 @@ All numbers come from <code>results/eda/trip_stats.csv</code>, produced by <code
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=b7456a1c">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=6e5b360b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8042,7 +8042,7 @@ All numbers come from <code>results/eda/trip_stats.csv</code>, produced by <code
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b602483e">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1f667b10">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8052,7 +8052,7 @@ All numbers come from <code>results/eda/trip_stats.csv</code>, produced by <code
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=1240fbf2">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=fb337da9">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8062,7 +8062,7 @@ All numbers come from <code>results/eda/trip_stats.csv</code>, produced by <code
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">q</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"partition"</span><span class="p">)[[</span><span class="s2">"gps_nan"</span><span class="p">,</span> <span class="s2">"lonlat_invalid"</span><span class="p">]]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 <span class="n">q</span><span class="p">[</span><span class="s2">"non_monotonic_trips"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"partition"</span><span class="p">)</span><span class="o">.</span><span class="n">t_monotonic</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">((</span><span class="o">~</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()))</span>
-<span class="n">q</span><span class="p">[</span><span class="s2">"dt_median_s"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"partition"</span><span class="p">)</span><span class="o">.</span><span class="n">dt_median</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+<span class="n">q</span><span class="p">[</span><span class="s2">"dt_p50_s"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"partition"</span><span class="p">)</span><span class="o">.</span><span class="n">dt_p50</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
 <span class="n">q</span><span class="p">[</span><span class="s2">"intervals_gt_1s"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"partition"</span><span class="p">)</span><span class="o">.</span><span class="n">n_dt_gt1</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 <span class="n">q</span><span class="p">[</span><span class="s2">"intervals_gt_10s"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"partition"</span><span class="p">)</span><span class="o">.</span><span class="n">n_dt_gt10</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 <span class="n">q</span><span class="p">[</span><span class="s2">"max_gap_s"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"partition"</span><span class="p">)</span><span class="o">.</span><span class="n">dt_max</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
@@ -8100,7 +8100,7 @@ All numbers come from <code>results/eda/trip_stats.csv</code>, produced by <code
 <th>gps_nan</th>
 <th>lonlat_invalid</th>
 <th>non_monotonic_trips</th>
-<th>dt_median_s</th>
+<th>dt_p50_s</th>
 <th>intervals_gt_1s</th>
 <th>intervals_gt_10s</th>
 <th>max_gap_s</th>
@@ -8144,7 +8144,7 @@ All numbers come from <code>results/eda/trip_stats.csv</code>, produced by <code
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a8739253">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=47724451">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8175,7 +8175,7 @@ All numbers come from <code>results/eda/trip_stats.csv</code>, produced by <code
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c5c956a1">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=da05555c">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8303,7 +8303,7 @@ All numbers come from <code>results/eda/trip_stats.csv</code>, produced by <code
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=207ca002">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d351f4c6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8313,7 +8313,7 @@ All numbers come from <code>results/eda/trip_stats.csv</code>, produced by <code
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=3d58e97c">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=d24497f3">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8428,7 +8428,7 @@ All numbers come from <code>results/eda/trip_stats.csv</code>, produced by <code
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f81ec49a">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=56d26fc4">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8438,7 +8438,7 @@ All numbers come from <code>results/eda/trip_stats.csv</code>, produced by <code
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=969fd8b8">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a7ddc2e5">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8528,7 +8528,7 @@ All numbers come from <code>results/eda/trip_stats.csv</code>, produced by <code
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=80759470">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=b952c26a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8559,7 +8559,7 @@ All numbers come from <code>results/eda/trip_stats.csv</code>, produced by <code
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5def879a">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=94a0ce43">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8569,7 +8569,7 @@ All numbers come from <code>results/eda/trip_stats.csv</code>, produced by <code
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=5b7b2e81">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f8a9c664">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8646,7 +8646,7 @@ All numbers come from <code>results/eda/trip_stats.csv</code>, produced by <code
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a0cffafb">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=5bbcde7c">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8678,7 +8678,7 @@ All numbers come from <code>results/eda/trip_stats.csv</code>, produced by <code
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=722d1d25">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3b591ecc">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8688,7 +8688,7 @@ All numbers come from <code>results/eda/trip_stats.csv</code>, produced by <code
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=7f9a74bf">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=165ff5e0">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8808,7 +8808,7 @@ All numbers come from <code>results/eda/trip_stats.csv</code>, produced by <code
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=84a2347b">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ecf230bf">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8818,7 +8818,7 @@ All numbers come from <code>results/eda/trip_stats.csv</code>, produced by <code
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f2481583">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=79c18f55">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8861,7 +8861,7 @@ All numbers come from <code>results/eda/trip_stats.csv</code>, produced by <code
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f4b9c5a6">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=dca712b6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8871,7 +8871,7 @@ All numbers come from <code>results/eda/trip_stats.csv</code>, produced by <code
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=bb750fba">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=8c420988">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8903,7 +8903,7 @@ All numbers come from <code>results/eda/trip_stats.csv</code>, produced by <code
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4e9b6253">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0342d1a5">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
