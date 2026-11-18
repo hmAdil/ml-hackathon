@@ -1,5 +1,6 @@
 fastapi
 folium
+httpx  # FastAPI TestClient (tests/test_api.py)
 lightgbm
 matplotlib
 networkx
