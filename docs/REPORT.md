@@ -28,7 +28,11 @@ Every number below is read from files in `results/` by `python -m pathsnap.repor
 
 Notable trips: 054 (GPS far from every road) and 033 (GPS near roads but not near its route) disagree with their reference routes; they are kept in evaluation and reported openly. Details: `results/eda/FINDINGS.md`, `notebooks/01_eda.ipynb`, `results/eda/01_eda.html`.
 
-Figures: `results/eda/*.png`. Folium maps: `results/viz/` (see section 6).
+![EDA overview](../results/eda/eda_overview.png)
+
+![Pooled distributions](../results/eda/pooled_distributions.png)
+
+Folium maps: `results/viz/` (see section 6).
 
 ## 3. Model experimentation and comparison
 
@@ -78,6 +82,10 @@ Paired CV Top-1 improvement over logistic regression (same folds): Random Forest
 
 The MLP's best epoch was 29 (early stopping on a held-out tail); its real training/validation loss curve is `results/models/mlp_loss_curve.png`. Other models do not produce epoch-wise histories, so no curves are shown for them.
 
+![Model comparison](../results/models/comparison_plots.png)
+
+![MLP loss curve](../results/models/mlp_loss_curve.png)
+
 ### 3.3 Visualisations
 - `results/models/comparison_plots.png`: CV Macro F1, CV Top-1, student-test Top-1/Macro F1, log loss, route continuity, fit time for all models.
 - `results/models/mlp_loss_curve.png`: MLP epoch-wise loss.
@@ -101,6 +109,8 @@ Chosen because it had the best CV Top-1 and beat XGBoost on all 5 folds and Rand
 The tuned model is better on 4 of 5 folds, but the gain is small (+0.0020 CV Top-1); we report it as a marginal improvement, not a large one. It is adopted as the final model (`artifacts/final_model.joblib`). Cost: 31 min for the search.
 
 ## 5. HMM and Viterbi route reconstruction
+
+![HMM vs classifier](../results/hmm/final/hmm_vs_classifier.png)
 
 1. **Hidden states:** the candidate arcs of each GPS observation (at most 15 kept).
 2. **Emission:** log of the final model's probability for the arc, blended with a Gaussian distance term (weights `w_emis`, `w_dist`, sigma 20 m), floored at 1e-6.
@@ -147,8 +157,26 @@ Smoke test (student-test trips through the running API, `results/api_smoke_test.
 
 **To add by the team:** screenshots of the working UI and of the API console on the receiving laptop (required by the guidelines), and the final run on the evaluator trips.
 
+### 7.1 Final run on the evaluator trips (single run, nothing tuned afterwards)
+
+Model and decoder were frozen before this run; it was executed once through the API and reported as is (`results/evaluator_run.csv`). The API's route continuity is computed on the decoded arcs per observation without gap filling, so it is lower than the gap-filled continuity quoted in section 5.
+
+| Trip | OK | Latency (s) | Top-1 | Route continuity | GPS points |
+|---|---|---:|---:|---:|---:|
+| 00000015 | True | 0.97 | 0.8710 | 0.6497 | 6854 |
+| 00000017 | True | 0.90 | 0.9532 | 0.7259 | 1346 |
+| 00000023 | True | 0.20 | 0.9454 | 0.8305 | 458 |
+| 00000030 | True | 0.35 | 0.8853 | 0.7241 | 654 |
+| 00000049 | True | 0.79 | 0.9962 | 0.9618 | 2642 |
+| 00000059 | True | 0.49 | 0.9767 | 0.7910 | 1031 |
+| 00000067 | True | 0.17 | 0.9672 | 0.8784 | 916 |
+| 00000073 | True | 0.36 | 0.9808 | 0.9359 | 1144 |
+| 00000087 | True | 0.90 | 0.9943 | 0.9658 | 1399 |
+| 00000094 | True | 0.83 | 0.9492 | 0.8152 | 3230 |
+| **Mean** | 10/10 | 0.60 | 0.9519 | 0.8278 | |
+
 ## 8. Limitations
 
 - The reference route is reference information, not verified truth; 11 trips have route breaks and trips 033/054 disagree with their routes.
 - Student-test is cleaner than train (no long gaps or implausible speeds), so its scores are optimistic relative to the hardest train trips.
-- Decoder parameters and the model choice used train and student-test only; the evaluator trips are untouched.
+- Decoder parameters and the model choice used train and student-test only; the evaluator trips were only run once, at the end.

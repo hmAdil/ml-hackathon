@@ -103,7 +103,9 @@ def main():
     w("Notable trips: 054 (GPS far from every road) and 033 (GPS near roads but not near its route) "
       "disagree with their reference routes; they are kept in evaluation and reported openly. "
       "Details: `results/eda/FINDINGS.md`, `notebooks/01_eda.ipynb`, `results/eda/01_eda.html`.\n")
-    w("Figures: `results/eda/*.png`. Folium maps: `results/viz/` (see section 6).\n")
+    w("![EDA overview](../results/eda/eda_overview.png)\n")
+    w("![Pooled distributions](../results/eda/pooled_distributions.png)\n")
+    w("Folium maps: `results/viz/` (see section 6).\n")
 
     # ---- 3 models
     w("## 3. Model experimentation and comparison\n")
@@ -168,6 +170,8 @@ def main():
       "training/validation loss curve is `results/models/mlp_loss_curve.png`. Other models do not "
       "produce epoch-wise histories, so no curves are shown for them.\n")
 
+    w("![Model comparison](../results/models/comparison_plots.png)\n")
+    w("![MLP loss curve](../results/models/mlp_loss_curve.png)\n")
     w("### 3.3 Visualisations")
     w("- `results/models/comparison_plots.png`: CV Macro F1, CV Top-1, student-test Top-1/Macro F1, "
       "log loss, route continuity, fit time for all models.")
@@ -201,6 +205,7 @@ def main():
     # ---- 5 HMM
     s_, t_ = hmm["student_test"], hmm["train"]
     w("## 5. HMM and Viterbi route reconstruction\n")
+    w("![HMM vs classifier](../results/hmm/final/hmm_vs_classifier.png)\n")
     w("1. **Hidden states:** the candidate arcs of each GPS observation (at most 15 kept).")
     w("2. **Emission:** log of the final model's probability for the arc, blended with a Gaussian "
       "distance term (weights `w_emis`, `w_dist`, sigma 20 m), floored at 1e-6.")
@@ -248,13 +253,25 @@ def main():
     w("\n**To add by the team:** screenshots of the working UI and of the API console on the "
       "receiving laptop (required by the guidelines), and the final run on the evaluator trips.\n")
 
+    ev = pd.read_csv(R / "evaluator_run.csv", dtype={"trip_id": str})
+    w("### 7.1 Final run on the evaluator trips (single run, nothing tuned afterwards)\n")
+    w("Model and decoder were frozen before this run; it was executed once through the API and "
+      "reported as is (`results/evaluator_run.csv`). The API's route continuity is computed on the "
+      "decoded arcs per observation without gap filling, so it is lower than the gap-filled "
+      "continuity quoted in section 5.\n")
+    w("| Trip | OK | Latency (s) | Top-1 | Route continuity | GPS points |\n|---|---|---:|---:|---:|---:|")
+    for r in ev.itertuples():
+        w(f"| {r.trip_id} | {r.success} | {r.latency_ms / 1000:.2f} | {r.top1:.4f} | "
+          f"{r.route_continuity:.4f} | {int(r.n_obs)} |")
+    w(f"| **Mean** | {int(ev.success.sum())}/{len(ev)} | {ev.latency_ms.mean() / 1000:.2f} | "
+      f"{ev.top1.mean():.4f} | {ev.route_continuity.mean():.4f} | |\n")
     w("## 8. Limitations\n")
     w("- The reference route is reference information, not verified truth; 11 trips have route breaks "
       "and trips 033/054 disagree with their routes.")
     w("- Student-test is cleaner than train (no long gaps or implausible speeds), so its scores are "
       "optimistic relative to the hardest train trips.")
     w("- Decoder parameters and the model choice used train and student-test only; the evaluator "
-      "trips are untouched.")
+      "trips were only run once, at the end.")
     (R.parent / "docs" / "REPORT.md").write_text("\n".join(L), encoding="utf8")
     print("wrote docs/REPORT.md", len(L), "lines")
 

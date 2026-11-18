@@ -1,0 +1,502 @@
+<!doctype html><meta charset=utf-8><title>PathSnap report</title><style>body{font:11px/1.45 'Segoe UI',Arial,sans-serif;margin:0;color:#111}h1{font-size:22px}h2{font-size:16px;border-bottom:1px solid #ccc;padding-bottom:3px;margin-top:22px}h3{font-size:13px}h4{font-size:12px;margin-bottom:2px}
+table{border-collapse:collapse;width:100%;font-size:8.5px;margin:6px 0;page-break-inside:avoid}th,td{border:1px solid #ccc;padding:2px 4px}th{background:#eee}
+img{max-width:100%;page-break-inside:avoid}code{font-size:9px;background:#f3f3f3;padding:0 2px;word-break:break-all}</style><h1>PathSnap: technical report (generated from results/)</h1>
+<p>Every number below is read from files in <code>results/</code> by <code>python -m pathsnap.report</code>. Partitions: <strong>train</strong> = 80 trips, <strong>student_test</strong> = 10 trips. Evaluator trips were never used for any analysis, training, selection or tuning.</p>
+<h2>2. Dataset understanding and EDA</h2>
+<h3>2.1 Preprocessing</h3>
+<ol>
+<li>Raw files are whitespace-separated and headerless; loaded by <code>pathsnap/io.py</code>.</li>
+<li>Each trip is projected to its own local metric frame (trips span -34.6 to 61.7 deg latitude, several continents).</li>
+<li>Candidate arcs: per-trip KD-tree over arcs densified every 10 m, 50 m search radius, nearest-3 fallback, at most 25 candidates per GPS point, duplicate (from, to) arcs collapsed.</li>
+<li>Labels: the reference <code>.route</code> has no timestamps and about 5x fewer arcs than GPS points, so per-point labels come from a monotone dynamic-programming alignment of GPS points to route positions (<code>labels.py</code>), cut at GPS gaps over 60 s.</li>
+<li>22 label-free features per (point, candidate arc): distance and projection, heading vs arc bearing, speed and sampling interval, network degrees, two-way flag and relative-to-other-candidates ranks (<code>features.py</code>).</li>
+<li>Splits are by trip only (<code>GroupKFold</code> on <code>trip_id</code>); scalers and imputers live inside pipelines and are fit on training folds only.</li>
+</ol>
+<h3>2.2 Patterns found (partition noted per row)</h3>
+<table>
+<thead>
+<tr>
+<th>Finding</th>
+<th style="text-align: right;">train</th>
+<th style="text-align: right;">student_test</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>trips</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr>
+<td>GPS points</td>
+<td style="text-align: right;">208,417</td>
+<td style="text-align: right;">19,160</td>
+</tr>
+<tr>
+<td>road arcs</td>
+<td style="text-align: right;">3,876,904</td>
+<td style="text-align: right;">185,041</td>
+</tr>
+<tr>
+<td>route arcs</td>
+<td style="text-align: right;">31,336</td>
+<td style="text-align: right;">3,477</td>
+</tr>
+<tr>
+<td>missing / invalid GPS values</td>
+<td style="text-align: right;">0 / 0</td>
+<td style="text-align: right;">0 / 0</td>
+</tr>
+<tr>
+<td>trips with non-increasing timestamps</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>largest sampling gap (s)</td>
+<td style="text-align: right;">153,064</td>
+<td style="text-align: right;">210</td>
+</tr>
+<tr>
+<td>trips with a gap over 60 s</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>trips whose route has unconnected consecutive arcs</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>mean share of GPS within 30 m of the route</td>
+<td style="text-align: right;">96.80%</td>
+<td style="text-align: right;">99.37%</td>
+</tr>
+</tbody>
+</table>
+<p>Notable trips: 054 (GPS far from every road) and 033 (GPS near roads but not near its route) disagree with their reference routes; they are kept in evaluation and reported openly. Details: <code>results/eda/FINDINGS.md</code>, <code>notebooks/01_eda.ipynb</code>, <code>results/eda/01_eda.html</code>.</p>
+<p><img alt="EDA overview" src="../results/eda/eda_overview.png" /></p>
+<p><img alt="Pooled distributions" src="../results/eda/pooled_distributions.png" /></p>
+<p>Folium maps: <code>results/viz/</code> (see section 6).</p>
+<h2>3. Model experimentation and comparison</h2>
+<p>Primary selection metric: observation-level <strong>Top-1</strong> on 5-fold trip-grouped CV over the 80 train trips (it is what the API scores). Ties inside fold noise are broken by log loss, then fit time. Student-test is a development check only. Candidate miss rate is a property of candidate generation: 0.13% of student-test observations have no true arc among the candidates, so Top-1 cannot reach 100%.</p>
+<h3>3.1 Consolidated comparison</h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Family</th>
+<th>Key configuration</th>
+<th style="text-align: right;">CV Macro F1</th>
+<th style="text-align: right;">CV Top-1</th>
+<th style="text-align: right;">Route continuity (student-test, classifier only)</th>
+<th style="text-align: right;">Student-test Macro F1</th>
+<th style="text-align: right;">Student-test Top-1</th>
+<th>Log loss (CV / test)</th>
+<th style="text-align: right;">Inference (scoring, ms/obs)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Logistic Regression</td>
+<td>linear</td>
+<td>C=1, L2, lbfgs, standardised</td>
+<td style="text-align: right;">0.8760 +/- 0.043</td>
+<td style="text-align: right;">0.7446 +/- 0.128</td>
+<td style="text-align: right;">0.9088</td>
+<td style="text-align: right;">0.9111</td>
+<td style="text-align: right;">0.8389</td>
+<td>0.1309 / 0.1009</td>
+<td style="text-align: right;">0.0027</td>
+</tr>
+<tr>
+<td>Random Forest</td>
+<td>bagging</td>
+<td>150 trees, depth 18, min leaf 20, max_samples 0.3</td>
+<td style="text-align: right;">0.8821 +/- 0.043</td>
+<td style="text-align: right;">0.7549 +/- 0.129</td>
+<td style="text-align: right;">0.9207</td>
+<td style="text-align: right;">0.9215</td>
+<td style="text-align: right;">0.8577</td>
+<td>0.0942 / 0.0695</td>
+<td style="text-align: right;">0.0252</td>
+</tr>
+<tr>
+<td>XGBoost (GPU)</td>
+<td>boosting</td>
+<td>600 trees max, depth 7, lr 0.05, early stop 40</td>
+<td style="text-align: right;">0.8814 +/- 0.041</td>
+<td style="text-align: right;">0.7535 +/- 0.126</td>
+<td style="text-align: right;">0.9237</td>
+<td style="text-align: right;">0.9233</td>
+<td style="text-align: right;">0.8610</td>
+<td>0.0939 / 0.0693</td>
+<td style="text-align: right;">0.0057</td>
+</tr>
+<tr>
+<td>MLP (PyTorch, GPU)</td>
+<td>neural</td>
+<td>128-64, dropout 0.1, AdamW lr 2e-3, AMP</td>
+<td style="text-align: right;">0.8803 +/- 0.042</td>
+<td style="text-align: right;">0.7517 +/- 0.128</td>
+<td style="text-align: right;">0.9221</td>
+<td style="text-align: right;">0.9201</td>
+<td style="text-align: right;">0.8551</td>
+<td>0.0944 / 0.0713</td>
+<td style="text-align: right;">0.0014</td>
+</tr>
+<tr>
+<td>LightGBM LambdaRank</td>
+<td>ranking</td>
+<td>300 trees, 63 leaves, lr 0.05 (+Platt)</td>
+<td style="text-align: right;">0.8839 +/- 0.040</td>
+<td style="text-align: right;">0.7577 +/- 0.126</td>
+<td style="text-align: right;">0.9264</td>
+<td style="text-align: right;">0.9234</td>
+<td style="text-align: right;">0.8611</td>
+<td>0.0986 / 0.0817</td>
+<td style="text-align: right;">0.0297</td>
+</tr>
+<tr>
+<td>LightGBM LambdaRank (Optuna-tuned)</td>
+<td>ranking</td>
+<td>374 trees, 49 leaves, lr 0.025 (+Platt)</td>
+<td style="text-align: right;">0.8850 +/- 0.041</td>
+<td style="text-align: right;">0.7597 +/- 0.127</td>
+<td style="text-align: right;">0.9278</td>
+<td style="text-align: right;">0.9245</td>
+<td style="text-align: right;">0.8632</td>
+<td>0.0946 / 0.0792</td>
+<td style="text-align: right;">0.0362</td>
+</tr>
+</tbody>
+</table>
+<p>Notes: Macro F1 is computed over candidate rows after each observation marks its top-scoring candidate as the prediction. Log loss for the LambdaRank models is on the Platt-calibrated score. Route continuity is the share of consecutive predicted arcs that are equal or head-to-tail connected. Inference time is model scoring only (median of 5 runs over all student-test candidate rows (<code>results/models/inference_benchmark.csv</code>); single-shot timings first stored in each model JSON were taken while other jobs ran and are not used. End-to-end API time per trip is 2.8 s on average (section 7). The CV Top-1 std is large because one fold contains trip 054, where 89% of observations have no true candidate; per-fold paired differences (<code>results/models/paired_folds.csv</code>) are small by comparison.</p>
+<p>Paired CV Top-1 improvement over logistic regression (same folds): Random Forest +0.0104; XGBoost (GPU) +0.0089; MLP (PyTorch, GPU) +0.0071; LightGBM LambdaRank +0.0131; LightGBM LambdaRank (Optuna-tuned) +0.0151. Folds (of 5) where each beats logistic regression: Random Forest 5, XGBoost (GPU) 5, MLP (PyTorch, GPU) 5, LightGBM LambdaRank 5, LightGBM LambdaRank (Optuna-tuned) 5.</p>
+<h3>3.2 Per-model answers</h3>
+<h4>Logistic Regression</h4>
+<p><strong>A. Understanding.</strong> Interpretable linear baseline. If the engineered features carry the signal, a linear model should already rank candidates sensibly, and it gives probabilities for the HMM. Fast and stable, but cannot model interactions such as 'close but wrong heading'.
+<strong>B. Training.</strong> Initial hyperparameters: <code>{"C": 1.0, "penalty": "l2", "solver": "lbfgs", "max_iter": 500}</code>. Objective: binary cross-entropy (L2-regularised).
+<strong>C. Results.</strong> Student-test: Top-1 0.8389, Macro F1 0.9111, log loss 0.1009, precision 0.8389, recall 0.8399, route continuity 0.9088. CV Top-1 0.7446; train (resubstitution) Top-1 0.7421, so the train-minus-CV gap is -0.0025 (no sign of overfitting).</p>
+<h4>Random Forest</h4>
+<p><strong>A. Understanding.</strong> Bagged trees capture non-linear interactions between distance, heading and rank features without much tuning. Robust, but the slowest to train and score here and the largest artifact (72 MB, not committed).
+<strong>B. Training.</strong> Initial hyperparameters: <code>{"n_estimators": 150, "max_depth": 18, "min_samples_leaf": 20, "max_features": "sqrt", "max_samples": 0.3, "n_jobs": 6}</code>. Objective: Gini impurity splits.
+<strong>C. Results.</strong> Student-test: Top-1 0.8577, Macro F1 0.9215, log loss 0.0695, precision 0.8577, recall 0.8587, route continuity 0.9207. CV Top-1 0.7549; train (resubstitution) Top-1 0.7739, so the train-minus-CV gap is +0.0189 (a modest gap: the model fits train better than held-out trips, mild overfitting) while student-test is still higher than CV because student-test is cleaner than the worst train trips.</p>
+<h4>XGBoost (GPU)</h4>
+<p><strong>A. Understanding.</strong> Gradient boosting is the strongest general tabular learner, runs on the GPU and trains in seconds on 1.8M candidate rows. Very fast and well calibrated; its train-minus-CV gap is the largest among the classifiers (mild overfitting even with early stopping).
+<strong>B. Training.</strong> Initial hyperparameters: <code>{"n_estimators": 600, "learning_rate": 0.05, "max_depth": 7, "min_child_weight": 5, "subsample": 0.8, "colsample_bytree": 0.8, "reg_lambda": 1.0, "max_bin": 128, "early_stopping_rounds": 40, "val_frac": 0.1}</code>. Objective: binary:logistic (log loss) with early stopping.
+<strong>C. Results.</strong> Student-test: Top-1 0.8610, Macro F1 0.9233, log loss 0.0693, precision 0.8610, recall 0.8621, route continuity 0.9237. CV Top-1 0.7535; train (resubstitution) Top-1 0.7851, so the train-minus-CV gap is +0.0316 (a modest gap: the model fits train better than held-out trips, mild overfitting) while student-test is still higher than CV because student-test is cleaner than the worst train trips.</p>
+<h4>MLP (PyTorch, GPU)</h4>
+<p><strong>A. Understanding.</strong> A different family (learned non-linear representation) to test whether a neural network adds anything over trees on 22 engineered features. It is also the only model with an epoch-wise training history. Needs scaling and tuning; slower than boosting and not better here.
+<strong>B. Training.</strong> Initial hyperparameters: <code>{"hidden": [128, 64], "dropout": 0.1, "lr": 0.002, "weight_decay": 0.0001, "batch_size": 8192, "max_epochs": 60, "patience": 6, "val_frac": 0.1, "amp": true, "seed": 42}</code>. Objective: binary cross-entropy (BCE-with-logits), AdamW, early stopping.
+<strong>C. Results.</strong> Student-test: Top-1 0.8551, Macro F1 0.9201, log loss 0.0713, precision 0.8551, recall 0.8562, route continuity 0.9221. CV Top-1 0.7517; train (resubstitution) Top-1 0.7714, so the train-minus-CV gap is +0.0198 (a modest gap: the model fits train better than held-out trips, mild overfitting) while student-test is still higher than CV because student-test is cleaner than the worst train trips.</p>
+<h4>LightGBM LambdaRank</h4>
+<p><strong>A. Understanding.</strong> The task is choosing one candidate per observation, so a ranking objective optimises the quantity we are scored on (per-observation Top-1) directly. Best Top-1, but raw scores are not probabilities; we Platt-calibrate them for the HMM, which is slightly worse calibrated than the classifiers.
+<strong>B. Training.</strong> Initial hyperparameters: <code>{"n_estimators": 300, "learning_rate": 0.05, "num_leaves": 63, "min_child_samples": 50, "subsample": 0.5, "subsample_freq": 1, "colsample_bytree": 0.8, "n_jobs": 6}</code>. Objective: LambdaRank (pairwise NDCG-weighted ranking loss, one group per observation).
+<strong>C. Results.</strong> Student-test: Top-1 0.8611, Macro F1 0.9234, log loss 0.0817, precision 0.8611, recall 0.8622, route continuity 0.9264. CV Top-1 0.7577; train (resubstitution) Top-1 0.8210, so the train-minus-CV gap is +0.0633 (a modest gap: the model fits train better than held-out trips, mild overfitting) while student-test is still higher than CV because student-test is cleaner than the worst train trips.</p>
+<p>The MLP's best epoch was 29 (early stopping on a held-out tail); its real training/validation loss curve is <code>results/models/mlp_loss_curve.png</code>. Other models do not produce epoch-wise histories, so no curves are shown for them.</p>
+<p><img alt="Model comparison" src="../results/models/comparison_plots.png" /></p>
+<p><img alt="MLP loss curve" src="../results/models/mlp_loss_curve.png" /></p>
+<h3>3.3 Visualisations</h3>
+<ul>
+<li><code>results/models/comparison_plots.png</code>: CV Macro F1, CV Top-1, student-test Top-1/Macro F1, log loss, route continuity, fit time for all models.</li>
+<li><code>results/models/mlp_loss_curve.png</code>: MLP epoch-wise loss.</li>
+<li><code>results/hmm/final/hmm_vs_classifier.png</code>: classifier-only vs HMM per trip.</li>
+</ul>
+<h2>4. Bayesian hyperparameter optimisation (LightGBM LambdaRank)</h2>
+<p>Chosen because it had the best CV Top-1 and beat XGBoost on all 5 folds and Random Forest on 4.
+1. <strong>Searched:</strong> num_leaves, learning_rate, n_estimators, min_child_samples, subsample, colsample_bytree, reg_lambda.
+2. <strong>Ranges:</strong> num_leaves int [15, 127]; learning_rate log [0.02, 0.2]; n_estimators int [100, 500]; min_child_samples int [10, 200]; subsample float [0.4, 1.0]; colsample_bytree float [0.5, 1.0]; reg_lambda log [0.001, 10.0].
+3. <strong>Objective:</strong> mean grouped-CV top-1 (5 folds, 80 train trips); sampler TPE (seed 42), median pruner.
+4. <strong>Trials:</strong> 20 (20 complete, 0 pruned), 31 minutes. Trial log: <code>results/tuning/lgbm_rank_trials.csv</code>.
+5. <strong>Best:</strong> <code>{"num_leaves": 49, "learning_rate": 0.025043908574120786, "n_estimators": 374, "min_child_samples": 94, "subsample": 0.47322294090686734, "colsample_bytree": 0.7475884550556351, "reg_lambda": 0.0013726318898045872}</code>.
+6. <strong>Tuned vs untuned (identical folds and data):</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align: right;">CV Macro F1</th>
+<th style="text-align: right;">CV Top-1</th>
+<th style="text-align: right;">Student Top-1</th>
+<th style="text-align: right;">Student Macro F1</th>
+<th>Log loss (CV / test)</th>
+<th style="text-align: right;">Inference ms/obs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>untuned</td>
+<td style="text-align: right;">0.8839</td>
+<td style="text-align: right;">0.7577</td>
+<td style="text-align: right;">0.8611</td>
+<td style="text-align: right;">0.9234</td>
+<td>0.0986 / 0.0817</td>
+<td style="text-align: right;">0.0297</td>
+</tr>
+<tr>
+<td>tuned</td>
+<td style="text-align: right;">0.8850</td>
+<td style="text-align: right;">0.7597</td>
+<td style="text-align: right;">0.8632</td>
+<td style="text-align: right;">0.9245</td>
+<td>0.0946 / 0.0792</td>
+<td style="text-align: right;">0.0362</td>
+</tr>
+</tbody>
+</table>
+<p>The tuned model is better on 4 of 5 folds, but the gain is small (+0.0020 CV Top-1); we report it as a marginal improvement, not a large one. It is adopted as the final model (<code>artifacts/final_model.joblib</code>). Cost: 31 min for the search.</p>
+<h2>5. HMM and Viterbi route reconstruction</h2>
+<p><img alt="HMM vs classifier" src="../results/hmm/final/hmm_vs_classifier.png" /></p>
+<ol>
+<li><strong>Hidden states:</strong> the candidate arcs of each GPS observation (at most 15 kept).</li>
+<li><strong>Emission:</strong> log of the final model's probability for the arc, blended with a Gaussian distance term (weights <code>w_emis</code>, <code>w_dist</code>, sigma 20 m), floored at 1e-6.</li>
+<li><strong>Transition:</strong> 0 cost for the same arc or a head-to-tail connection; otherwise a bounded directed shortest-path distance compared with the GPS displacement (exponential penalty, beta), plus an implied-speed term and a U-turn penalty.</li>
+<li><strong>Gaps and missing candidates:</strong> the trip is split into segments at GPS gaps over 60 s and Viterbi restarts per segment; every observation has at least 3 candidates.</li>
+<li><strong>Disconnected consecutive candidates:</strong> not forbidden; they pay a finite capped penalty (<code>max_pen</code>), so a bad link can be crossed when evidence is strong.</li>
+<li><strong>Did it help?</strong> Yes on student-test and train (decoder parameters were chosen by random search over train and student-test trips only, scores are out-of-fold on train, 31 configurations tried). Per-trip means:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align: right;">Classifier only</th>
+<th style="text-align: right;">Classifier + HMM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Top-1 (student-test)</td>
+<td style="text-align: right;">0.8821</td>
+<td style="text-align: right;">0.9464</td>
+</tr>
+<tr>
+<td>Route continuity (student-test)</td>
+<td style="text-align: right;">0.9278</td>
+<td style="text-align: right;">0.9769</td>
+</tr>
+<tr>
+<td>Sequence F1 (student-test)</td>
+<td style="text-align: right;">0.7796</td>
+<td style="text-align: right;">0.9680</td>
+</tr>
+<tr>
+<td>Precision (student-test)</td>
+<td style="text-align: right;">0.6560</td>
+<td style="text-align: right;">0.9480</td>
+</tr>
+<tr>
+<td>Top-1 (train, out-of-fold)</td>
+<td style="text-align: right;">0.8488</td>
+<td style="text-align: right;">0.9193</td>
+</tr>
+<tr>
+<td>Sequence F1 (train, out-of-fold)</td>
+<td style="text-align: right;">0.7551</td>
+<td style="text-align: right;">0.9408</td>
+</tr>
+</tbody>
+</table>
+<p>Sequence F1 compares the set of predicted arcs (gaps filled by shortest path) with the reference route arcs. The HMM lowers Top-1 on 0 student-test trips and 1 train trip(s) (listed in <code>results/hmm/final/comparison.csv</code>). Decoding takes 0.24 s per trip on average (1.4 s at most). Caveat: the decoder parameters were tuned on these same 90 trips, so the gain is slightly optimistic; the evaluator trips are the unbiased check.</p>
+<h2>6. Geographical visualisation (Folium)</h2>
+<ul>
+<li><code>results/viz/00000001.html</code>: GPS (blue), road network (grey), reference route (green) with gaps, spikes, off-route points and route breaks as layers.</li>
+<li><code>results/viz/hmm_compare*.html</code>: student-test trip with GPS, reference, classifier-only and HMM routes. <code>results/viz/world_trips.html</code>: all trips by location.</li>
+<li>Code: <code>src/pathsnap/viz.py</code>, <code>viz_pred.py</code>. Maps use Esri tiles because OSM blocks pages opened from disk. Add a screenshot of one map to the PDF.</li>
+</ul>
+<h2>7. API, UI and deployment</h2>
+<p>Endpoints <code>GET /health</code>, <code>GET /trips</code>, <code>POST /predict/{trip_id}</code>; the UI lists the trips, runs one or all and shows the predicted route and metrics. Reference data never leaves the server. Setup: <code>docs/DEPLOYMENT.md</code>, <code>docs/HANDOFF.md</code>.</p>
+<p>Smoke test (student-test trips through the running API, <code>results/api_smoke_test.csv</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Trip</th>
+<th>OK</th>
+<th style="text-align: right;">Latency (s)</th>
+<th style="text-align: right;">Top-1</th>
+<th style="text-align: right;">Route continuity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>00000000</td>
+<td>True</td>
+<td style="text-align: right;">2.9</td>
+<td style="text-align: right;">0.9525</td>
+<td style="text-align: right;">0.8718</td>
+</tr>
+<tr>
+<td>00000007</td>
+<td>True</td>
+<td style="text-align: right;">2.3</td>
+<td style="text-align: right;">0.8501</td>
+<td style="text-align: right;">0.9918</td>
+</tr>
+<tr>
+<td>00000009</td>
+<td>True</td>
+<td style="text-align: right;">2.5</td>
+<td style="text-align: right;">0.8894</td>
+<td style="text-align: right;">0.7937</td>
+</tr>
+<tr>
+<td>00000040</td>
+<td>True</td>
+<td style="text-align: right;">3.0</td>
+<td style="text-align: right;">0.9332</td>
+<td style="text-align: right;">0.8899</td>
+</tr>
+<tr>
+<td>00000052</td>
+<td>True</td>
+<td style="text-align: right;">2.1</td>
+<td style="text-align: right;">0.9771</td>
+<td style="text-align: right;">0.8608</td>
+</tr>
+<tr>
+<td>00000056</td>
+<td>True</td>
+<td style="text-align: right;">3.5</td>
+<td style="text-align: right;">0.9482</td>
+<td style="text-align: right;">0.8627</td>
+</tr>
+<tr>
+<td>00000065</td>
+<td>True</td>
+<td style="text-align: right;">2.4</td>
+<td style="text-align: right;">0.8841</td>
+<td style="text-align: right;">0.8409</td>
+</tr>
+<tr>
+<td>00000076</td>
+<td>True</td>
+<td style="text-align: right;">3.2</td>
+<td style="text-align: right;">0.8964</td>
+<td style="text-align: right;">0.7473</td>
+</tr>
+<tr>
+<td>00000077</td>
+<td>True</td>
+<td style="text-align: right;">3.3</td>
+<td style="text-align: right;">0.7967</td>
+<td style="text-align: right;">0.7180</td>
+</tr>
+<tr>
+<td>00000091</td>
+<td>True</td>
+<td style="text-align: right;">2.5</td>
+<td style="text-align: right;">0.9108</td>
+<td style="text-align: right;">0.7960</td>
+</tr>
+</tbody>
+</table>
+<p><strong>To add by the team:</strong> screenshots of the working UI and of the API console on the receiving laptop (required by the guidelines), and the final run on the evaluator trips.</p>
+<h3>7.1 Final run on the evaluator trips (single run, nothing tuned afterwards)</h3>
+<p>Model and decoder were frozen before this run; it was executed once through the API and reported as is (<code>results/evaluator_run.csv</code>). The API's route continuity is computed on the decoded arcs per observation without gap filling, so it is lower than the gap-filled continuity quoted in section 5.</p>
+<table>
+<thead>
+<tr>
+<th>Trip</th>
+<th>OK</th>
+<th style="text-align: right;">Latency (s)</th>
+<th style="text-align: right;">Top-1</th>
+<th style="text-align: right;">Route continuity</th>
+<th style="text-align: right;">GPS points</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>00000015</td>
+<td>True</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">0.8710</td>
+<td style="text-align: right;">0.6497</td>
+<td style="text-align: right;">6854</td>
+</tr>
+<tr>
+<td>00000017</td>
+<td>True</td>
+<td style="text-align: right;">0.90</td>
+<td style="text-align: right;">0.9532</td>
+<td style="text-align: right;">0.7259</td>
+<td style="text-align: right;">1346</td>
+</tr>
+<tr>
+<td>00000023</td>
+<td>True</td>
+<td style="text-align: right;">0.20</td>
+<td style="text-align: right;">0.9454</td>
+<td style="text-align: right;">0.8305</td>
+<td style="text-align: right;">458</td>
+</tr>
+<tr>
+<td>00000030</td>
+<td>True</td>
+<td style="text-align: right;">0.35</td>
+<td style="text-align: right;">0.8853</td>
+<td style="text-align: right;">0.7241</td>
+<td style="text-align: right;">654</td>
+</tr>
+<tr>
+<td>00000049</td>
+<td>True</td>
+<td style="text-align: right;">0.79</td>
+<td style="text-align: right;">0.9962</td>
+<td style="text-align: right;">0.9618</td>
+<td style="text-align: right;">2642</td>
+</tr>
+<tr>
+<td>00000059</td>
+<td>True</td>
+<td style="text-align: right;">0.49</td>
+<td style="text-align: right;">0.9767</td>
+<td style="text-align: right;">0.7910</td>
+<td style="text-align: right;">1031</td>
+</tr>
+<tr>
+<td>00000067</td>
+<td>True</td>
+<td style="text-align: right;">0.17</td>
+<td style="text-align: right;">0.9672</td>
+<td style="text-align: right;">0.8784</td>
+<td style="text-align: right;">916</td>
+</tr>
+<tr>
+<td>00000073</td>
+<td>True</td>
+<td style="text-align: right;">0.36</td>
+<td style="text-align: right;">0.9808</td>
+<td style="text-align: right;">0.9359</td>
+<td style="text-align: right;">1144</td>
+</tr>
+<tr>
+<td>00000087</td>
+<td>True</td>
+<td style="text-align: right;">0.90</td>
+<td style="text-align: right;">0.9943</td>
+<td style="text-align: right;">0.9658</td>
+<td style="text-align: right;">1399</td>
+</tr>
+<tr>
+<td>00000094</td>
+<td>True</td>
+<td style="text-align: right;">0.83</td>
+<td style="text-align: right;">0.9492</td>
+<td style="text-align: right;">0.8152</td>
+<td style="text-align: right;">3230</td>
+</tr>
+<tr>
+<td><strong>Mean</strong></td>
+<td>10/10</td>
+<td style="text-align: right;">0.60</td>
+<td style="text-align: right;">0.9519</td>
+<td style="text-align: right;">0.8278</td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table>
+<h2>8. Limitations</h2>
+<ul>
+<li>The reference route is reference information, not verified truth; 11 trips have route breaks and trips 033/054 disagree with their routes.</li>
+<li>Student-test is cleaner than train (no long gaps or implausible speeds), so its scores are optimistic relative to the hardest train trips.</li>
+<li>Decoder parameters and the model choice used train and student-test only; the evaluator trips were only run once, at the end.</li>
+</ul>
