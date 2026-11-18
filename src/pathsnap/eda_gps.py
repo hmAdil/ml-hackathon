@@ -8,7 +8,7 @@ import pandas as pd
 
 from .geo import bearing_deg, haversine_m, make_projector
 
-GAP_THRESHOLDS_S = (2, 5, 10, 60, 600)   # interval buckets reported per trip
+GAP_THRESHOLDS_S = (1, 2, 5, 10, 60, 600)   # interval buckets reported per trip
 SEGMENT_GAP_S = 60                       # gap that splits a trip into segments (EDA default)
 MAX_PLAUSIBLE_SPEED_MS = 55.0            # ~200 km/h; above this a step is physically suspect
 STATIONARY_SPEED_MS = 0.5

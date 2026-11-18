@@ -26,8 +26,8 @@ FLAGS = {
 }
 
 
-def load_stats(path=OUT / "trip_stats.csv") -> pd.DataFrame:
-    df = pd.read_csv(path, dtype={"trip_id": str})
+def load_stats(path=None) -> pd.DataFrame:
+    df = pd.read_csv(path or OUT / "trip_stats.csv", dtype={"trip_id": str})
     df["gps_per_route_arc"] = df.n_gps / df.route_len
     df["route_arcs_per_km"] = df.route_len / (df.track_len_m / 1000)
     df["mean_speed_ms"] = df.track_len_m / df.duration_s

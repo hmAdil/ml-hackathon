@@ -60,3 +60,30 @@ def test_route_analysis_break_and_alignment():
     assert abs(s["route_break_gap_median_m"] - 111.2) < 1
     assert s["align_spearman"] > 0.95
     assert len(align) == len(trip["track"])
+
+
+def write_trip(d, tid, trip):
+    d = d / tid
+    d.mkdir(parents=True)
+    for ext in ("track", "nodes", "arcs", "route"):
+        trip[ext].to_csv(d / f"{tid}.{ext}", sep=" ", header=False, index=False)
+
+
+def test_full_runner_on_synthetic_files(tmp_path, monkeypatch):
+    from pathsnap import eda, eda_inventory
+
+    for part, ids in (("train", ["00000001", "00000002"]), ("student_test", ["00000003"])):
+        for tid in ids:
+            write_trip(tmp_path / part, tid, make_trip())
+    out = tmp_path / "out"
+    monkeypatch.setattr(eda, "OUT", out)
+    monkeypatch.setattr(eda_inventory, "OUT", out)
+    monkeypatch.setattr(eda, "PARTS", (("train", tmp_path / "train"),
+                                       ("student_test", tmp_path / "student_test")))
+    eda.run()
+    df = pd.read_csv(out / "trip_stats.csv")
+    assert len(pd.read_csv(out / "trip_flags.csv")) == 3  # inventory read the synthetic stats
+    assert len(df) == 3 and (df.route_breaks == 1).all() and (df.n_spikes == 1).all()
+    for f in ("gaps.csv", "pooled_dt.csv", "pooled_quantiles.csv", "trip_flags.csv",
+              "pooled_distributions.png", "inventory_sizes.png"):
+        assert (out / f).exists(), f
