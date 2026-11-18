@@ -1,0 +1,1 @@
+{"name": "lgbm_rank_tuned", "description": "LightGBM LambdaRank (Optuna-tuned) with Platt-calibrated probabilities", "selected_by": "grouped-CV top-1 on 80 train trips"}

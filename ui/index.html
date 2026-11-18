@@ -15,15 +15,19 @@
       <input id="apiBase" type="text" value="http://localhost:8000" spellcheck="false">
       <button id="reload">Connect</button>
       <span id="conn" class="dot" title="not connected"></span>
+      <span id="modelInfo" class="muted"></span>
     </div>
   </header>
   <main>
     <aside>
       <h2>Evaluation trips</h2>
       <div id="trips" class="trips"><p class="muted">Not loaded.</p></div>
+      <button id="runAll" class="primary" disabled>Run all trips</button>
       <div id="error" class="error" hidden></div>
-      <h2>Results</h2>
+      <h2>Selected trip</h2>
       <div id="metrics" class="metrics"><p class="muted">Select a trip to run the pipeline.</p></div>
+      <h2>Session results</h2>
+      <div id="session" class="metrics session"></div>
     </aside>
     <section class="mapwrap">
       <div id="map"></div>

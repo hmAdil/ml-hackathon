@@ -56,3 +56,12 @@ aside { width: 340px; flex: none; overflow-y: auto; padding: 4px 16px 16px; back
   main { flex-direction: column; } aside { width: 100%; max-height: 45%; border-right: 0; }
   .api input { width: 180px; }
 }
+.trips button.done { border-left: 4px solid #16a34a; }
+.trips button.active.done { border-left-color: #fff; }
+button.primary { margin-top: 8px; width: 100%; background: var(--accent); border-color: var(--accent); color: #fff; }
+button.primary:disabled, .trips button:disabled { opacity: .55; cursor: default; }
+.session th { text-align: left; font-size: 11px; color: var(--muted); font-weight: 600; padding-bottom: 4px; }
+.session td:last-child, .session td { text-align: left; font-weight: 400; }
+.session td:nth-child(n+2) { font-variant-numeric: tabular-nums; }
+.session tr.mean td { font-weight: 700; border-top: 2px solid var(--border); }
+#modelInfo { font-size: 12px; }

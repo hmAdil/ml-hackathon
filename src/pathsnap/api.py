@@ -6,6 +6,7 @@ Flow per request: load trip -> candidates+features -> model scores -> HMM (if av
 import json
 import logging
 import os
+import threading
 import time
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -31,6 +32,13 @@ if not log.handlers:
     log.propagate = False
 
 STATE: dict = {}
+_LOCKS: dict = {}
+_GUARD = threading.Lock()
+
+
+def _trip_lock(trip_id: str) -> threading.Lock:
+    with _GUARD:
+        return _LOCKS.setdefault(trip_id, threading.Lock())
 
 
 def eval_dir() -> Path:
@@ -61,6 +69,9 @@ async def lifespan(app: FastAPI):
         if path.exists():
             STATE["model"] = joblib.load(path)
             STATE["model_name"] = name.removesuffix(".joblib")
+            meta = ARTIFACTS / "final_model.json"
+            if name == "final_model.joblib" and meta.exists():
+                STATE["model_name"] = json.loads(meta.read_text()).get("name", "final_model")
             log.info("loaded model %s", path)
             break
     else:
@@ -168,8 +179,12 @@ def predict(trip_id: str):
         log.warning("[%s] unknown trip id", trip_id)
         raise HTTPException(status_code=404, detail=f"unknown trip id {trip_id!r}")
     cache = STATE["cache"]
-    if trip_id not in cache:
-        cache[trip_id] = _run(trip_id)
-    else:
-        log.info("[%s] served from cache", trip_id)
-    return cache[trip_id]
+    use_cache = os.environ.get("PATHSNAP_CACHE") == "1"  # off by default: every request re-runs
+    with _trip_lock(trip_id):  # several laptops may request the same trip at once
+        if use_cache and trip_id in cache:
+            log.info("[%s] served from cache", trip_id)
+            return cache[trip_id]
+        result = _run(trip_id)
+        if use_cache:
+            cache[trip_id] = result
+    return result
