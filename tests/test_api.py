@@ -5,6 +5,10 @@ from fastapi.testclient import TestClient
 
 ROOT = Path(__file__).resolve().parents[1]
 
+# The dataset is not in git, so CI runners skip this module; locally it runs on student_test.
+pytestmark = pytest.mark.skipif(not (ROOT / "data" / "student_test").is_dir(),
+                                reason="needs data/student_test (not in git)")
+
 
 @pytest.fixture(scope="module")
 def client():
