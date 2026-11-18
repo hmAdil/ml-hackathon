@@ -1,0 +1,173 @@
+{
+  "model": "random_forest",
+  "family": "bagging",
+  "params": {
+    "n_estimators": 150,
+    "max_depth": 18,
+    "min_samples_leaf": 20,
+    "max_features": "sqrt",
+    "max_samples": 0.3,
+    "n_jobs": 6
+  },
+  "features": [
+    "dist_m",
+    "log_dist",
+    "dist_minus_min",
+    "dist_over_min",
+    "dist_rank",
+    "n_cands",
+    "frac",
+    "along_m",
+    "to_end_m",
+    "arc_len_m",
+    "log_arc_len",
+    "ang_diff",
+    "cos_diff",
+    "heading_valid",
+    "ang_rank",
+    "ang_minus_min",
+    "speed_ms",
+    "dt_prev",
+    "dt_next",
+    "is_two_way",
+    "out_deg_to",
+    "in_deg_from"
+  ],
+  "seed": 42,
+  "cv": {
+    "top1": {
+      "mean": 0.7549244627992652,
+      "std": 0.12891210952049026
+    },
+    "top1_covered": {
+      "mean": 0.8401611367218305,
+      "std": 0.02624605362162188
+    },
+    "top1_per_trip": {
+      "mean": 0.8424742514699514,
+      "std": 0.038455578501058525
+    },
+    "macro_f1": {
+      "mean": 0.8821443757057322,
+      "std": 0.04271370382942104
+    },
+    "precision": {
+      "mean": 0.7549244627992652,
+      "std": 0.12891210952049026
+    },
+    "recall": {
+      "mean": 0.8401611367218305,
+      "std": 0.02624605362162188
+    },
+    "log_loss": {
+      "mean": 0.09418562474306763,
+      "std": 0.008829547270077927
+    }
+  },
+  "cv_folds": [
+    {
+      "top1": 0.8190771721532649,
+      "top1_covered": 0.8207603287908284,
+      "top1_per_trip": 0.8704880955375817,
+      "macro_f1": 0.8996780103212867,
+      "precision": 0.8190771721532649,
+      "recall": 0.8207603287908285,
+      "log_loss": 0.09040753016167308,
+      "candidate_miss_rate": 0.002050728548300018,
+      "n_obs": 37060,
+      "n_rows": 361263,
+      "fold": 0,
+      "fit_s": 88.30222000001231,
+      "val_trips": 16
+    },
+    {
+      "top1": 0.5348155176503568,
+      "top1_covered": 0.8598023920956838,
+      "top1_per_trip": 0.8108706176630316,
+      "macro_f1": 0.8099084788136942,
+      "precision": 0.5348155176503568,
+      "recall": 0.8598023920956839,
+      "log_loss": 0.10991640859109364,
+      "candidate_miss_rate": 0.3779785651133203,
+      "n_obs": 46373,
+      "n_rows": 360829,
+      "fold": 1,
+      "fit_s": 85.98801739999908,
+      "val_trips": 16
+    },
+    {
+      "top1": 0.7894075301376907,
+      "top1_covered": 0.8057969324080014,
+      "top1_per_trip": 0.8442452470511814,
+      "macro_f1": 0.8879727727600457,
+      "precision": 0.7894075301376907,
+      "recall": 0.8057969324080014,
+      "log_loss": 0.09066842110774359,
+      "candidate_miss_rate": 0.02033937039364675,
+      "n_obs": 35006,
+      "n_rows": 359879,
+      "fold": 2,
+      "fit_s": 90.92780170000333,
+      "val_trips": 16
+    },
+    {
+      "top1": 0.7639751552795031,
+      "top1_covered": 0.8464960134284515,
+      "top1_per_trip": 0.797958047228176,
+      "macro_f1": 0.8900875023039388,
+      "precision": 0.7639751552795031,
+      "recall": 0.8464960134284515,
+      "log_loss": 0.08892801883340833,
+      "candidate_miss_rate": 0.09748522951068017,
+      "n_obs": 39606,
+      "n_rows": 360929,
+      "fold": 3,
+      "fit_s": 76.19826269999612,
+      "val_trips": 16
+    },
+    {
+      "top1": 0.8673469387755102,
+      "top1_covered": 0.8679500168861871,
+      "top1_per_trip": 0.8888092498697864,
+      "macro_f1": 0.9230751143296956,
+      "precision": 0.8673469387755102,
+      "recall": 0.8679500168861871,
+      "log_loss": 0.0910077450214195,
+      "candidate_miss_rate": 0.0006948304613674239,
+      "n_obs": 50372,
+      "n_rows": 360358,
+      "fold": 4,
+      "fit_s": 81.77877239999361,
+      "val_trips": 16
+    }
+  ],
+  "student_test": {
+    "top1": 0.8576722338204593,
+    "top1_covered": 0.8587479096989967,
+    "top1_per_trip": 0.8742187636977528,
+    "macro_f1": 0.9214778629779401,
+    "precision": 0.8576722338204593,
+    "recall": 0.8587479096989966,
+    "log_loss": 0.0695182580062883,
+    "candidate_miss_rate": 0.0012526096033402823,
+    "n_obs": 19160,
+    "n_rows": 197134,
+    "route_continuity": 0.9207303584928,
+    "inference_s": 0.7415777999995044,
+    "inference_ms_per_obs": 0.03870447807930607
+  },
+  "train_resubstitution": {
+    "top1": 0.7738620170139672,
+    "top1_covered": 0.8661743777019951,
+    "top1_per_trip": 0.8567480848978182,
+    "macro_f1": 0.897493983823208,
+    "precision": 0.7738620170139672,
+    "recall": 0.8661743777019951,
+    "log_loss": 0.08104257890217598,
+    "candidate_miss_rate": 0.10657479956049654,
+    "n_obs": 208417,
+    "n_rows": 1803258,
+    "route_continuity": 0.9099771893851258
+  },
+  "fit_s_full_train": 112.20829269998649
+}

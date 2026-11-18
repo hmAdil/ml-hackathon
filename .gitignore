@@ -11,7 +11,7 @@ data/student_test/
 data/evaluator/
 # large binaries
 *.pkl
-*.joblib
+artifacts/random_forest.joblib
 artifacts/*.bin
 data/processed/
 results/viz/0000003*.html

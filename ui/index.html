@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PathSnap Evaluator</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>PathSnap <span>GPS map-matching</span></h1>
+    <div class="api">
+      <label for="apiBase">API</label>
+      <input id="apiBase" type="text" value="http://localhost:8000" spellcheck="false">
+      <button id="reload">Connect</button>
+      <span id="conn" class="dot" title="not connected"></span>
+    </div>
+  </header>
+  <main>
+    <aside>
+      <h2>Evaluation trips</h2>
+      <div id="trips" class="trips"><p class="muted">Not loaded.</p></div>
+      <div id="error" class="error" hidden></div>
+      <h2>Results</h2>
+      <div id="metrics" class="metrics"><p class="muted">Select a trip to run the pipeline.</p></div>
+    </aside>
+    <section class="mapwrap">
+      <div id="map"></div>
+      <div id="loading" class="loading" hidden><div class="spin"></div><span id="loadingText">Running pipeline...</span></div>
+    </section>
+  </main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
