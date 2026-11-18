@@ -1,18 +1,6 @@
-numpy
-pandas
-scipy
-scikit-learn
-xgboost
-lightgbm
-optuna
-networkx
-pyproj
-shapely
-folium
-matplotlib
-seaborn
-fastapi
-uvicorn
-requests
-joblib
-pyarrow
+-r requirements/base.txt
+-r requirements/ml.txt
+-r requirements/geo.txt
+-r requirements/api.txt
+-r requirements/viz.txt
+-r requirements/dev.txt

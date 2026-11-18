@@ -21,11 +21,15 @@ candidate classifier followed by HMM/Viterbi decoding, served via FastAPI
 | `notebooks/` | exploration |
 | `data/` | raw dataset (not tracked): `data/train`, `data/student_test` |
 
+## Team workflow
+Read [CONTRIBUTING.md](CONTRIBUTING.md) before your first commit. Ownership is in [OWNERS.md](OWNERS.md). `main` is PR-only; branches are named `<area>/<description>`.
+
 ## Setup
 ```
 python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
+pytest
 ```
 Place the dataset trip folders in `data/train` and `data/student_test`.
 

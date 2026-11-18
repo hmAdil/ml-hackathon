@@ -1,7 +1,12 @@
-data/
+data/*
+!data/README.md
 *.pdf
 __pycache__/
+*.pyc
 .venv/
+.env
 .ipynb_checkpoints/
+.pytest_cache/
+.ruff_cache/
 *.pt
 *.pth

@@ -1,5 +1,6 @@
 """Every experimented model must expose predict_proba on the candidate features."""
 from typing import Protocol
+
 import numpy as np
 
 
