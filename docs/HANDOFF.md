@@ -28,7 +28,7 @@ Everything below is implemented on `main`. What is left is running it on two rea
   `.ps1` scripts). API and UI reached through the LAN IP, not localhost: `/health`, `/trips` and
   all 10 `POST /predict/{trip_id}` returned 200 from the UI link `?api=http://<ip>:8000&run=all`.
 - Headless Chromium visual check: map tiles, legend, metric cards and session table render; the
-  only console error is a missing `favicon.ico`. Evidence: `docs/screenshots/`.
+  only console error is a missing `favicon.ico`. Evidence: removed in the repo cleanup (superseded by the two-laptop run below).
   Note: this is one laptop playing both roles; the two-laptop run is still needed.
 - `scikit-learn` pinned to 1.7.2, the version that pickled `final_model.joblib` (1.9.1 gave an
   InconsistentVersionWarning at API start; scores were identical, but pin to stay safe). The

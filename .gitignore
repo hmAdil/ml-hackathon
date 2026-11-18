@@ -16,3 +16,10 @@ artifacts/*.bin
 data/processed/
 results/viz/0000003*.html
 results/viz/0000005*.html
+
+# generated
+docs/REPORT.html
+# regenerable duplicate model artifacts (final_model.joblib is the deployed one)
+artifacts/lgbm_rank*.joblib
+artifacts/xgboost.joblib
+artifacts/mlp.joblib

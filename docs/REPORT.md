@@ -133,7 +133,7 @@ Sequence F1 compares the set of predicted arcs (gaps filled by shortest path) wi
 ## 6. Geographical visualisation (Folium)
 
 - `results/viz/00000001.html`: GPS (blue), road network (grey), reference route (green) with gaps, spikes, off-route points and route breaks as layers.
-- `results/viz/hmm_compare*.html`: student-test trip with GPS, reference, classifier-only and HMM routes. `results/viz/world_trips.html`: all trips by location.
+- `results/viz/hmm_compare_final.html`: student-test trip with GPS, reference, classifier-only and HMM routes. `results/viz/world_trips.html`: all trips by location.
 - Code: `src/pathsnap/viz.py`, `viz_pred.py`. Maps use Esri tiles because OSM blocks pages opened from disk.
 
 ![Folium map: reconstructed route over the road basemap](screenshots/folium_hmm_compare.png)
@@ -181,15 +181,15 @@ Model and decoder were frozen before this run; it was executed once through the 
 
 Observation: the weakest evaluator trips for route continuity (00000015, 00000017, 00000030) are not explained by sampling (all trips are 1 Hz with no gaps over 60 s except three small ones on trip 00000073); continuity tracks Top-1 across the ten trips (correlation 0.86), so it reflects decoding errors on those trips. We did not investigate or tune on them.
 
-**UI on the evaluator trips (all 10 run through the API):**
+**UI on the second laptop, run against the API on the first laptop over a shared network (all 10 evaluator trips):**
 
-![UI run on evaluator trips](screenshots/ui_run_all_evaluator.png)
+![UI on Laptop 2](screenshots/two_laptop_ui.png)
 
-**API console during that run (every request logged, no errors):**
+**API console while serving the ten evaluator trips (every request logged, no errors):**
 
 ![API console](screenshots/api_console_evaluator.png)
 
-_Both screenshots were captured on a single machine playing both roles; the two-laptop run is documented separately in `docs/HANDOFF.md`._
+_The UI screenshot is from the second laptop (per-trip numbers in `docs/screenshots/two_laptop_run.csv`; they match `results/evaluator_run.csv`). The console screenshot was captured on a single machine; see `docs/HANDOFF.md` for the two-laptop checklist._
 
 ## 8. Limitations
 

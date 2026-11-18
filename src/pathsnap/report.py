@@ -236,7 +236,7 @@ def main():
     w("## 6. Geographical visualisation (Folium)\n")
     w("- `results/viz/00000001.html`: GPS (blue), road network (grey), reference route (green) with "
       "gaps, spikes, off-route points and route breaks as layers.")
-    w("- `results/viz/hmm_compare*.html`: student-test trip with GPS, reference, classifier-only and "
+    w("- `results/viz/hmm_compare_final.html`: student-test trip with GPS, reference, classifier-only and "
       "HMM routes. `results/viz/world_trips.html`: all trips by location.")
     w("- Code: `src/pathsnap/viz.py`, `viz_pred.py`. Maps use Esri tiles because OSM blocks pages "
       "opened from disk.\n")
@@ -272,12 +272,15 @@ def main():
       "are not explained by sampling (all trips are 1 Hz with no gaps over 60 s except three small "
       "ones on trip 00000073); continuity tracks Top-1 across the ten trips (correlation 0.86), so "
       "it reflects decoding errors on those trips. We did not investigate or tune on them.\n")
-    w("**UI on the evaluator trips (all 10 run through the API):**\n")
-    w("![UI run on evaluator trips](screenshots/ui_run_all_evaluator.png)\n")
-    w("**API console during that run (every request logged, no errors):**\n")
+    w("**UI on the second laptop, run against the API on the first laptop over a shared network "
+      "(all 10 evaluator trips):**\n")
+    w("![UI on Laptop 2](screenshots/two_laptop_ui.png)\n")
+    w("**API console while serving the ten evaluator trips (every request logged, no errors):**\n")
     w("![API console](screenshots/api_console_evaluator.png)\n")
-    w("_Both screenshots were captured on a single machine playing both roles; the two-laptop run "
-      "is documented separately in `docs/HANDOFF.md`._\n")
+    w("_The UI screenshot is from the second laptop (per-trip numbers in "
+      "`docs/screenshots/two_laptop_run.csv`; they match `results/evaluator_run.csv`). The console "
+      "screenshot was captured on a single machine; see `docs/HANDOFF.md` for the two-laptop "
+      "checklist._\n")
     w("## 8. Limitations\n")
     w("- The reference route is reference information, not verified truth; 11 trips have route breaks "
       "and trips 033/054 disagree with their routes.")
