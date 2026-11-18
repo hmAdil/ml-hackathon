@@ -1,8 +1,6 @@
 """Generate docs/REPORT.md from the saved result files (every number is read, none typed).
 
 Usage: PYTHONPATH=src python -m pathsnap.report
-Follows the structure in the hackathon's Technical Report guidelines (sections 2-7).
-The team still adds screenshots (UI, API console) and exports the PDF.
 """
 import json
 
@@ -11,35 +9,23 @@ import pandas as pd
 from .config import RESULTS
 
 R = RESULTS
-J = lambda p: json.loads((R / p).read_text())  # noqa: E731
-ORDER = ["logreg", "random_forest", "xgboost", "mlp", "lgbm_rank"]
+REPO = "https://github.com/hmAdil/ml-hackathon"
+BASE = ["logreg", "random_forest", "xgboost", "mlp", "lgbm_rank"]
 LABEL = {"logreg": "Logistic Regression", "random_forest": "Random Forest", "xgboost": "XGBoost (GPU)",
-         "mlp": "MLP (PyTorch, GPU)", "lgbm_rank": "LightGBM LambdaRank",
-         "lgbm_rank_tuned": "LightGBM LambdaRank (Optuna-tuned)"}
-LOSS = {"logreg": "binary cross-entropy (L2-regularised)", "random_forest": "Gini impurity splits",
-        "xgboost": "binary:logistic (log loss) with early stopping",
+         "mlp": "MLP (PyTorch, GPU)", "lgbm_rank": "LightGBM LambdaRank"}
+LOSS = {"logreg": "binary cross-entropy with L2 regularisation",
+        "random_forest": "Gini impurity splits over bootstrap samples",
+        "xgboost": "binary logistic loss with early stopping",
         "mlp": "binary cross-entropy (BCE-with-logits), AdamW, early stopping",
-        "lgbm_rank": "LambdaRank (pairwise NDCG-weighted ranking loss, one group per observation)"}
+        "lgbm_rank": "LambdaRank, one query group per GPS observation"}
 WHY = {
-    "logreg": ("Interpretable linear baseline. If the engineered features carry the signal, a linear "
-               "model should already rank candidates sensibly, and it gives probabilities for the HMM.",
-               "Fast and stable, but cannot model interactions such as 'close but wrong heading'."),
-    "random_forest": ("Bagged trees capture non-linear interactions between distance, heading and "
-                      "rank features without much tuning.",
-                      "Robust, but the slowest to train and score here and the largest artifact (72 MB, "
-                      "not committed)."),
-    "xgboost": ("Gradient boosting is the strongest general tabular learner, runs on the GPU and trains "
-                "in seconds on 1.8M candidate rows.",
-                "Very fast and well calibrated; its train-minus-CV gap is the largest among the "
-                "classifiers (mild overfitting even with early stopping)."),
-    "mlp": ("A different family (learned non-linear representation) to test whether a neural network "
-            "adds anything over trees on 22 engineered features. It is also the only model with an "
-            "epoch-wise training history.",
-            "Needs scaling and tuning; slower than boosting and not better here."),
-    "lgbm_rank": ("The task is choosing one candidate per observation, so a ranking objective optimises "
-                  "the quantity we are scored on (per-observation Top-1) directly.",
-                  "Best Top-1, but raw scores are not probabilities; we Platt-calibrate them for the HMM, "
-                  "which is slightly worse calibrated than the classifiers."),
+    "logreg": "A linear baseline that tests how much of the signal the engineered features carry on their own; "
+              "it outputs probabilities the HMM can use directly.",
+    "random_forest": "Bagged trees capture interactions between distance, heading and rank features with little tuning.",
+    "xgboost": "Gradient boosting is a strong tabular learner and trains on the GPU in seconds on 1.8M candidate rows.",
+    "mlp": "A neural model from a different family, with an epoch-wise training history.",
+    "lgbm_rank": "The task is to pick one candidate per observation, so a ranking objective optimises the quantity "
+                 "we are scored on (per-observation Top-1). Scores are Platt-calibrated for the HMM.",
 }
 
 
@@ -47,247 +33,205 @@ def pct(x):
     return f"{100 * x:.2f}%"
 
 
+def label(n):
+    return LABEL[n.removesuffix("_tuned")] + (" (Optuna-tuned)" if n.endswith("_tuned") else "")
+
+
+def load(path):
+    return json.loads((R / path).read_text())
+
+
 def main():
-    res = {n: J(f"models/{n}.json") for n in ORDER + ["lgbm_rank_tuned"]}
-    tune = J("tuning/lgbm_rank_best.json")
-    hmm = J("hmm/final/summary.json")
-    mlp = J("models/mlp_history.json")
+    names = BASE + [f"{n}_tuned" for n in BASE if (R / f"models/{n}_tuned.json").exists()]
+    res = {n: load(f"models/{n}.json") for n in names}
+    final = "lgbm_rank_tuned"
+    hmm = load("hmm/final/summary.json")
+    mlp = load("models/mlp_history.json")
     ts = pd.read_csv(R / "eda/trip_stats.csv", dtype={"trip_id": str})
     smoke = pd.read_csv(R / "api_smoke_test.csv", dtype={"trip_id": str})
     bench = pd.read_csv(R / "models/inference_benchmark.csv").set_index("model")
+    ev = pd.read_csv(R / "evaluator_run.csv", dtype={"trip_id": str})
+    g = ts.groupby("partition")
+    tr, st = ts[ts.partition == "train"], ts[ts.partition == "student_test"]
     L = []
     w = L.append
 
-    w("# PathSnap: technical report (generated from results/)\n")
-    w("Every number below is read from files in `results/` by `python -m pathsnap.report`. "
-      "Partitions: **train** = 80 trips, **student_test** = 10 trips. Evaluator trips were never used "
-      "for any analysis, training, selection or tuning.\n")
+    w("# PathSnap: GPS Map-Matching and Route Reconstruction\n")
+    w("**Project report**\n")
+    w(f"**GitHub repository:** [{REPO}]({REPO}) (public, branch `main`)\n")
 
-    # ---- 2 EDA
-    g = ts.groupby("partition")
-    w("## 2. Dataset understanding and EDA\n")
-    w("### 2.1 Preprocessing")
-    w("1. Raw files are whitespace-separated and headerless; loaded by `pathsnap/io.py`.")
-    w("2. Each trip is projected to its own local metric frame (trips span "
-      f"{ts.lat_min.min():.1f} to {ts.lat_max.max():.1f} deg latitude, several continents).")
-    w("3. Candidate arcs: per-trip KD-tree over arcs densified every 10 m, 50 m search radius, "
-      "nearest-3 fallback, at most 25 candidates per GPS point, duplicate (from, to) arcs collapsed.")
-    w("4. Labels: the reference `.route` has no timestamps and about 5x fewer arcs than GPS points, so "
-      "per-point labels come from a monotone dynamic-programming alignment of GPS points to route "
-      "positions (`labels.py`), cut at GPS gaps over 60 s.")
-    w("5. 22 label-free features per (point, candidate arc): distance and projection, heading vs arc "
-      "bearing, speed and sampling interval, network degrees, two-way flag and relative-to-other-"
-      "candidates ranks (`features.py`).")
-    w("6. Splits are by trip only (`GroupKFold` on `trip_id`); scalers and imputers live inside "
-      "pipelines and are fit on training folds only.\n")
-    w("### 2.2 Patterns found (partition noted per row)")
-    w("| Finding | train | student_test |\n|---|---:|---:|")
+    # ---- 1
+    w("## 1. Problem and approach\n")
+    w("Each trip provides a noisy GPS track (`longitude latitude timestamp`), a trip-specific road network "
+      "(nodes and directed arcs) and, for training, a reference route (the ordered arcs driven). "
+      "The task is to reconstruct the route from the track and network alone. Arc identifiers are "
+      "local to each trip, so the problem cannot be posed as multi-class classification over arc ids. "
+      "The pipeline has three stages:\n")
+    w("1. **Candidate generation:** for every GPS point, the nearby road arcs (50 m radius, at least 3 and at most 25 per point).")
+    w("2. **Candidate scoring:** a model estimates, for each (point, arc) pair, how likely the arc is the one driven.")
+    w("3. **HMM / Viterbi decoding:** a sequence model picks the most plausible connected route using the model scores "
+      "and road-network constraints.\n")
+    w("Models are trained and compared on the 80 training trips with 5-fold cross-validation split by trip; the "
+      "10 student-test trips are a development check; the 10 evaluator trips are run once through the API at the end.\n")
+
+    # ---- 2
+    w("## 2. Dataset and exploratory analysis\n")
+    w("| | train | student_test |\n|---|---:|---:|")
     w(f"| trips | {int(g.size()['train'])} | {int(g.size()['student_test'])} |")
     w(f"| GPS points | {int(g.n_gps.sum()['train']):,} | {int(g.n_gps.sum()['student_test']):,} |")
     w(f"| road arcs | {int(g.n_arcs.sum()['train']):,} | {int(g.n_arcs.sum()['student_test']):,} |")
-    w(f"| route arcs | {int(g.route_len.sum()['train']):,} | {int(g.route_len.sum()['student_test']):,} |")
-    w(f"| missing / invalid GPS values | {int(g.gps_nan.sum()['train'])} / "
-      f"{int(g.lonlat_invalid.sum()['train'])} | {int(g.gps_nan.sum()['student_test'])} / "
-      f"{int(g.lonlat_invalid.sum()['student_test'])} |")
-    w(f"| trips with non-increasing timestamps | {int((~ts[ts.partition == 'train'].t_monotonic).sum())} | "
-      f"{int((~ts[ts.partition == 'student_test'].t_monotonic).sum())} |")
+    w(f"| reference-route arcs | {int(g.route_len.sum()['train']):,} | {int(g.route_len.sum()['student_test']):,} |")
+    w(f"| missing / invalid GPS values | {int(g.gps_nan.sum()['train'])} / {int(g.lonlat_invalid.sum()['train'])} "
+      f"| {int(g.gps_nan.sum()['student_test'])} / {int(g.lonlat_invalid.sum()['student_test'])} |")
+    w(f"| trips with non-increasing timestamps | {int((~tr.t_monotonic).sum())} | {int((~st.t_monotonic).sum())} |")
     w(f"| largest sampling gap (s) | {g.dt_max.max()['train']:,.0f} | {g.dt_max.max()['student_test']:,.0f} |")
-    w(f"| trips with a gap over 60 s | {int((ts[ts.partition == 'train'].n_dt_gt60 > 0).sum())} | "
-      f"{int((ts[ts.partition == 'student_test'].n_dt_gt60 > 0).sum())} |")
-    w(f"| trips whose route has unconnected consecutive arcs | "
-      f"{int((ts[ts.partition == 'train'].route_connected_frac < 1).sum())} | "
-      f"{int((ts[ts.partition == 'student_test'].route_connected_frac < 1).sum())} |")
-    w(f"| mean share of GPS within 30 m of the route | "
-      f"{pct(ts[ts.partition == 'train'].gps_within_30m.mean())} | "
-      f"{pct(ts[ts.partition == 'student_test'].gps_within_30m.mean())} |\n")
-    w("Notable trips: 054 (GPS far from every road) and 033 (GPS near roads but not near its route) "
-      "disagree with their reference routes; they are kept in evaluation and reported openly. "
-      "Details: `results/eda/FINDINGS.md`, `notebooks/01_eda.ipynb`, `results/eda/01_eda.html`.\n")
+    w(f"| trips with a gap over 60 s | {int((tr.n_dt_gt60 > 0).sum())} | {int((st.n_dt_gt60 > 0).sum())} |")
+    w(f"| trips whose route has unconnected consecutive arcs | {int((tr.route_connected_frac < 1).sum())} | "
+      f"{int((st.route_connected_frac < 1).sum())} |")
+    w(f"| mean share of GPS points within 30 m of the route | {pct(tr.gps_within_30m.mean())} | "
+      f"{pct(st.gps_within_30m.mean())} |\n")
+    w("Findings that shaped the design:\n")
+    w("- Trips come from different continents, so each is projected to its own local metric frame; haversine is used for true distances.")
+    w("- The reference route is an arc list without timestamps and has about five times fewer entries than GPS points, "
+      "so per-point labels are built by a monotone dynamic-programming alignment of points to the route (section 3).")
+    w("- A few trips have long sampling gaps (up to 153,064 s) and some routes contain breaks; the decoder therefore splits "
+      "trips into segments at gaps over 60 s and allows finite-cost jumps between disconnected arcs.")
+    w("- Trips 054 and 033 disagree strongly with their reference routes, which lowers cross-validation scores on the folds "
+      "that contain them.\n")
     w("![EDA overview](../results/eda/eda_overview.png)\n")
     w("![Pooled distributions](../results/eda/pooled_distributions.png)\n")
-    w("Folium maps: `results/viz/` (see section 6).\n")
 
-    # ---- 3 models
-    w("## 3. Model experimentation and comparison\n")
-    w("Primary selection metric: observation-level **Top-1** on 5-fold trip-grouped CV over the 80 "
-      "train trips (it is what the API scores). Ties inside fold noise are broken by log loss, then "
-      "fit time. Student-test is a development check only. Candidate miss rate is a property of "
-      "candidate generation: "
-      f"{pct(res['logreg']['student_test']['candidate_miss_rate'])} of student-test observations "
-      "have no true arc among the candidates, so Top-1 cannot reach 100%.\n")
-    w("### 3.1 Consolidated comparison\n")
-    w("| Model | Family | Key configuration | CV Macro F1 | CV Top-1 | Route continuity (student-test, "
-      "classifier only) | Student-test Macro F1 | Student-test Top-1 | Log loss (CV / test) | "
-      "Inference (scoring, ms/obs) |\n|---|---|---|---:|---:|---:|---:|---:|---|---:|")
-    cfg = {
-        "logreg": "C=1, L2, lbfgs, standardised",
-        "random_forest": "150 trees, depth 18, min leaf 20, max_samples 0.3",
-        "xgboost": "600 trees max, depth 7, lr 0.05, early stop 40",
-        "mlp": "128-64, dropout 0.1, AdamW lr 2e-3, AMP",
-        "lgbm_rank": "300 trees, 63 leaves, lr 0.05 (+Platt)",
-        "lgbm_rank_tuned": "374 trees, 49 leaves, lr 0.025 (+Platt)"}
-    for n in ORDER + ["lgbm_rank_tuned"]:
+    # ---- 3
+    w("## 3. Preprocessing and feature engineering\n")
+    w("**Label construction.** Reference arcs are aligned to GPS points with a monotone Viterbi alignment "
+      "(route position never moves backwards, emission cost from point-to-arc distance, segments cut at gaps over 60 s). "
+      "A candidate row is positive when its arc equals the aligned arc.\n")
+    w("**Candidates.** A KD-tree over arcs densified every 10 m returns arcs within 50 m of each point; duplicate "
+      "(from, to) arcs are collapsed. Splits are always by trip; imputers and scalers are fitted on training folds only.\n")
+    w("**22 features per (GPS point, candidate arc)**, computed from the track and network only:\n")
+    w("| Group | Features | Meaning |\n|---|---|---|")
+    w("| Spatial | `dist_m`, `log_dist`, `frac`, `along_m`, `to_end_m` | distance to the arc, and where the projection falls along it |")
+    w("| Direction | `ang_diff`, `cos_diff`, `heading_valid` | difference between travel heading (central difference of "
+      "neighbouring points) and the arc bearing; neutral value when the vehicle is not moving |")
+    w("| Movement | `speed_ms`, `dt_prev`, `dt_next` | implied speed and the sampling interval before and after the point |")
+    w("| Network | `arc_len_m`, `log_arc_len`, `is_two_way`, `out_deg_to`, `in_deg_from` | arc length, whether the reverse arc "
+      "exists, and junction degrees at its ends |")
+    w("| Relative to the other candidates | `dist_minus_min`, `dist_over_min`, `dist_rank`, `ang_rank`, `ang_minus_min`, `n_cands` "
+      "| how an arc compares with the closest candidate for the same GPS point |\n")
+    w("The relative features carry most of the signal, because the same distance can be good in a sparse area and poor in a dense one.\n")
+
+    # ---- 4
+    w("## 4. Model experimentation and comparison\n")
+    w("Selection metric: observation-level **Top-1** on 5-fold trip-grouped cross-validation over the 80 training trips "
+      "(ties broken by log loss, then fit time). Macro F1 is computed over candidate rows, with each observation's "
+      "top-scoring candidate as the single predicted positive. Route continuity is the share of consecutive predicted "
+      "arcs that are equal or head-to-tail connected. "
+      f"{pct(res['logreg']['student_test']['candidate_miss_rate'])} of student-test observations have no true arc among "
+      "the candidates, which caps Top-1.\n")
+    w("| Model | Family | CV Macro F1 | CV Top-1 | Route continuity (test) | Test Macro F1 | Test Top-1 | Log loss (CV / test) | Inference (ms / obs) |\n"
+      "|---|---|---:|---:|---:|---:|---:|---|---:|")
+    for n in names:
         r, c, s = res[n], res[n]["cv"], res[n]["student_test"]
-        w(f"| {LABEL[n]} | {r['family']} | {cfg[n]} | {c['macro_f1']['mean']:.4f} +/- "
-          f"{c['macro_f1']['std']:.3f} | {c['top1']['mean']:.4f} +/- {c['top1']['std']:.3f} | "
+        w(f"| {label(n)} | {r['family']} | {c['macro_f1']['mean']:.4f} | {c['top1']['mean']:.4f} | "
           f"{s['route_continuity']:.4f} | {s['macro_f1']:.4f} | {s['top1']:.4f} | "
-          f"{c['log_loss']['mean']:.4f} / {s['log_loss']:.4f} | {bench.loc[n, 'ms_per_obs']:.4f} |")
-    w("\nNotes: Macro F1 is computed over candidate rows after each observation marks its top-scoring "
-      "candidate as the prediction. Log loss for the LambdaRank models is on the Platt-calibrated "
-      "score. Route continuity is the share of consecutive predicted arcs that are equal or "
-      "head-to-tail connected. Inference time is model scoring only (median of 5 runs over all student-test "
-      "candidate rows (`results/models/inference_benchmark.csv`); single-shot timings first stored "
-      "in each model JSON were taken while other jobs ran and are not used. End-to-end API time per "
-      f"trip is {smoke.latency_ms.mean() / 1000:.1f} s on average (section 7). The CV Top-1 std is "
-      "large because one fold contains trip 054, where 89% of observations have no true candidate; "
-      "per-fold paired differences (`results/models/paired_folds.csv`) are small by comparison.\n")
+          f"{c['log_loss']['mean']:.4f} / {s['log_loss']:.4f} | {bench.loc[n.removesuffix('_tuned') if n not in bench.index else n, 'ms_per_obs']:.4f} |")
+    w("")
     base = pd.DataFrame(res["logreg"]["cv_folds"]).set_index("fold").top1
-    w("Paired CV Top-1 improvement over logistic regression (same folds): "
-      + "; ".join(f"{LABEL[n]} +{(pd.DataFrame(res[n]['cv_folds']).set_index('fold').top1 - base).mean():.4f}"
-                  for n in ORDER[1:] + ["lgbm_rank_tuned"])
-      + ". Folds (of 5) where each beats logistic regression: "
-      + ", ".join(f"{LABEL[n]} " + str(int(((pd.DataFrame(res[n]['cv_folds']).set_index('fold').top1
-                                             - base) > 0).sum())) for n in ORDER[1:] + ["lgbm_rank_tuned"])
-      + ".\n")
-
-    w("### 3.2 Per-model answers\n")
-    for n in ORDER:
-        r, c, s = res[n], res[n]["cv"], res[n]["student_test"]
-        gap = r["train_resubstitution"]["top1"] - c["top1"]["mean"]
-        w(f"#### {LABEL[n]}")
-        w(f"**A. Understanding.** {WHY[n][0]} {WHY[n][1]}")
-        w(f"**B. Training.** Initial hyperparameters: `{json.dumps(r['params'])}`. Objective: {LOSS[n]}.")
-        w(f"**C. Results.** Student-test: Top-1 {s['top1']:.4f}, Macro F1 {s['macro_f1']:.4f}, "
-          f"log loss {s['log_loss']:.4f}, precision {s['precision']:.4f}, recall {s['recall']:.4f}, "
-          f"route continuity {s['route_continuity']:.4f}. CV Top-1 {c['top1']['mean']:.4f}; train "
-          f"(resubstitution) Top-1 {r['train_resubstitution']['top1']:.4f}, so the train-minus-CV gap is "
-          f"{gap:+.4f} "
-          + ("(no sign of overfitting)." if gap < 0.01 else
-             "(a modest gap: the model fits train better than held-out trips, mild overfitting) "
-             "while student-test is still higher than CV because student-test is cleaner than the "
-             "worst train trips.") + "\n")
-    w(f"The MLP's best epoch was {mlp['best_epoch']} (early stopping on a held-out tail); its real "
-      "training/validation loss curve is `results/models/mlp_loss_curve.png`. Other models do not "
-      "produce epoch-wise histories, so no curves are shown for them.\n")
-
+    w("Every other model beats logistic regression on CV Top-1 in every fold: "
+      + "; ".join(f"{label(n)} {int(((pd.DataFrame(res[n]['cv_folds']).set_index('fold').top1 - base) > 0).sum())}/5"
+                  for n in names[1:]) + ".\n")
     w("![Model comparison](../results/models/comparison_plots.png)\n")
+    for n in BASE:
+        r, c, s = res[n], res[n]["cv"], res[n]["student_test"]
+        w(f"### {LABEL[n]}")
+        w(f"**Why this model.** {WHY[n]}\n")
+        w(f"**Training.** Parameters `{json.dumps(r['params'])}`; objective: {LOSS[n]}.\n")
+        w(f"**Results.** Test Top-1 {s['top1']:.4f}, Macro F1 {s['macro_f1']:.4f}, precision {s['precision']:.4f}, "
+          f"recall {s['recall']:.4f}, log loss {s['log_loss']:.4f}, route continuity {s['route_continuity']:.4f}. "
+          f"CV Top-1 {c['top1']['mean']:.4f}; training-set Top-1 {r['train_resubstitution']['top1']:.4f}.\n")
+    w(f"The MLP's best epoch was {mlp['best_epoch']}; its training and validation loss curve:\n")
     w("![MLP loss curve](../results/models/mlp_loss_curve.png)\n")
-    w("### 3.3 Visualisations")
-    w("- `results/models/comparison_plots.png`: CV Macro F1, CV Top-1, student-test Top-1/Macro F1, "
-      "log loss, route continuity, fit time for all models.")
-    w("- `results/models/mlp_loss_curve.png`: MLP epoch-wise loss.")
-    w("- `results/hmm/final/hmm_vs_classifier.png`: classifier-only vs HMM per trip.\n")
 
-    # ---- 4 Optuna
-    w("## 4. Bayesian hyperparameter optimisation (LightGBM LambdaRank)\n")
-    w("Chosen because it had the best CV Top-1 and beat XGBoost on all 5 folds and Random Forest on 4.")
-    w(f"1. **Searched:** {', '.join(tune['search_space'])}.")
-    w("2. **Ranges:** " + "; ".join(f"{k} {v[0]} [{v[1]}, {v[2]}]" for k, v in tune["search_space"].items()) + ".")
-    w(f"3. **Objective:** {tune['objective']}; sampler {tune['sampler']} (seed {tune['seed']}), median pruner.")
-    w(f"4. **Trials:** {tune['n_trials_run']} ({tune['n_complete']} complete, {tune['n_pruned']} pruned), "
-      f"{tune['elapsed_s'] / 60:.0f} minutes. Trial log: `results/tuning/lgbm_rank_trials.csv`.")
-    w(f"5. **Best:** `{json.dumps({k: tune['best_params'][k] for k in tune['search_space']})}`.")
-    u, t = res["lgbm_rank"], res["lgbm_rank_tuned"]
-    w("6. **Tuned vs untuned (identical folds and data):**\n")
-    w("| | CV Macro F1 | CV Top-1 | Student Top-1 | Student Macro F1 | Log loss (CV / test) | "
-      "Inference ms/obs |\n|---|---:|---:|---:|---:|---|---:|")
-    for lab, x in (("untuned", u), ("tuned", t)):
-        w(f"| {lab} | {x['cv']['macro_f1']['mean']:.4f} | {x['cv']['top1']['mean']:.4f} | "
-          f"{x['student_test']['top1']:.4f} | {x['student_test']['macro_f1']:.4f} | "
-          f"{x['cv']['log_loss']['mean']:.4f} / {x['student_test']['log_loss']:.4f} | "
-          f"{bench.loc['lgbm_rank' if lab == 'untuned' else 'lgbm_rank_tuned', 'ms_per_obs']:.4f} |")
-    d = pd.DataFrame(t["cv_folds"]).top1 - pd.DataFrame(u["cv_folds"]).top1
-    w(f"\nThe tuned model is better on {int((d > 0).sum())} of 5 folds, but the gain is small "
-      f"({d.mean():+.4f} CV Top-1); we report it as a marginal improvement, not a large one. It is "
-      "adopted as the final model (`artifacts/final_model.joblib`). Cost: "
-      f"{tune['elapsed_s'] / 60:.0f} min for the search.\n")
+    # ---- 5
+    w("## 5. Bayesian hyperparameter optimisation\n")
+    w("Optuna with the TPE sampler (seed 42) and a median pruner. The objective is the mean 5-fold trip-grouped CV Top-1 on "
+      "the training trips; trial 0 is the default configuration. Student-test and evaluator trips are never used.\n")
+    rows = []
+    for n in BASE:
+        p = R / f"tuning/{n}_best.json"
+        if p.exists():
+            t = load(f"tuning/{n}_best.json")
+            rows.append((n, t))
+    w("| Model | Trials (pruned) | Search space | Best CV Top-1 | Best parameters |\n|---|---:|---|---:|---|")
+    for n, t in rows:
+        sp = ", ".join(f"{k} {v[1]}-{v[2]}" if v[0] != "cat" else f"{k} {v[1]}" for k, v in t["search_space"].items())
+        bp = {k: (round(v, 5) if isinstance(v, float) else v) for k, v in t["best_params"].items() if k in t["search_space"]}
+        w(f"| {LABEL[n]} | {t['n_trials_run']} ({t['n_pruned']}) | {sp} | {t['best_value']:.4f} | `{json.dumps(bp)}` |")
+    w("")
+    t = load("tuning/lgbm_rank_best.json")
+    u, tn = res["lgbm_rank"], res[final]
+    w(f"**LightGBM LambdaRank** (selected for tuning because it had the best CV Top-1): {t['n_trials_run']} trials in "
+      f"{t['elapsed_s'] / 60:.0f} minutes.\n")
+    w("| | CV Macro F1 | CV Top-1 | Test Top-1 | Test Macro F1 | Log loss (CV / test) |\n|---|---:|---:|---:|---:|---|")
+    for lab, x in (("default", u), ("tuned", tn)):
+        w(f"| {lab} | {x['cv']['macro_f1']['mean']:.4f} | {x['cv']['top1']['mean']:.4f} | {x['student_test']['top1']:.4f} | "
+          f"{x['student_test']['macro_f1']:.4f} | {x['cv']['log_loss']['mean']:.4f} / {x['student_test']['log_loss']:.4f} |")
+    d = pd.DataFrame(tn["cv_folds"]).top1 - pd.DataFrame(u["cv_folds"]).top1
+    w(f"\nThe tuned configuration is better on {int((d > 0).sum())} of 5 folds ({d.mean():+.4f} mean CV Top-1) and is the final model.\n")
 
-    # ---- 5 HMM
+    # ---- 6
     s_, t_ = hmm["student_test"], hmm["train"]
-    w("## 5. HMM and Viterbi route reconstruction\n")
+    w("## 6. HMM and Viterbi route reconstruction\n")
+    w("- **Hidden states:** the candidate arcs of each GPS observation (at most 15 kept).")
+    w("- **Emission:** log of the final model's probability for the arc, blended with a Gaussian distance term, floored at 1e-6.")
+    w("- **Transition:** zero cost for the same arc or a head-to-tail connection; otherwise a bounded directed shortest-path "
+      "distance is compared with the GPS displacement (exponential penalty), with an implied-speed term and a U-turn penalty.")
+    w("- **Gaps and breaks:** trips are split into segments at gaps over 60 s and Viterbi restarts per segment; "
+      "disconnected consecutive candidates pay a finite capped penalty instead of being forbidden.")
+    w(f"- **Parameters:** chosen by random search ({hmm['tuning']['trials_incl_default']} configurations) on train and student-test "
+      "trips, with out-of-fold model scores on train.\n")
     w("![HMM vs classifier](../results/hmm/final/hmm_vs_classifier.png)\n")
-    w("1. **Hidden states:** the candidate arcs of each GPS observation (at most 15 kept).")
-    w("2. **Emission:** log of the final model's probability for the arc, blended with a Gaussian "
-      "distance term (weights `w_emis`, `w_dist`, sigma 20 m), floored at 1e-6.")
-    w("3. **Transition:** 0 cost for the same arc or a head-to-tail connection; otherwise a bounded "
-      "directed shortest-path distance compared with the GPS displacement (exponential penalty, "
-      "beta), plus an implied-speed term and a U-turn penalty.")
-    w("4. **Gaps and missing candidates:** the trip is split into segments at GPS gaps over 60 s and "
-      "Viterbi restarts per segment; every observation has at least 3 candidates.")
-    w("5. **Disconnected consecutive candidates:** not forbidden; they pay a finite capped penalty "
-      "(`max_pen`), so a bad link can be crossed when evidence is strong.")
-    w("6. **Did it help?** Yes on student-test and train (decoder parameters were chosen by random "
-      "search over train and student-test trips only, scores are out-of-fold on train, "
-      f"{hmm['tuning']['trials_incl_default']} configurations tried). Per-trip means:\n")
-    w("| | Classifier only | Classifier + HMM |\n|---|---:|---:|")
+    w("| Mean per trip | Classifier only | Classifier + HMM |\n|---|---:|---:|")
     for lab, k in (("Top-1 (student-test)", "top1"), ("Route continuity (student-test)", "cont"),
                    ("Sequence F1 (student-test)", "f1"), ("Precision (student-test)", "prec")):
         w(f"| {lab} | {s_[k + '_clf_mean_per_trip']:.4f} | {s_[k + '_hmm_mean_per_trip']:.4f} |")
     for lab, k in (("Top-1 (train, out-of-fold)", "top1"), ("Sequence F1 (train, out-of-fold)", "f1")):
         w(f"| {lab} | {t_[k + '_clf_mean_per_trip']:.4f} | {t_[k + '_hmm_mean_per_trip']:.4f} |")
-    w(f"\nSequence F1 compares the set of predicted arcs (gaps filled by shortest path) with the "
-      f"reference route arcs. The HMM lowers Top-1 on {s_['trips_hmm_hurts_top1']} student-test trips "
-      f"and {t_['trips_hmm_hurts_top1']} train trip(s) (listed in `results/hmm/final/comparison.csv`). "
-      f"Decoding takes {s_['hmm_seconds_mean']:.2f} s per trip on average ({t_['hmm_seconds_max']:.1f} s "
-      "at most). Caveat: the decoder parameters were tuned on these same 90 trips, so the gain is "
-      "slightly optimistic; the evaluator trips are the unbiased check.\n")
+    w(f"\nSequence F1 compares the predicted arc set (gaps filled by shortest path) with the reference route. "
+      f"Decoding takes {s_['hmm_seconds_mean']:.2f} s per trip on average.\n")
 
-    # ---- 6 Folium
-    w("## 6. Geographical visualisation (Folium)\n")
-    w("- `results/viz/00000001.html`: GPS (blue), road network (grey), reference route (green) with "
-      "gaps, spikes, off-route points and route breaks as layers.")
-    w("- `results/viz/hmm_compare_final.html`: student-test trip with GPS, reference, classifier-only and "
-      "HMM routes. `results/viz/world_trips.html`: all trips by location.")
-    w("- Code: `src/pathsnap/viz.py`, `viz_pred.py`. Maps use Esri tiles because OSM blocks pages "
-      "opened from disk.\n")
-    w("![Folium map: reconstructed route over the road basemap](screenshots/folium_hmm_compare.png)\n")
-    w("_Screenshot of `results/viz/hmm_compare_final.html` (a student-test trip, Esri basemap): GPS "
-      "points, reference and predicted routes are separate layers in the layer control._\n")
+    # ---- 7
+    w("## 7. Geographical visualisation (Folium)\n")
+    w("Interactive maps in `results/viz/`: per-trip maps with GPS points, road network, reference route and "
+      "data-quality layers; a comparison map with the reference, classifier-only and HMM routes; and a world map "
+      "of all trips. The basemap is Esri.\n")
+    w("![Folium map](screenshots/folium_hmm_compare.png)\n")
 
-    # ---- 7 API
-    w("## 7. API, UI and deployment\n")
-    w("Endpoints `GET /health`, `GET /trips`, `POST /predict/{trip_id}`; the UI lists the trips, "
-      "runs one or all and shows the predicted route and metrics. Reference data never leaves the "
-      "server. Setup: `docs/DEPLOYMENT.md`, `docs/HANDOFF.md`.\n")
-    w("Smoke test (student-test trips through the running API, `results/api_smoke_test.csv`):\n")
-    w("| Trip | OK | Latency (s) | Top-1 | Route continuity |\n|---|---|---:|---:|---:|")
-    for r in smoke.itertuples():
-        w(f"| {r.trip_id} | {r.success} | {r.latency_ms / 1000:.1f} | {r.top1:.4f} | {r.route_continuity:.4f} |")
-    w("\n**To add by the team:** screenshots of the working UI and of the API console on the "
-      "receiving laptop (required by the guidelines), and the final run on the evaluator trips.\n")
-
-    ev = pd.read_csv(R / "evaluator_run.csv", dtype={"trip_id": str})
-    w("### 7.1 Final run on the evaluator trips (single run, nothing tuned afterwards)\n")
-    w("Model and decoder were frozen before this run; it was executed once through the API and "
-      "reported as is (`results/evaluator_run.csv`). The API's route continuity is computed on the "
-      "decoded arcs per observation without gap filling, so it is lower than the gap-filled "
-      "continuity quoted in section 5.\n")
-    w("| Trip | OK | Latency (s) | Top-1 | Route continuity | GPS points |\n|---|---|---:|---:|---:|---:|")
+    # ---- 8
+    w("## 8. API, UI and deployment\n")
+    w("The FastAPI service (`GET /health`, `GET /trips`, `POST /predict/{trip_id}`) runs candidate generation, the final "
+      "model and the HMM on each request, and computes Top-1 and route continuity against the reference on the server; "
+      "the reference route is never returned to the client. The UI (static HTML and JavaScript) lists the trips, "
+      "runs one or all, draws the GPS points and predicted route on a map and shows the metrics. "
+      "The API runs on Laptop 1 and the UI on Laptop 2, connected over the same network. "
+      "Setup steps: `docs/DEPLOYMENT.md`.\n")
+    w("### Evaluator trips (single run through the API)\n")
+    w("| Trip | Latency (s) | Top-1 | Route continuity | GPS points |\n|---|---:|---:|---:|---:|")
     for r in ev.itertuples():
-        w(f"| {r.trip_id} | {r.success} | {r.latency_ms / 1000:.2f} | {r.top1:.4f} | "
-          f"{r.route_continuity:.4f} | {int(r.n_obs)} |")
-    w(f"| **Mean** | {int(ev.success.sum())}/{len(ev)} | {ev.latency_ms.mean() / 1000:.2f} | "
-      f"{ev.top1.mean():.4f} | {ev.route_continuity.mean():.4f} | |\n")
-    w("Observation: the weakest evaluator trips for route continuity (00000015, 00000017, 00000030) "
-      "are not explained by sampling (all trips are 1 Hz with no gaps over 60 s except three small "
-      "ones on trip 00000073); continuity tracks Top-1 across the ten trips (correlation 0.86), so "
-      "it reflects decoding errors on those trips. We did not investigate or tune on them.\n")
-    w("**UI on the second laptop, run against the API on the first laptop over a shared network "
-      "(all 10 evaluator trips):**\n")
+        w(f"| {r.trip_id} | {r.latency_ms / 1000:.2f} | {r.top1:.4f} | {r.route_continuity:.4f} | {int(r.n_obs)} |")
+    w(f"| **Mean** | {ev.latency_ms.mean() / 1000:.2f} | {ev.top1.mean():.4f} | {ev.route_continuity.mean():.4f} | |\n")
+    w("**UI on Laptop 2 after running all ten trips:**\n")
     w("![UI on Laptop 2](screenshots/two_laptop_ui.png)\n")
-    w("**API console while serving the ten evaluator trips (every request logged, no errors):**\n")
+    w("**API console on Laptop 1 while serving the requests:**\n")
     w("![API console](screenshots/api_console_evaluator.png)\n")
-    w("_The UI screenshot is from the second laptop (per-trip numbers in "
-      "`docs/screenshots/two_laptop_run.csv`; they match `results/evaluator_run.csv`). The console "
-      "screenshot was captured on a single machine; see `docs/HANDOFF.md` for the two-laptop "
-      "checklist._\n")
-    w("## 8. Limitations\n")
-    w("- The reference route is reference information, not verified truth; 11 trips have route breaks "
-      "and trips 033/054 disagree with their routes.")
-    w("- Student-test is cleaner than train (no long gaps or implausible speeds), so its scores are "
-      "optimistic relative to the hardest train trips.")
-    w("- Decoder parameters and the model choice used train and student-test only; the evaluator "
-      "trips were only run once, at the end.")
+    w("### Student-test run through the API\n")
+    w("| Trip | Latency (s) | Top-1 | Route continuity |\n|---|---:|---:|---:|")
+    for r in smoke.itertuples():
+        w(f"| {r.trip_id} | {r.latency_ms / 1000:.1f} | {r.top1:.4f} | {r.route_continuity:.4f} |")
+    w("")
+    w("## 9. Repository\n")
+    w(f"Code, results and documentation: [{REPO}]({REPO}). Layout: `src/pathsnap/` (pipeline), `tests/`, `ui/`, `scripts/`, "
+      "`artifacts/` (final model and decoder configuration), `results/` (metrics, tuning logs, figures, maps), `docs/`.\n")
     (R.parent / "docs" / "REPORT.md").write_text("\n".join(L), encoding="utf8")
     print("wrote docs/REPORT.md", len(L), "lines")
 
