@@ -19,6 +19,18 @@ GPS_C, ROUTE_C, PRED_C, NET_C = "#2a78d6", "#008300", "#e34948", "#888888"
 WARN_C = "#eb6834"
 
 
+def _base_map(location, zoom):
+    """OSM's public tiles return 403 for pages opened from file://, and CartoDB needs an API key,
+    so Esri's keyless street and satellite tiles are used instead."""
+    esri = "https://server.arcgisonline.com/ArcGIS/rest/services"
+    m = folium.Map(location=location, zoom_start=zoom, tiles=None)
+    folium.TileLayer(f"{esri}/World_Street_Map/MapServer/tile/{{z}}/{{y}}/{{x}}",
+                     attr="Esri", name="Street map", max_zoom=19).add_to(m)
+    folium.TileLayer(f"{esri}/World_Imagery/MapServer/tile/{{z}}/{{y}}/{{x}}",
+                     attr="Esri", name="Satellite", show=False, max_zoom=19).add_to(m)
+    return m
+
+
 def _network_subset(tr, nodes, arcs, pad=0.002, cap=4000):
     lon, lat = nodes.lon.to_numpy(), nodes.lat.to_numpy()
     fn = arcs.from_node.to_numpy()
@@ -33,7 +45,7 @@ def _network_subset(tr, nodes, arcs, pad=0.002, cap=4000):
 def trip_map(trip: dict, pred_arcs=None, out: Path | None = None, max_network_arcs: int = 4000,
              eda_layers: bool = True):
     tr, nodes, arcs = trip["track"], trip["nodes"], trip["arcs"]
-    m = folium.Map(location=[tr.lat.mean(), tr.lon.mean()], zoom_start=14, tiles="OpenStreetMap")
+    m = _base_map([tr.lat.mean(), tr.lon.mean()], 14)
     lon, lat = nodes.lon.to_numpy(), nodes.lat.to_numpy()
     fn, tn = arcs.from_node.to_numpy(), arcs.to_node.to_numpy()
 
@@ -110,7 +122,7 @@ def world_map(stats_csv: Path | None = None, out: Path | None = None):
     df = pd.read_csv(stats_csv or RESULTS / "eda" / "trip_stats.csv", dtype={"trip_id": str})
     fpath = RESULTS / "eda" / "trip_flags.csv"
     flags = pd.read_csv(fpath, dtype={"trip_id": str}) if fpath.exists() else None
-    m = folium.Map(location=[30, 10], zoom_start=2, tiles="OpenStreetMap")
+    m = _base_map([30, 10], 2)
     groups = {p: folium.FeatureGroup(f"{p} trips").add_to(m) for p in df.partition.unique()}
     colors = {"train": GPS_C, "student_test": WARN_C}
     for r in df.itertuples():
