@@ -1,6 +1,6 @@
 {
   "version": "hmm-v1",
-  "note": "PathSnap HMM v1: frozen after random search (defaults + 30 random configs, seed 0) over train+student_test trips with the logreg scorer; objective = mean per-trip (top1 + seq_f1)/2. Search space: pathsnap.hmm_eval.SPACE.",
+  "note": "PathSnap HMM v1: frozen after random search (defaults + 30 random configs, seed 0) over train+student_test trips with the lgbm_rank_tuned scorer (out-of-fold scores on train); objective = mean per-trip (top1 + seq_f1)/2. Search space: pathsnap.hmm_eval.SPACE.",
   "params": {
     "gap_s": 60.0,
     "max_cands": 15,

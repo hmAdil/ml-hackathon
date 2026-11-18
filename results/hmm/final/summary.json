@@ -1,0 +1,115 @@
+{
+  "student_test": {
+    "n_trips": 10,
+    "n_obs": 19160,
+    "top1_clf_mean_per_trip": 0.8821332574017846,
+    "top1_hmm_mean_per_trip": 0.9463889934947517,
+    "cont_clf_mean_per_trip": 0.9278009260863591,
+    "cont_hmm_mean_per_trip": 0.9769077576586213,
+    "prec_clf_mean_per_trip": 0.6559726421445018,
+    "prec_hmm_mean_per_trip": 0.9480465986723339,
+    "rec_clf_mean_per_trip": 0.9928499316223072,
+    "rec_hmm_mean_per_trip": 0.9900513158592048,
+    "f1_clf_mean_per_trip": 0.7795554373515676,
+    "f1_hmm_mean_per_trip": 0.9679695799050213,
+    "top1_clf_obs_weighted": 0.8632045929018789,
+    "top1_hmm_obs_weighted": 0.9366388308977035,
+    "cont_clf_obs_weighted": 0.9279894576858488,
+    "cont_hmm_obs_weighted": 0.9796330416271706,
+    "trips_hmm_hurts_top1": 0,
+    "trips_hmm_hurts_f1": 0,
+    "hmm_seconds_max": 0.4840219020843506,
+    "hmm_seconds_mean": 0.23838162422180176
+  },
+  "train": {
+    "n_trips": 80,
+    "n_obs": 208417,
+    "top1_clf_mean_per_trip": 0.8488219211520283,
+    "top1_hmm_mean_per_trip": 0.9192717113865791,
+    "cont_clf_mean_per_trip": 0.9110382129025926,
+    "cont_hmm_mean_per_trip": 0.9691822258473402,
+    "prec_clf_mean_per_trip": 0.6380461224056894,
+    "prec_hmm_mean_per_trip": 0.9086888859890753,
+    "rec_clf_mean_per_trip": 0.9821807818775256,
+    "rec_hmm_mean_per_trip": 0.983346798877362,
+    "f1_clf_mean_per_trip": 0.7551006920613894,
+    "f1_hmm_mean_per_trip": 0.9407707163536017,
+    "top1_clf_obs_weighted": 0.756536175072091,
+    "top1_hmm_obs_weighted": 0.8346296127475206,
+    "cont_clf_obs_weighted": 0.9231247117895,
+    "cont_hmm_obs_weighted": 0.9792652930330432,
+    "trips_hmm_hurts_top1": 1,
+    "trips_hmm_hurts_f1": 1,
+    "hmm_seconds_max": 1.4049491882324219,
+    "hmm_seconds_mean": 0.2573177605867386
+  },
+  "all": {
+    "n_trips": 90,
+    "n_obs": 227577,
+    "top1_clf_mean_per_trip": 0.8525231807353345,
+    "top1_hmm_mean_per_trip": 0.9222847427319316,
+    "cont_clf_mean_per_trip": 0.9129007365896779,
+    "cont_hmm_mean_per_trip": 0.9700406182708157,
+    "prec_clf_mean_per_trip": 0.640037957932224,
+    "prec_hmm_mean_per_trip": 0.913061965176104,
+    "rec_clf_mean_per_trip": 0.983366242960279,
+    "rec_hmm_mean_per_trip": 0.984091745208678,
+    "f1_clf_mean_per_trip": 0.7578178859825204,
+    "f1_hmm_mean_per_trip": 0.9437928123037597,
+    "top1_clf_obs_weighted": 0.7655167262069541,
+    "top1_hmm_obs_weighted": 0.8432178998756464,
+    "cont_clf_obs_weighted": 0.9235342809962916,
+    "cont_hmm_obs_weighted": 0.9792962542596326,
+    "trips_hmm_hurts_top1": 1,
+    "trips_hmm_hurts_f1": 1,
+    "hmm_seconds_max": 1.4049491882324219,
+    "hmm_seconds_mean": 0.25521374543507896
+  },
+  "tuning": {
+    "trials_incl_default": 31,
+    "search_space": {
+      "max_cands": [
+        6,
+        10,
+        15
+      ],
+      "w_emis": [
+        0.5,
+        1.0,
+        2.0
+      ],
+      "w_dist": [
+        0.0,
+        0.5,
+        1.0
+      ],
+      "beta": [
+        10.0,
+        20.0,
+        30.0,
+        60.0
+      ],
+      "max_pen": [
+        4.0,
+        8.0,
+        15.0
+      ],
+      "uturn_pen": [
+        0.0,
+        2.0,
+        5.0
+      ],
+      "vmax": [
+        50.0,
+        70.0,
+        100.0
+      ],
+      "speed_w": [
+        0.05,
+        0.1,
+        0.3
+      ]
+    },
+    "scorer_note": "train scores are out-of-fold"
+  }
+}

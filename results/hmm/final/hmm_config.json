@@ -1,0 +1,21 @@
+{
+  "version": "hmm-v1",
+  "note": "PathSnap HMM v1: frozen after random search (defaults + 30 random configs, seed 0) over train+student_test trips with the lgbm_rank_tuned scorer (out-of-fold scores on train); objective = mean per-trip (top1 + seq_f1)/2. Search space: pathsnap.hmm_eval.SPACE.",
+  "params": {
+    "gap_s": 60.0,
+    "max_cands": 15,
+    "w_emis": 0.5,
+    "w_dist": 0.5,
+    "sigma_m": 20.0,
+    "p_floor": 1e-06,
+    "beta": 30.0,
+    "w_trans": 1.0,
+    "max_pen": 8.0,
+    "vmax": 50.0,
+    "speed_w": 0.3,
+    "uturn_pen": 2.0,
+    "limit_mult": 1.5,
+    "limit_add": 250.0,
+    "limit_max": 3000.0
+  }
+}

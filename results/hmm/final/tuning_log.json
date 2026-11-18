@@ -1,0 +1,427 @@
+[
+  {
+    "trial": 0,
+    "objective": 0.9194304775984321,
+    "params": {}
+  },
+  {
+    "trial": 1,
+    "objective": 0.9115203628836268,
+    "params": {
+      "max_cands": 15,
+      "w_emis": 1.0,
+      "w_dist": 0.5,
+      "beta": 20.0,
+      "max_pen": 4.0,
+      "uturn_pen": 0.0,
+      "vmax": 50.0,
+      "speed_w": 0.05
+    }
+  },
+  {
+    "trial": 2,
+    "objective": 0.9001113995982634,
+    "params": {
+      "max_cands": 6,
+      "w_emis": 2.0,
+      "w_dist": 0.5,
+      "beta": 60.0,
+      "max_pen": 8.0,
+      "uturn_pen": 2.0,
+      "vmax": 100.0,
+      "speed_w": 0.3
+    }
+  },
+  {
+    "trial": 3,
+    "objective": 0.906019956184332,
+    "params": {
+      "max_cands": 10,
+      "w_emis": 1.0,
+      "w_dist": 0.5,
+      "beta": 60.0,
+      "max_pen": 4.0,
+      "uturn_pen": 5.0,
+      "vmax": 100.0,
+      "speed_w": 0.05
+    }
+  },
+  {
+    "trial": 4,
+    "objective": 0.919404297617129,
+    "params": {
+      "max_cands": 10,
+      "w_emis": 2.0,
+      "w_dist": 0.5,
+      "beta": 10.0,
+      "max_pen": 15.0,
+      "uturn_pen": 5.0,
+      "vmax": 100.0,
+      "speed_w": 0.05
+    }
+  },
+  {
+    "trial": 5,
+    "objective": 0.8925229369946375,
+    "params": {
+      "max_cands": 6,
+      "w_emis": 2.0,
+      "w_dist": 0.0,
+      "beta": 30.0,
+      "max_pen": 4.0,
+      "uturn_pen": 0.0,
+      "vmax": 70.0,
+      "speed_w": 0.1
+    }
+  },
+  {
+    "trial": 6,
+    "objective": 0.9288471496065035,
+    "params": {
+      "max_cands": 10,
+      "w_emis": 0.5,
+      "w_dist": 0.0,
+      "beta": 10.0,
+      "max_pen": 4.0,
+      "uturn_pen": 5.0,
+      "vmax": 70.0,
+      "speed_w": 0.1
+    }
+  },
+  {
+    "trial": 7,
+    "objective": 0.9213094615853427,
+    "params": {
+      "max_cands": 6,
+      "w_emis": 1.0,
+      "w_dist": 1.0,
+      "beta": 20.0,
+      "max_pen": 8.0,
+      "uturn_pen": 5.0,
+      "vmax": 100.0,
+      "speed_w": 0.3
+    }
+  },
+  {
+    "trial": 8,
+    "objective": 0.9096997613413811,
+    "params": {
+      "max_cands": 10,
+      "w_emis": 2.0,
+      "w_dist": 1.0,
+      "beta": 30.0,
+      "max_pen": 15.0,
+      "uturn_pen": 5.0,
+      "vmax": 100.0,
+      "speed_w": 0.1
+    }
+  },
+  {
+    "trial": 9,
+    "objective": 0.9310773601511384,
+    "params": {
+      "max_cands": 15,
+      "w_emis": 0.5,
+      "w_dist": 0.5,
+      "beta": 30.0,
+      "max_pen": 15.0,
+      "uturn_pen": 2.0,
+      "vmax": 70.0,
+      "speed_w": 0.05
+    }
+  },
+  {
+    "trial": 10,
+    "objective": 0.9109483755315785,
+    "params": {
+      "max_cands": 10,
+      "w_emis": 1.0,
+      "w_dist": 1.0,
+      "beta": 60.0,
+      "max_pen": 4.0,
+      "uturn_pen": 5.0,
+      "vmax": 70.0,
+      "speed_w": 0.1
+    }
+  },
+  {
+    "trial": 11,
+    "objective": 0.9263905334648219,
+    "params": {
+      "max_cands": 15,
+      "w_emis": 1.0,
+      "w_dist": 0.0,
+      "beta": 20.0,
+      "max_pen": 15.0,
+      "uturn_pen": 2.0,
+      "vmax": 70.0,
+      "speed_w": 0.1
+    }
+  },
+  {
+    "trial": 12,
+    "objective": 0.9016987374568217,
+    "params": {
+      "max_cands": 15,
+      "w_emis": 1.0,
+      "w_dist": 0.0,
+      "beta": 60.0,
+      "max_pen": 4.0,
+      "uturn_pen": 0.0,
+      "vmax": 100.0,
+      "speed_w": 0.1
+    }
+  },
+  {
+    "trial": 13,
+    "objective": 0.9243487773298102,
+    "params": {
+      "max_cands": 6,
+      "w_emis": 0.5,
+      "w_dist": 0.5,
+      "beta": 60.0,
+      "max_pen": 8.0,
+      "uturn_pen": 5.0,
+      "vmax": 50.0,
+      "speed_w": 0.05
+    }
+  },
+  {
+    "trial": 14,
+    "objective": 0.9189783625842914,
+    "params": {
+      "max_cands": 15,
+      "w_emis": 2.0,
+      "w_dist": 0.0,
+      "beta": 10.0,
+      "max_pen": 15.0,
+      "uturn_pen": 2.0,
+      "vmax": 70.0,
+      "speed_w": 0.05
+    }
+  },
+  {
+    "trial": 15,
+    "objective": 0.9076996940987291,
+    "params": {
+      "max_cands": 15,
+      "w_emis": 1.0,
+      "w_dist": 1.0,
+      "beta": 60.0,
+      "max_pen": 15.0,
+      "uturn_pen": 0.0,
+      "vmax": 100.0,
+      "speed_w": 0.05
+    }
+  },
+  {
+    "trial": 16,
+    "objective": 0.9273891475149216,
+    "params": {
+      "max_cands": 10,
+      "w_emis": 1.0,
+      "w_dist": 1.0,
+      "beta": 10.0,
+      "max_pen": 15.0,
+      "uturn_pen": 0.0,
+      "vmax": 70.0,
+      "speed_w": 0.1
+    }
+  },
+  {
+    "trial": 17,
+    "objective": 0.9261082234858709,
+    "params": {
+      "max_cands": 15,
+      "w_emis": 0.5,
+      "w_dist": 1.0,
+      "beta": 30.0,
+      "max_pen": 15.0,
+      "uturn_pen": 0.0,
+      "vmax": 100.0,
+      "speed_w": 0.3
+    }
+  },
+  {
+    "trial": 18,
+    "objective": 0.9238398084974698,
+    "params": {
+      "max_cands": 6,
+      "w_emis": 1.0,
+      "w_dist": 0.5,
+      "beta": 10.0,
+      "max_pen": 8.0,
+      "uturn_pen": 2.0,
+      "vmax": 100.0,
+      "speed_w": 0.3
+    }
+  },
+  {
+    "trial": 19,
+    "objective": 0.913431770435127,
+    "params": {
+      "max_cands": 10,
+      "w_emis": 1.0,
+      "w_dist": 0.5,
+      "beta": 60.0,
+      "max_pen": 4.0,
+      "uturn_pen": 2.0,
+      "vmax": 50.0,
+      "speed_w": 0.1
+    }
+  },
+  {
+    "trial": 20,
+    "objective": 0.9190943270625351,
+    "params": {
+      "max_cands": 15,
+      "w_emis": 1.0,
+      "w_dist": 0.5,
+      "beta": 60.0,
+      "max_pen": 8.0,
+      "uturn_pen": 5.0,
+      "vmax": 50.0,
+      "speed_w": 0.1
+    }
+  },
+  {
+    "trial": 21,
+    "objective": 0.9141963490071098,
+    "params": {
+      "max_cands": 15,
+      "w_emis": 2.0,
+      "w_dist": 0.5,
+      "beta": 20.0,
+      "max_pen": 8.0,
+      "uturn_pen": 2.0,
+      "vmax": 50.0,
+      "speed_w": 0.3
+    }
+  },
+  {
+    "trial": 22,
+    "objective": 0.9223137532074804,
+    "params": {
+      "max_cands": 6,
+      "w_emis": 1.0,
+      "w_dist": 0.0,
+      "beta": 30.0,
+      "max_pen": 15.0,
+      "uturn_pen": 5.0,
+      "vmax": 100.0,
+      "speed_w": 0.3
+    }
+  },
+  {
+    "trial": 23,
+    "objective": 0.9300460167499705,
+    "params": {
+      "max_cands": 6,
+      "w_emis": 0.5,
+      "w_dist": 0.0,
+      "beta": 30.0,
+      "max_pen": 15.0,
+      "uturn_pen": 5.0,
+      "vmax": 100.0,
+      "speed_w": 0.3
+    }
+  },
+  {
+    "trial": 24,
+    "objective": 0.9207094414498782,
+    "params": {
+      "max_cands": 15,
+      "w_emis": 0.5,
+      "w_dist": 0.0,
+      "beta": 60.0,
+      "max_pen": 4.0,
+      "uturn_pen": 5.0,
+      "vmax": 100.0,
+      "speed_w": 0.3
+    }
+  },
+  {
+    "trial": 25,
+    "objective": 0.9274314724702927,
+    "params": {
+      "max_cands": 10,
+      "w_emis": 0.5,
+      "w_dist": 0.5,
+      "beta": 60.0,
+      "max_pen": 8.0,
+      "uturn_pen": 5.0,
+      "vmax": 70.0,
+      "speed_w": 0.3
+    }
+  },
+  {
+    "trial": 26,
+    "objective": 0.9321525488436038,
+    "params": {
+      "max_cands": 6,
+      "w_emis": 1.0,
+      "w_dist": 0.0,
+      "beta": 10.0,
+      "max_pen": 15.0,
+      "uturn_pen": 5.0,
+      "vmax": 50.0,
+      "speed_w": 0.3
+    }
+  },
+  {
+    "trial": 27,
+    "objective": 0.9330387775178456,
+    "params": {
+      "max_cands": 15,
+      "w_emis": 0.5,
+      "w_dist": 0.5,
+      "beta": 30.0,
+      "max_pen": 8.0,
+      "uturn_pen": 2.0,
+      "vmax": 50.0,
+      "speed_w": 0.3
+    }
+  },
+  {
+    "trial": 28,
+    "objective": 0.924098349642835,
+    "params": {
+      "max_cands": 15,
+      "w_emis": 0.5,
+      "w_dist": 1.0,
+      "beta": 30.0,
+      "max_pen": 4.0,
+      "uturn_pen": 2.0,
+      "vmax": 70.0,
+      "speed_w": 0.05
+    }
+  },
+  {
+    "trial": 29,
+    "objective": 0.9042952006737595,
+    "params": {
+      "max_cands": 15,
+      "w_emis": 2.0,
+      "w_dist": 0.0,
+      "beta": 10.0,
+      "max_pen": 4.0,
+      "uturn_pen": 5.0,
+      "vmax": 50.0,
+      "speed_w": 0.1
+    }
+  },
+  {
+    "trial": 30,
+    "objective": 0.9129395882795159,
+    "params": {
+      "max_cands": 15,
+      "w_emis": 2.0,
+      "w_dist": 0.0,
+      "beta": 10.0,
+      "max_pen": 8.0,
+      "uturn_pen": 5.0,
+      "vmax": 70.0,
+      "speed_w": 0.05
+    }
+  }
+]
