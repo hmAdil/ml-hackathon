@@ -1,0 +1,7 @@
+data/
+*.pdf
+__pycache__/
+.venv/
+.ipynb_checkpoints/
+*.pt
+*.pth
