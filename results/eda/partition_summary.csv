@@ -1,0 +1,13 @@
+,student_test,train
+trips,10.0,80.0
+gps,19160.0,208417.0
+nodes,90689.0,1933485.0
+arcs,185041.0,3876904.0
+route_entries,3477.0,31336.0
+gps_median,1420.0,1529.0
+route_median,250.0,280.0
+dt_max,210.0,153064.0
+n_dt_gt1,264.0,7286.0
+nonmonotonic_trips,0.0,0.0
+route_disconnected_trips,1.0,10.0
+gps_within_30m_mean,0.9937164662053778,0.9679614329291567

@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.env
+# raw dataset is never committed
+data/train/
+data/student_test/
+data/evaluator/
+# large binaries
+*.pkl
+*.joblib
+artifacts/*.bin
