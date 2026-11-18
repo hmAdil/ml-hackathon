@@ -1,0 +1,115 @@
+{
+  "source_file": "/mnt/data/reference_alignment_diagnostics_train_only.csv",
+  "partition": "train",
+  "trip_count": 80,
+  "total_gps_points": 208417,
+  "route_id_geometry_matches": 80,
+  "median_of_trip_median_distance_m": 6.3812618724168075,
+  "median_of_trip_p95_distance_m": 14.75369603572096,
+  "median_of_trip_p99_distance_m": 20.69475658814345,
+  "trips_median_distance_over_review_threshold": 2,
+  "trips_p95_distance_over_review_threshold": 4,
+  "trips_backward_order_rate_over_threshold": 17,
+  "trips_requiring_alignment_review": 20,
+  "candidate_radius_sweep": [
+    {
+      "radius_m": 10.0,
+      "trips_with_median_distance_le_radius": 77,
+      "trips_with_p95_distance_le_radius": 0,
+      "trips_with_p99_distance_le_radius": 0,
+      "total_trips": 80,
+      "pct_trips_p95_le_radius": 0.0
+    },
+    {
+      "radius_m": 15.0,
+      "trips_with_median_distance_le_radius": 78,
+      "trips_with_p95_distance_le_radius": 42,
+      "trips_with_p99_distance_le_radius": 1,
+      "total_trips": 80,
+      "pct_trips_p95_le_radius": 52.5
+    },
+    {
+      "radius_m": 20.0,
+      "trips_with_median_distance_le_radius": 78,
+      "trips_with_p95_distance_le_radius": 61,
+      "trips_with_p99_distance_le_radius": 35,
+      "total_trips": 80,
+      "pct_trips_p95_le_radius": 76.25
+    },
+    {
+      "radius_m": 30.0,
+      "trips_with_median_distance_le_radius": 78,
+      "trips_with_p95_distance_le_radius": 74,
+      "trips_with_p99_distance_le_radius": 56,
+      "total_trips": 80,
+      "pct_trips_p95_le_radius": 92.5
+    },
+    {
+      "radius_m": 50.0,
+      "trips_with_median_distance_le_radius": 78,
+      "trips_with_p95_distance_le_radius": 76,
+      "trips_with_p99_distance_le_radius": 68,
+      "total_trips": 80,
+      "pct_trips_p95_le_radius": 95.0
+    },
+    {
+      "radius_m": 75.0,
+      "trips_with_median_distance_le_radius": 78,
+      "trips_with_p95_distance_le_radius": 77,
+      "trips_with_p99_distance_le_radius": 71,
+      "total_trips": 80,
+      "pct_trips_p95_le_radius": 96.25
+    },
+    {
+      "radius_m": 100.0,
+      "trips_with_median_distance_le_radius": 78,
+      "trips_with_p95_distance_le_radius": 77,
+      "trips_with_p99_distance_le_radius": 76,
+      "total_trips": 80,
+      "pct_trips_p95_le_radius": 96.25
+    },
+    {
+      "radius_m": 150.0,
+      "trips_with_median_distance_le_radius": 80,
+      "trips_with_p95_distance_le_radius": 78,
+      "trips_with_p99_distance_le_radius": 77,
+      "total_trips": 80,
+      "pct_trips_p95_le_radius": 97.5
+    },
+    {
+      "radius_m": 250.0,
+      "trips_with_median_distance_le_radius": 80,
+      "trips_with_p95_distance_le_radius": 80,
+      "trips_with_p99_distance_le_radius": 79,
+      "total_trips": 80,
+      "pct_trips_p95_le_radius": 100.0
+    }
+  ],
+  "interpretation_warning": "These are per-trip distances to sampled reference-route geometry, not per-GPS aligned labels and not measured candidate recall. Do not use reference-route distances or route-derived positions as model input features.",
+  "recommended_experiments": {
+    "candidate_generation": [
+      "Benchmark 20m, 30m, 50m and 100m search radii using the actual road-segment spatial index.",
+      "Use a staged fallback radius rather than one very large global radius.",
+      "Measure true-route-arc candidate recall only after GPS-to-route label alignment is validated.",
+      "Track candidate count per GPS point and runtime alongside recall."
+    ],
+    "hard_negative_sampling": [
+      "After alignment, retain the positive route candidate and sample nearby competing arcs.",
+      "Compare 1:1, 1:3, 1:5 and 1:10 negative-to-positive ratios.",
+      "Prioritize close parallel roads, opposite-direction arcs and connected alternatives.",
+      "Do not sample negatives that are part of the valid reference route at that observation."
+    ],
+    "gps_perturbation": [
+      "After alignment is trusted, test isotropic coordinate jitter with sigma 2m, 5m and 10m on training trips only.",
+      "Rebuild candidates after every perturbation.",
+      "Keep an augmented sample only when its aligned positive arc remains in the candidate set.",
+      "Never perturb validation or student-test data."
+    ],
+    "not_recommended_initially": [
+      "Do not apply SMOTE to mixed geometric/graph candidate features before a validated candidate-label table exists.",
+      "Do not use MixUp on longitude/latitude or graph identifiers; interpolated coordinates can fall between roads.",
+      "Do not synthesize routes by interpolating route arc IDs.",
+      "Do not augment validation or test data."
+    ]
+  }
+}
