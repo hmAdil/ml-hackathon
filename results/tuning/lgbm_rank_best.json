@@ -1,0 +1,61 @@
+{
+  "model": "lgbm_rank",
+  "objective": "mean grouped-CV top-1 (5 folds, 80 train trips)",
+  "sampler": "TPE",
+  "seed": 42,
+  "search_space": {
+    "num_leaves": [
+      "int",
+      15,
+      127
+    ],
+    "learning_rate": [
+      "log",
+      0.02,
+      0.2
+    ],
+    "n_estimators": [
+      "int",
+      100,
+      500
+    ],
+    "min_child_samples": [
+      "int",
+      10,
+      200
+    ],
+    "subsample": [
+      "float",
+      0.4,
+      1.0
+    ],
+    "colsample_bytree": [
+      "float",
+      0.5,
+      1.0
+    ],
+    "reg_lambda": [
+      "log",
+      0.001,
+      10.0
+    ]
+  },
+  "n_trials_run": 20,
+  "n_complete": 20,
+  "n_pruned": 0,
+  "best_value": 0.7596550264133834,
+  "best_params": {
+    "n_estimators": 374,
+    "learning_rate": 0.025043908574120786,
+    "num_leaves": 49,
+    "min_child_samples": 94,
+    "subsample": 0.47322294090686734,
+    "subsample_freq": 1,
+    "colsample_bytree": 0.7475884550556351,
+    "n_jobs": 6,
+    "reg_lambda": 0.0013726318898045872
+  },
+  "elapsed_s": 1841.3066542000015,
+  "trial0_value": 0.7558695259818693,
+  "trial0_note": "enqueued with the default values of the searched parameters; reg_lambda is not in DEFAULT_PARAMS so TPE sampled it, so this is close to but not exactly the untuned model. The untuned reference is results/models/lgbm_rank.json."
+}

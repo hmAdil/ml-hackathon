@@ -13,7 +13,7 @@ import pandas as pd
 
 from .config import RESULTS
 
-ORDER = ["logreg", "random_forest", "xgboost", "mlp", "lgbm_rank"]
+ORDER = ["logreg", "random_forest", "xgboost", "mlp", "lgbm_rank", "lgbm_rank_tuned"]
 OUT = RESULTS / "models"
 
 

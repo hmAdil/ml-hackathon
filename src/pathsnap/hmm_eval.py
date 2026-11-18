@@ -21,6 +21,7 @@ Tuning: random search, `--trials` configs (seed 0) plus the defaults over SPACE,
 import argparse
 import heapq
 import json
+import os
 import time
 
 import joblib
@@ -51,13 +52,35 @@ SPACE = {
 _MEM: dict = {}
 
 
+_SCORES: dict = {}
+
+
+def _scored(trip):
+    """Scored candidates: precomputed honest scores if PATHSNAP_SCORES=<tag> (see
+    final_scores.py), else the logreg artifact (train scores are then in-sample)."""
+    tag = os.environ.get("PATHSNAP_SCORES")
+    if not tag:
+        return score_candidates(trip, joblib.load(ARTIFACTS / "logreg.joblib"))
+    if "t" not in _SCORES:
+        from .dataset import PROCESSED
+
+        _SCORES["t"] = pd.read_parquet(PROCESSED / f"scores_{tag}.parquet")
+    from .features import build_features
+
+    s = _SCORES["t"]
+    s = s[s.trip_id == trip["trip_id"]].rename(columns={"candidate_arc_id": "arc_id"})
+    f = build_features(trip).merge(s[["obs_idx", "arc_id", "p"]], on=["obs_idx", "arc_id"],
+                                   how="left")
+    assert f.p.notna().all(), "scores missing for some candidates"
+    return f
+
+
 def prepare(trip_dir):
     """Load a trip, score it and compute reference arcs. Memoised per process."""
     key = str(trip_dir)
     if key not in _MEM:
         trip = load_trip(trip_dir)
-        model = joblib.load(ARTIFACTS / "logreg.joblib")
-        scored = score_candidates(trip, model)
+        scored = _scored(trip)
         canon = canonical_arc_ids(trip["arcs"], len(trip["nodes"]))
         ref = canon[align(trip).arc_id.to_numpy()]
         _MEM[key] = (trip, scored, canon, ref)
@@ -232,34 +255,42 @@ def main():
     ap.add_argument("--trials", type=int, default=24)
     ap.add_argument("--jobs", type=int, default=4)
     ap.add_argument("--skip-tune", action="store_true")
+    ap.add_argument("--out-dir", default="", help="subfolder of results/hmm for outputs")
+    ap.add_argument("--freeze", action="store_true", help="also write artifacts/hmm_config.json")
     a = ap.parse_args()
-    OUT.mkdir(parents=True, exist_ok=True)
-    cfg_path = OUT / "hmm_config.json"
+    out = OUT / a.out_dir
+    out.mkdir(parents=True, exist_ok=True)
+    cfg_path = out / "hmm_config.json"
+    scorer = os.environ.get("PATHSNAP_SCORES", "logreg")
     if a.skip_tune and cfg_path.exists():
         params, log = json.loads(cfg_path.read_text())["params"], None
     else:
         params, log = tune(a.trials, a.jobs)
     note = ("PathSnap HMM v1: frozen after random search (defaults + "
-            f"{a.trials} random configs, seed 0) over train+student_test trips with the logreg "
-            "scorer; objective = mean per-trip (top1 + seq_f1)/2. Search space: "
-            "pathsnap.hmm_eval.SPACE.")
+            f"{a.trials} random configs, seed 0) over train+student_test trips with the "
+            f"{scorer} scorer (out-of-fold scores on train); objective = mean per-trip "
+            "(top1 + seq_f1)/2. Search space: pathsnap.hmm_eval.SPACE.")
     cfg = {"version": "hmm-v1", "note": note, "params": params}
     if log is not None:
-        for p in (cfg_path, ARTIFACTS / "hmm_config.json"):
+        targets = [cfg_path] + ([ARTIFACTS / "hmm_config.json"] if a.freeze else [])
+        for p in targets:
             p.write_text(json.dumps(cfg, indent=2))
-        (OUT / "tuning_log.json").write_text(json.dumps(log, indent=2))
+        (out / "tuning_log.json").write_text(json.dumps(log, indent=2))
     df = evaluate(params, a.jobs)
     df["d_top1"] = df.top1_hmm - df.top1_clf
     df["d_f1"] = df.f1_hmm - df.f1_clf
     df["d_cont"] = df.cont_hmm - df.cont_clf
-    df.to_csv(OUT / "comparison.csv", index=False)
+    df.to_csv(out / "comparison.csv", index=False)
     summ = summarise(df)
+    note = "in-sample" if scorer == "logreg" else "out-of-fold"
     summ["tuning"] = {"trials_incl_default": None if log is None else len(log),
-                      "search_space": SPACE, "scorer_note": "train scores are in-sample"}
-    (OUT / "summary.json").write_text(json.dumps(summ, indent=2))
-    plot(df, OUT / "hmm_vs_classifier.png")
+                      "search_space": SPACE, "scorer_note": f"train scores are {note}"}
+    (out / "summary.json").write_text(json.dumps(summ, indent=2))
+    plot(df, out / "hmm_vs_classifier.png")
     st = df[df.partition == "student_test"].sort_values("trip_id")
-    compare_map(STUDENT_TEST_DIR / st.trip_id.iloc[0], params, RESULTS / "viz" / "hmm_compare.html")
+    compare_map(STUDENT_TEST_DIR / st.trip_id.iloc[0], params,
+                RESULTS / "viz" / (f"hmm_compare_{a.out_dir}.html" if a.out_dir
+                                   else "hmm_compare.html"))
     print(json.dumps(summ["student_test"], indent=1))
     print(json.dumps(summ["train"], indent=1))
     hurt = df[(df.d_top1 < -1e-9) | (df.d_f1 < -1e-9)]
