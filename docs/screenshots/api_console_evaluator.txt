@@ -1,0 +1,69 @@
+INFO:     Started server process [23236]
+INFO:     Waiting for application startup.
+14:31:48 [INFO] loaded model D:\Sem-5\ML\Hackathon\ml-hackathon\artifacts\final_model.joblib
+14:31:48 [INFO] HMM decoder available (params: D:\Sem-5\ML\Hackathon\ml-hackathon\artifacts\hmm_config.json)
+14:31:48 [INFO] eval dir: D:\Sem-5\ML\Hackathon\ml-hackathon\data\evaluator (10 trips)
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:65003 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65003 - "GET /trips HTTP/1.1" 200 OK
+14:31:56 [INFO] [00000015] request: 6854 GPS points, 3225 arcs, decoder=hmm
+14:31:56 [INFO] [00000015] step 1 candidates+features: 56486 candidate rows (99 ms)
+14:31:56 [INFO] [00000015] step 2 model scoring (lgbm_rank_tuned) (280 ms)
+14:31:57 [INFO] [00000015] step 3 decode (hmm) (440 ms)
+14:31:57 [INFO] [00000015] metrics: top1=0.8710242194339072 continuity=0.6497 n_obs=6854 route_arcs=295
+INFO:     127.0.0.1:65003 - "POST /predict/00000015 HTTP/1.1" 200 OK
+14:31:57 [INFO] [00000017] request: 1346 GPS points, 76425 arcs, decoder=hmm
+14:31:58 [INFO] [00000017] step 1 candidates+features: 22844 candidate rows (366 ms)
+14:31:58 [INFO] [00000017] step 2 model scoring (lgbm_rank_tuned) (94 ms)
+14:31:58 [INFO] [00000017] step 3 decode (hmm) (315 ms)
+14:31:58 [INFO] [00000017] metrics: top1=0.9531946508172363 continuity=0.7259 n_obs=1346 route_arcs=592
+INFO:     127.0.0.1:65003 - "POST /predict/00000017 HTTP/1.1" 200 OK
+14:31:58 [INFO] [00000023] request: 458 GPS points, 10596 arcs, decoder=hmm
+14:31:58 [INFO] [00000023] step 1 candidates+features: 3664 candidate rows (57 ms)
+14:31:58 [INFO] [00000023] step 2 model scoring (lgbm_rank_tuned) (16 ms)
+14:31:58 [INFO] [00000023] step 3 decode (hmm) (88 ms)
+14:31:58 [INFO] [00000023] metrics: top1=0.9454148471615721 continuity=0.8305 n_obs=458 route_arcs=60
+INFO:     127.0.0.1:65003 - "POST /predict/00000023 HTTP/1.1" 200 OK
+14:31:58 [INFO] [00000030] request: 654 GPS points, 24218 arcs, decoder=hmm
+14:31:58 [INFO] [00000030] step 1 candidates+features: 11642 candidate rows (94 ms)
+14:31:58 [INFO] [00000030] step 2 model scoring (lgbm_rank_tuned) (48 ms)
+14:31:59 [INFO] [00000030] step 3 decode (hmm) (176 ms)
+14:31:59 [INFO] [00000030] metrics: top1=0.8853211009174312 continuity=0.7241 n_obs=654 route_arcs=262
+INFO:     127.0.0.1:65003 - "POST /predict/00000030 HTTP/1.1" 200 OK
+14:31:59 [INFO] [00000049] request: 2642 GPS points, 47542 arcs, decoder=hmm
+14:31:59 [INFO] [00000049] step 1 candidates+features: 14875 candidate rows (302 ms)
+14:31:59 [INFO] [00000049] step 2 model scoring (lgbm_rank_tuned) (61 ms)
+14:31:59 [INFO] [00000049] step 3 decode (hmm) (184 ms)
+14:31:59 [INFO] [00000049] metrics: top1=0.9962149886449659 continuity=0.9618 n_obs=2642 route_arcs=394
+INFO:     127.0.0.1:65003 - "POST /predict/00000049 HTTP/1.1" 200 OK
+14:32:00 [INFO] [00000059] request: 1031 GPS points, 24024 arcs, decoder=hmm
+14:32:00 [INFO] [00000059] step 1 candidates+features: 15693 candidate rows (126 ms)
+14:32:00 [INFO] [00000059] step 2 model scoring (lgbm_rank_tuned) (63 ms)
+14:32:00 [INFO] [00000059] step 3 decode (hmm) (182 ms)
+14:32:00 [INFO] [00000059] metrics: top1=0.976721629485936 continuity=0.7910 n_obs=1031 route_arcs=355
+INFO:     127.0.0.1:65003 - "POST /predict/00000059 HTTP/1.1" 200 OK
+14:32:00 [INFO] [00000067] request: 916 GPS points, 4485 arcs, decoder=hmm
+14:32:00 [INFO] [00000067] step 1 candidates+features: 6482 candidate rows (30 ms)
+14:32:00 [INFO] [00000067] step 2 model scoring (lgbm_rank_tuned) (29 ms)
+14:32:00 [INFO] [00000067] step 3 decode (hmm) (74 ms)
+14:32:00 [INFO] [00000067] metrics: top1=0.9672489082969432 continuity=0.8784 n_obs=916 route_arcs=75
+INFO:     127.0.0.1:65003 - "POST /predict/00000067 HTTP/1.1" 200 OK
+14:32:00 [INFO] [00000073] request: 1144 GPS points, 25631 arcs, decoder=hmm
+14:32:00 [INFO] [00000073] step 1 candidates+features: 11355 candidate rows (111 ms)
+14:32:00 [INFO] [00000073] step 2 model scoring (lgbm_rank_tuned) (47 ms)
+14:32:01 [INFO] [00000073] step 3 decode (hmm) (111 ms)
+14:32:01 [INFO] [00000073] metrics: top1=0.9807692307692307 continuity=0.9359 n_obs=1144 route_arcs=235
+INFO:     127.0.0.1:65003 - "POST /predict/00000073 HTTP/1.1" 200 OK
+14:32:01 [INFO] [00000087] request: 1399 GPS points, 107451 arcs, decoder=hmm
+14:32:01 [INFO] [00000087] step 1 candidates+features: 12943 candidate rows (524 ms)
+14:32:01 [INFO] [00000087] step 2 model scoring (lgbm_rank_tuned) (48 ms)
+14:32:01 [INFO] [00000087] step 3 decode (hmm) (145 ms)
+14:32:01 [INFO] [00000087] metrics: top1=0.9942816297355254 continuity=0.9658 n_obs=1399 route_arcs=439
+INFO:     127.0.0.1:65003 - "POST /predict/00000087 HTTP/1.1" 200 OK
+14:32:01 [INFO] [00000094] request: 3230 GPS points, 14931 arcs, decoder=hmm
+14:32:02 [INFO] [00000094] step 1 candidates+features: 36802 candidate rows (99 ms)
+14:32:02 [INFO] [00000094] step 2 model scoring (lgbm_rank_tuned) (133 ms)
+14:32:02 [INFO] [00000094] step 3 decode (hmm) (292 ms)
+14:32:02 [INFO] [00000094] metrics: top1=0.9492260061919504 continuity=0.8152 n_obs=3230 route_arcs=634
+INFO:     127.0.0.1:65003 - "POST /predict/00000094 HTTP/1.1" 200 OK

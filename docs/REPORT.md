@@ -175,6 +175,18 @@ Model and decoder were frozen before this run; it was executed once through the 
 | 00000094 | True | 0.83 | 0.9492 | 0.8152 | 3230 |
 | **Mean** | 10/10 | 0.60 | 0.9519 | 0.8278 | |
 
+Observation: the weakest evaluator trips for route continuity (00000015, 00000017, 00000030) are not explained by sampling (all trips are 1 Hz with no gaps over 60 s except three small ones on trip 00000073); continuity tracks Top-1 across the ten trips (correlation 0.86), so it reflects decoding errors on those trips. We did not investigate or tune on them.
+
+**UI on the evaluator trips (all 10 run through the API):**
+
+![UI run on evaluator trips](screenshots/ui_run_all_evaluator.png)
+
+**API console during that run (every request logged, no errors):**
+
+![API console](screenshots/api_console_evaluator.png)
+
+_Both screenshots were captured on a single machine playing both roles; the two-laptop run is documented separately in `docs/HANDOFF.md`._
+
 ## 8. Limitations
 
 - The reference route is reference information, not verified truth; 11 trips have route breaks and trips 033/054 disagree with their routes.

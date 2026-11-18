@@ -265,6 +265,16 @@ def main():
           f"{r.route_continuity:.4f} | {int(r.n_obs)} |")
     w(f"| **Mean** | {int(ev.success.sum())}/{len(ev)} | {ev.latency_ms.mean() / 1000:.2f} | "
       f"{ev.top1.mean():.4f} | {ev.route_continuity.mean():.4f} | |\n")
+    w("Observation: the weakest evaluator trips for route continuity (00000015, 00000017, 00000030) "
+      "are not explained by sampling (all trips are 1 Hz with no gaps over 60 s except three small "
+      "ones on trip 00000073); continuity tracks Top-1 across the ten trips (correlation 0.86), so "
+      "it reflects decoding errors on those trips. We did not investigate or tune on them.\n")
+    w("**UI on the evaluator trips (all 10 run through the API):**\n")
+    w("![UI run on evaluator trips](screenshots/ui_run_all_evaluator.png)\n")
+    w("**API console during that run (every request logged, no errors):**\n")
+    w("![API console](screenshots/api_console_evaluator.png)\n")
+    w("_Both screenshots were captured on a single machine playing both roles; the two-laptop run "
+      "is documented separately in `docs/HANDOFF.md`._\n")
     w("## 8. Limitations\n")
     w("- The reference route is reference information, not verified truth; 11 trips have route breaks "
       "and trips 033/054 disagree with their routes.")

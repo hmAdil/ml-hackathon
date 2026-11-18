@@ -1,7 +1,7 @@
 fastapi
 folium
 httpx  # FastAPI TestClient (tests/test_api.py)
-lightgbm
+lightgbm==4.7.0  # must match the version that pickled the LightGBM artifacts
 matplotlib
 networkx
 numpy
@@ -17,4 +17,4 @@ seaborn
 shapely
 torch
 uvicorn
-xgboost
+xgboost==3.2.0  # must match the version that pickled artifacts/xgboost.joblib

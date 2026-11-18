@@ -51,9 +51,13 @@ Everything below is implemented on `main`. What is left is running it on two rea
    confirm all ten trips work. Do not change models or parameters based on those results.
 6. **CI**: done on `deploy/handoff-checks` (job `test`); confirm the check goes green on the PR.
 
-## Still changing (do not rely on)
-The HMM decoder parameters are being re-tuned on the final model's scores. When that finishes,
-`artifacts/hmm_config.json` is updated; pull before the final test. Model weights do not change.
+## Frozen
+Model (`artifacts/final_model.joblib`) and decoder (`artifacts/hmm_config.json`) are final. The
+evaluator trips were run once through the API (`results/evaluator_run.csv`: 10/10 OK, mean
+Top-1 0.952). Do not retrain or retune. `lightgbm==4.7.0` and `xgboost==3.2.0` are pinned in
+`requirements.txt` next to `scikit-learn==1.7.2`.
+
+Screenshots from the single-machine run: `docs/screenshots/` (UI on evaluator trips, API console).
 
 ## Quick start
 ```

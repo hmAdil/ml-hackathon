@@ -494,6 +494,12 @@ img{max-width:100%;page-break-inside:avoid}code{font-size:9px;background:#f3f3f3
 </tr>
 </tbody>
 </table>
+<p>Observation: the weakest evaluator trips for route continuity (00000015, 00000017, 00000030) are not explained by sampling (all trips are 1 Hz with no gaps over 60 s except three small ones on trip 00000073); continuity tracks Top-1 across the ten trips (correlation 0.86), so it reflects decoding errors on those trips. We did not investigate or tune on them.</p>
+<p><strong>UI on the evaluator trips (all 10 run through the API):</strong></p>
+<p><img alt="UI run on evaluator trips" src="screenshots/ui_run_all_evaluator.png" /></p>
+<p><strong>API console during that run (every request logged, no errors):</strong></p>
+<p><img alt="API console" src="screenshots/api_console_evaluator.png" /></p>
+<p><em>Both screenshots were captured on a single machine playing both roles; the two-laptop run is documented separately in <code>docs/HANDOFF.md</code>.</em></p>
 <h2>8. Limitations</h2>
 <ul>
 <li>The reference route is reference information, not verified truth; 11 trips have route breaks and trips 033/054 disagree with their routes.</li>
