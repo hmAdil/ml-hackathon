@@ -1,0 +1,408 @@
+{
+  "reliable_m": 30.0,
+  "mismatch_trip_frac": 0.5,
+  "mismatched_trips": [
+    "00000033",
+    "00000054"
+  ],
+  "label_stats": {
+    "train": {
+      "n_obs": 208417,
+      "reliable_frac": 0.8759746085971873,
+      "align_dist_p50": 5.669839859008789,
+      "align_dist_p95": 144.8164398193359,
+      "ambiguous_2m_frac": 0.27164290820806364,
+      "ambiguous_5m_frac": 0.3614436442324762
+    },
+    "student_test": {
+      "n_obs": 19160,
+      "reliable_frac": 0.9923277661795407,
+      "align_dist_p50": 5.257185459136963,
+      "align_dist_p95": 16.845612049102776,
+      "ambiguous_2m_frac": 0.24055323590814195,
+      "ambiguous_5m_frac": 0.34295407098121083
+    }
+  },
+  "runs": {
+    "logreg/all": {
+      "cv_oof": {
+        "all": {
+          "n_obs": 208417,
+          "n_trips": 80,
+          "top1": 0.7415853793116685,
+          "top1_per_trip": 0.827462651108379,
+          "top1_tolerant": 0.7606577198597043,
+          "top1_tolerant_per_trip": 0.848605669075295,
+          "errors": {
+            "true_arc_not_candidate": 0.10657479956049651,
+            "off_route_arc": 0.06561364955833737,
+            "reverse_of_true": 0.06470681374360057,
+            "adjacent_route_arc": 0.01903875403637899,
+            "other_route_arc": 0.0024806037895181293
+          }
+        },
+        "reliable": {
+          "n_obs": 182568,
+          "n_trips": 80,
+          "top1": 0.8376331010911003,
+          "top1_per_trip": 0.8470591145534321,
+          "top1_tolerant": 0.8577790193243066,
+          "top1_tolerant_per_trip": 0.8684956560050887,
+          "errors": {
+            "reverse_of_true": 0.0703847333596249,
+            "off_route_arc": 0.06908658691556023,
+            "adjacent_route_arc": 0.02014591823320626,
+            "other_route_arc": 0.0025962928881293544,
+            "true_arc_not_candidate": 0.0001533675123789492
+          }
+        },
+        "reliable_trip_ok": {
+          "n_obs": 178833,
+          "n_trips": 78,
+          "top1": 0.8406334401368875,
+          "top1_per_trip": 0.8511487411759701,
+          "top1_tolerant": 0.8608366464802357,
+          "top1_tolerant_per_trip": 0.8727052636921616,
+          "errors": {
+            "reverse_of_true": 0.06866741596908849,
+            "off_route_arc": 0.06775595108285383,
+            "adjacent_route_arc": 0.020203206343348264,
+            "other_route_arc": 0.002583415812517824,
+            "true_arc_not_candidate": 0.00015657065530411054
+          }
+        }
+      },
+      "student_test": {
+        "all": {
+          "n_obs": 19160,
+          "n_trips": 10,
+          "top1": 0.8388830897703549,
+          "top1_per_trip": 0.8537162547846657,
+          "top1_tolerant": 0.867901878914405,
+          "top1_tolerant_per_trip": 0.8802113730142829,
+          "errors": {
+            "off_route_arc": 0.0720250521920668,
+            "reverse_of_true": 0.0511482254697286,
+            "adjacent_route_arc": 0.029018789144050105,
+            "other_route_arc": 0.0076722338204592904,
+            "true_arc_not_candidate": 0.0012526096033402922
+          }
+        },
+        "reliable": {
+          "n_obs": 19013,
+          "n_trips": 10,
+          "top1": 0.8430021564192921,
+          "top1_per_trip": 0.8572630682830354,
+          "top1_tolerant": 0.8721401146583916,
+          "top1_tolerant_per_trip": 0.8837289243713041,
+          "errors": {
+            "off_route_arc": 0.07089885867564298,
+            "reverse_of_true": 0.04922947457003103,
+            "adjacent_route_arc": 0.029137958239099565,
+            "other_route_arc": 0.00773155209593436
+          }
+        },
+        "reliable_trip_ok": {
+          "n_obs": 19013,
+          "n_trips": 10,
+          "top1": 0.8430021564192921,
+          "top1_per_trip": 0.8572630682830354,
+          "top1_tolerant": 0.8721401146583916,
+          "top1_tolerant_per_trip": 0.8837289243713041,
+          "errors": {
+            "off_route_arc": 0.07089885867564298,
+            "reverse_of_true": 0.04922947457003103,
+            "adjacent_route_arc": 0.029137958239099565,
+            "other_route_arc": 0.00773155209593436
+          }
+        }
+      },
+      "n_train_rows": 1803252
+    },
+    "logreg/reliable": {
+      "cv_oof": {
+        "all": {
+          "n_obs": 208417,
+          "n_trips": 80,
+          "top1": 0.7412639084143808,
+          "top1_per_trip": 0.8269842426688916,
+          "top1_tolerant": 0.7595349707557445,
+          "top1_tolerant_per_trip": 0.8469549820823927,
+          "errors": {
+            "true_arc_not_candidate": 0.10657479956049651,
+            "off_route_arc": 0.06619901447578652,
+            "reverse_of_true": 0.06525379407629896,
+            "adjacent_route_arc": 0.01823747582970679,
+            "other_route_arc": 0.0024710076433304383
+          }
+        },
+        "reliable": {
+          "n_obs": 182568,
+          "n_trips": 80,
+          "top1": 0.8372551597213094,
+          "top1_per_trip": 0.8465616987539221,
+          "top1_tolerant": 0.8564808728802419,
+          "top1_tolerant_per_trip": 0.8667773925539898,
+          "errors": {
+            "reverse_of_true": 0.07099272599798431,
+            "off_route_arc": 0.06978221813242189,
+            "adjacent_route_arc": 0.019225713158932563,
+            "other_route_arc": 0.0025908154769729635,
+            "true_arc_not_candidate": 0.0001533675123789492
+          }
+        },
+        "reliable_trip_ok": {
+          "n_obs": 178833,
+          "n_trips": 78,
+          "top1": 0.8402587889259813,
+          "top1_per_trip": 0.8506524307338779,
+          "top1_tolerant": 0.8595561221922129,
+          "top1_tolerant_per_trip": 0.8709943619086963,
+          "errors": {
+            "reverse_of_true": 0.0692489641173609,
+            "off_route_arc": 0.06846051903172233,
+            "adjacent_route_arc": 0.019297333266231623,
+            "other_route_arc": 0.0025778240033998197,
+            "true_arc_not_candidate": 0.00015657065530411054
+          }
+        }
+      },
+      "student_test": {
+        "all": {
+          "n_obs": 19160,
+          "n_trips": 10,
+          "top1": 0.8378914405010438,
+          "top1_per_trip": 0.8530332330819425,
+          "top1_tolerant": 0.8657620041753653,
+          "top1_tolerant_per_trip": 0.8781302172468705,
+          "errors": {
+            "off_route_arc": 0.07265135699373695,
+            "reverse_of_true": 0.05260960334029228,
+            "adjacent_route_arc": 0.027870563674321502,
+            "other_route_arc": 0.0077244258872651355,
+            "true_arc_not_candidate": 0.0012526096033402922
+          }
+        },
+        "reliable": {
+          "n_obs": 19013,
+          "n_trips": 10,
+          "top1": 0.8419502445695051,
+          "top1_per_trip": 0.8564797585866188,
+          "top1_tolerant": 0.8699836953663282,
+          "top1_tolerant_per_trip": 0.8816386930811998,
+          "errors": {
+            "off_route_arc": 0.07153000578551517,
+            "reverse_of_true": 0.05070215115973281,
+            "adjacent_route_arc": 0.028033450796823227,
+            "other_route_arc": 0.00778414768842371
+          }
+        },
+        "reliable_trip_ok": {
+          "n_obs": 19013,
+          "n_trips": 10,
+          "top1": 0.8419502445695051,
+          "top1_per_trip": 0.8564797585866188,
+          "top1_tolerant": 0.8699836953663282,
+          "top1_tolerant_per_trip": 0.8816386930811998,
+          "errors": {
+            "off_route_arc": 0.07153000578551517,
+            "reverse_of_true": 0.05070215115973281,
+            "adjacent_route_arc": 0.028033450796823227,
+            "other_route_arc": 0.00778414768842371
+          }
+        }
+      },
+      "n_train_rows": 1678044
+    },
+    "lgbm_rank/all": {
+      "cv_oof": {
+        "all": {
+          "n_obs": 208417,
+          "n_trips": 80,
+          "top1": 0.7526977165970147,
+          "top1_per_trip": 0.8471253145245397,
+          "top1_tolerant": 0.7694046071097848,
+          "top1_tolerant_per_trip": 0.8643703624181651,
+          "errors": {
+            "true_arc_not_candidate": 0.10657479956049651,
+            "reverse_of_true": 0.06635735088788343,
+            "off_route_arc": 0.05461646602724346,
+            "adjacent_route_arc": 0.016668505928019307,
+            "other_route_arc": 0.003085160999342664
+          }
+        },
+        "reliable": {
+          "n_obs": 182568,
+          "n_trips": 80,
+          "top1": 0.849310941676526,
+          "top1_per_trip": 0.867138684738233,
+          "top1_tolerant": 0.8665209675299067,
+          "top1_tolerant_per_trip": 0.8846144239871571,
+          "errors": {
+            "reverse_of_true": 0.0729645940142851,
+            "off_route_arc": 0.05708010166075106,
+            "adjacent_route_arc": 0.017204548442224268,
+            "other_route_arc": 0.003286446693834626,
+            "true_arc_not_candidate": 0.0001533675123789492
+          }
+        },
+        "reliable_trip_ok": {
+          "n_obs": 178833,
+          "n_trips": 78,
+          "top1": 0.8521917095838016,
+          "top1_per_trip": 0.8713911937351576,
+          "top1_tolerant": 0.8694256652854898,
+          "top1_tolerant_per_trip": 0.8889059384848159,
+          "errors": {
+            "reverse_of_true": 0.07132352530014036,
+            "off_route_arc": 0.055823030425033414,
+            "adjacent_route_arc": 0.017228363892570164,
+            "other_route_arc": 0.0032768001431503135,
+            "true_arc_not_candidate": 0.00015657065530411054
+          }
+        }
+      },
+      "student_test": {
+        "all": {
+          "n_obs": 19160,
+          "n_trips": 10,
+          "top1": 0.860490605427975,
+          "top1_per_trip": 0.8799163668373897,
+          "top1_tolerant": 0.880062630480167,
+          "top1_tolerant_per_trip": 0.898884112720482,
+          "errors": {
+            "off_route_arc": 0.060438413361169105,
+            "reverse_of_true": 0.049582463465553235,
+            "adjacent_route_arc": 0.019572025052192066,
+            "other_route_arc": 0.008663883089770355,
+            "true_arc_not_candidate": 0.0012526096033402922
+          }
+        },
+        "reliable": {
+          "n_obs": 19013,
+          "n_trips": 10,
+          "top1": 0.8653026876347762,
+          "top1_per_trip": 0.8838175911602828,
+          "top1_tolerant": 0.8848156524483248,
+          "top1_tolerant_per_trip": 0.9025340109644778,
+          "errors": {
+            "off_route_arc": 0.059275232735496765,
+            "reverse_of_true": 0.047230842055435755,
+            "adjacent_route_arc": 0.019512964813548625,
+            "other_route_arc": 0.00867827276074265
+          }
+        },
+        "reliable_trip_ok": {
+          "n_obs": 19013,
+          "n_trips": 10,
+          "top1": 0.8653026876347762,
+          "top1_per_trip": 0.8838175911602828,
+          "top1_tolerant": 0.8848156524483248,
+          "top1_tolerant_per_trip": 0.9025340109644778,
+          "errors": {
+            "off_route_arc": 0.059275232735496765,
+            "reverse_of_true": 0.047230842055435755,
+            "adjacent_route_arc": 0.019512964813548625,
+            "other_route_arc": 0.00867827276074265
+          }
+        }
+      },
+      "n_train_rows": 1803252
+    },
+    "lgbm_rank/reliable": {
+      "cv_oof": {
+        "all": {
+          "n_obs": 208417,
+          "n_trips": 80,
+          "top1": 0.7517045154665886,
+          "top1_per_trip": 0.8465483490789663,
+          "top1_tolerant": 0.7682434734210741,
+          "top1_tolerant_per_trip": 0.8634676777302692,
+          "errors": {
+            "true_arc_not_candidate": 0.10657479956049651,
+            "reverse_of_true": 0.06738413852996636,
+            "off_route_arc": 0.05486596582812343,
+            "adjacent_route_arc": 0.016500573369734716,
+            "other_route_arc": 0.002970007245090372
+          }
+        },
+        "reliable": {
+          "n_obs": 182568,
+          "n_trips": 80,
+          "top1": 0.848933000306735,
+          "top1_per_trip": 0.8667120397648251,
+          "top1_tolerant": 0.8660608649927698,
+          "top1_tolerant_per_trip": 0.8838880909463509,
+          "errors": {
+            "reverse_of_true": 0.07352328995223698,
+            "off_route_arc": 0.05709653389422024,
+            "adjacent_route_arc": 0.0171223872748784,
+            "other_route_arc": 0.0031714210595504143,
+            "true_arc_not_candidate": 0.0001533675123789492
+          }
+        },
+        "reliable_trip_ok": {
+          "n_obs": 178833,
+          "n_trips": 78,
+          "top1": 0.8517946911364234,
+          "top1_per_trip": 0.8709263537719971,
+          "top1_tolerant": 0.8689503615104595,
+          "top1_tolerant_per_trip": 0.8881466840440433,
+          "errors": {
+            "reverse_of_true": 0.07174850279310865,
+            "off_route_arc": 0.055985192889455526,
+            "adjacent_route_arc": 0.017150078564918108,
+            "other_route_arc": 0.0031649639607902345,
+            "true_arc_not_candidate": 0.00015657065530411054
+          }
+        }
+      },
+      "student_test": {
+        "all": {
+          "n_obs": 19160,
+          "n_trips": 10,
+          "top1": 0.8611691022964509,
+          "top1_per_trip": 0.8805309349272342,
+          "top1_tolerant": 0.8806889352818371,
+          "top1_tolerant_per_trip": 0.8996157455299774,
+          "errors": {
+            "off_route_arc": 0.05855949895615866,
+            "reverse_of_true": 0.0511482254697286,
+            "adjacent_route_arc": 0.01951983298538622,
+            "other_route_arc": 0.008350730688935281,
+            "true_arc_not_candidate": 0.0012526096033402922
+          }
+        },
+        "reliable": {
+          "n_obs": 19013,
+          "n_trips": 10,
+          "top1": 0.8653026876347762,
+          "top1_per_trip": 0.8839285803597171,
+          "top1_tolerant": 0.8849208436333035,
+          "top1_tolerant_per_trip": 0.9030501431536553,
+          "errors": {
+            "off_route_arc": 0.057381791405880185,
+            "reverse_of_true": 0.04928207016252038,
+            "adjacent_route_arc": 0.019618155998527325,
+            "other_route_arc": 0.008415294798295904
+          }
+        },
+        "reliable_trip_ok": {
+          "n_obs": 19013,
+          "n_trips": 10,
+          "top1": 0.8653026876347762,
+          "top1_per_trip": 0.8839285803597171,
+          "top1_tolerant": 0.8849208436333035,
+          "top1_tolerant_per_trip": 0.9030501431536553,
+          "errors": {
+            "off_route_arc": 0.057381791405880185,
+            "reverse_of_true": 0.04928207016252038,
+            "adjacent_route_arc": 0.019618155998527325,
+            "other_route_arc": 0.008415294798295904
+          }
+        }
+      },
+      "n_train_rows": 1678044
+    }
+  }
+}
