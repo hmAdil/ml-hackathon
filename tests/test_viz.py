@@ -1,5 +1,6 @@
-from pathsnap.viz import trip_map, trip_png
 from test_eda import make_trip
+
+from pathsnap.viz import trip_map, trip_png
 
 
 def test_trip_map_and_png(tmp_path):
