@@ -239,7 +239,10 @@ def main():
     w("- `results/viz/hmm_compare*.html`: student-test trip with GPS, reference, classifier-only and "
       "HMM routes. `results/viz/world_trips.html`: all trips by location.")
     w("- Code: `src/pathsnap/viz.py`, `viz_pred.py`. Maps use Esri tiles because OSM blocks pages "
-      "opened from disk. Add a screenshot of one map to the PDF.\n")
+      "opened from disk.\n")
+    w("![Folium map: reconstructed route over the road basemap](screenshots/folium_hmm_compare.png)\n")
+    w("_Screenshot of `results/viz/hmm_compare_final.html` (a student-test trip, Esri basemap): GPS "
+      "points, reference and predicted routes are separate layers in the layer control._\n")
 
     # ---- 7 API
     w("## 7. API, UI and deployment\n")

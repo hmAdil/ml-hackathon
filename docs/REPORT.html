@@ -301,8 +301,10 @@ img{max-width:100%;page-break-inside:avoid}code{font-size:9px;background:#f3f3f3
 <ul>
 <li><code>results/viz/00000001.html</code>: GPS (blue), road network (grey), reference route (green) with gaps, spikes, off-route points and route breaks as layers.</li>
 <li><code>results/viz/hmm_compare*.html</code>: student-test trip with GPS, reference, classifier-only and HMM routes. <code>results/viz/world_trips.html</code>: all trips by location.</li>
-<li>Code: <code>src/pathsnap/viz.py</code>, <code>viz_pred.py</code>. Maps use Esri tiles because OSM blocks pages opened from disk. Add a screenshot of one map to the PDF.</li>
+<li>Code: <code>src/pathsnap/viz.py</code>, <code>viz_pred.py</code>. Maps use Esri tiles because OSM blocks pages opened from disk.</li>
 </ul>
+<p><img alt="Folium map: reconstructed route over the road basemap" src="screenshots/folium_hmm_compare.png" /></p>
+<p><em>Screenshot of <code>results/viz/hmm_compare_final.html</code> (a student-test trip, Esri basemap): GPS points, reference and predicted routes are separate layers in the layer control.</em></p>
 <h2>7. API, UI and deployment</h2>
 <p>Endpoints <code>GET /health</code>, <code>GET /trips</code>, <code>POST /predict/{trip_id}</code>; the UI lists the trips, runs one or all and shows the predicted route and metrics. Reference data never leaves the server. Setup: <code>docs/DEPLOYMENT.md</code>, <code>docs/HANDOFF.md</code>.</p>
 <p>Smoke test (student-test trips through the running API, <code>results/api_smoke_test.csv</code>):</p>

@@ -134,7 +134,11 @@ Sequence F1 compares the set of predicted arcs (gaps filled by shortest path) wi
 
 - `results/viz/00000001.html`: GPS (blue), road network (grey), reference route (green) with gaps, spikes, off-route points and route breaks as layers.
 - `results/viz/hmm_compare*.html`: student-test trip with GPS, reference, classifier-only and HMM routes. `results/viz/world_trips.html`: all trips by location.
-- Code: `src/pathsnap/viz.py`, `viz_pred.py`. Maps use Esri tiles because OSM blocks pages opened from disk. Add a screenshot of one map to the PDF.
+- Code: `src/pathsnap/viz.py`, `viz_pred.py`. Maps use Esri tiles because OSM blocks pages opened from disk.
+
+![Folium map: reconstructed route over the road basemap](screenshots/folium_hmm_compare.png)
+
+_Screenshot of `results/viz/hmm_compare_final.html` (a student-test trip, Esri basemap): GPS points, reference and predicted routes are separate layers in the layer control._
 
 ## 7. API, UI and deployment
 
