@@ -41,19 +41,20 @@ Everything below is implemented on `main`. What is left is running it on two rea
 ## Not verified (this is the work)
 1. **Two real laptops**: API on Laptop 1 reachable from Laptop 2 over the LAN (Windows firewall
    inbound rule for TCP 8000, both on the same network, use Laptop 1's LAN IP).
-2. **UI visual check** in a normal browser on Laptop 2 (layout, map tiles, legend). It was
-   exercised headlessly only; no screenshot was captured.
+2. **UI visual check** in a normal browser on Laptop 2 (layout, map tiles, legend). A headless
+   check passed (`docs/screenshots/`); a real browser on the second laptop is still to do.
 3. **PowerShell scripts** (`run_api.ps1`, `run_ui.ps1`) were never executed (no Windows here;
    the bash versions were).
 4. **Required screenshots** for the report: the working UI, and the API console on the receiving
    laptop showing successful requests.
-5. Run the API with the real evaluator trips (`data/evaluator`) once everything is frozen, and
-   confirm all ten trips work. Do not change models or parameters based on those results.
-6. **CI**: done on `deploy/handoff-checks` (job `test`); confirm the check goes green on the PR.
+5. ~~Evaluator run~~ **Done** (`f083b9c`, `results/evaluator_run.csv`): all ten evaluator trips
+   returned successfully through the API with the frozen model and decoder. Do not re-run it to
+   change anything; for the live demo, copy `data/evaluator` onto Laptop 1.
+6. ~~CI~~ **Done**: job `test` is green on PR #12; merge it.
 
-## Still changing (do not rely on)
-The HMM decoder parameters are being re-tuned on the final model's scores. When that finishes,
-`artifacts/hmm_config.json` is updated; pull before the final test. Model weights do not change.
+## Frozen
+Model (`artifacts/final_model.joblib`) and decoder (`artifacts/hmm_config.json`, re-tuned on the
+final model's scores in `48f3322`) were frozen before the evaluator run. Do not change them.
 
 ## Quick start
 ```
