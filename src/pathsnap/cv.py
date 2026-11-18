@@ -58,8 +58,13 @@ def fit_scorer(build, params, train: pd.DataFrame):
     has_pos = train.groupby(["trip_id", "obs_idx"]).is_true.transform("max") > 0
     tr = train[has_pos]
     model = build(**params)
+    X, y = tr[FEATURES].to_numpy(np.float32), tr.is_true.to_numpy()
     t0 = time.perf_counter()
-    model.fit(tr[FEATURES].to_numpy(np.float32), tr.is_true.to_numpy())
+    if getattr(model, "needs_groups", False):  # ranking models: rows are contiguous per obs
+        sizes = tr.groupby(["trip_id", "obs_idx"], sort=False).size().to_numpy()
+        model.fit(X, y, groups=sizes)
+    else:
+        model.fit(X, y)
     return model, time.perf_counter() - t0
 
 

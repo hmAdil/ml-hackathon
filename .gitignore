@@ -14,3 +14,5 @@ data/evaluator/
 *.joblib
 artifacts/*.bin
 data/processed/
+results/viz/0000003*.html
+results/viz/0000005*.html
