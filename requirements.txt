@@ -1,5 +1,6 @@
 fastapi
 folium
+httpx  # FastAPI TestClient (tests/test_api.py)
 lightgbm
 matplotlib
 networkx
@@ -10,7 +11,7 @@ pyarrow
 pyproj
 pytest
 ruff
-scikit-learn
+scikit-learn==1.7.2  # must match the version that pickled artifacts/final_model.joblib
 scipy
 seaborn
 shapely
