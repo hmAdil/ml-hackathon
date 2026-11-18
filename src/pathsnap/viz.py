@@ -8,7 +8,10 @@ from .config import RESULTS
 
 def trip_map(trip: dict, pred_arcs=None, out: Path | None = None, max_network_arcs: int = 4000):
     tr, nodes, arcs = trip["track"], trip["nodes"], trip["arcs"]
-    m = folium.Map(location=[tr.lat.mean(), tr.lon.mean()], zoom_start=16, tiles="OpenStreetMap")
+    # OSM's public tile servers return 403 for pages opened from file://, so CartoDB is the default
+    m = folium.Map(location=[tr.lat.mean(), tr.lon.mean()], zoom_start=16, tiles="CartoDB positron")
+    folium.TileLayer("CartoDB dark_matter", name="Dark basemap", show=False).add_to(m)
+    folium.TileLayer("OpenStreetMap", name="OpenStreetMap (blocked from file://)", show=False).add_to(m)
     lon, lat = nodes.lon.to_numpy(), nodes.lat.to_numpy()
     fn, tn = arcs.from_node.to_numpy(), arcs.to_node.to_numpy()
 
